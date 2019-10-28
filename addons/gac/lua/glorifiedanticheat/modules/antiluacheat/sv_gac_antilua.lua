@@ -146,7 +146,9 @@ then
 gAC[_.h]"[AntiLua] Server will restart on InitPostEntity (needed to remove compiled files in lua)"m("InitPostEntity","gAC.AntiLua.Restart",function(k)gAC[_.h]"[AntiLua] Restarting..."RunConsoleCommand'_restart'end)end
 n=b()l("gac-antilua/gac-luacache.dat",D(G(gAC[_.a])))gAC[_.h]("[AntiLua] Saving took: "..c(b()-n,2).."s")end
 gAC[_.h]"[AntiLua] Waiting for core detection systems"end
-end)m("gAC.IncludesLoaded","gAC.AntiLua",function()if!gAC[_._].AntiLua_CHECK
+end)m("gAC.IncludesLoaded","gAC.AntiLua",function()local
+a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r=jit.util.funcinfo,jit.attach,file.Time,file.Write,hook.Add,isstring,istable,pairs,pcall,timer.Create,timer.Start,CompileString,IsValid,string.dump,string.gsub,util.JSONToTable,util.TableToJSON,debug.getregistry
+if!gAC[_._].AntiLua_CHECK
 then
 return
 end
@@ -160,13 +162,13 @@ function
 gAC.AddSource(a,b,c)if
 gAC[_._][_.k]then
 local
-f,g=u(c,b..".AddSource",!1)if!f&&g
+d,e=l(c,b..".AddSource",!1)if!d&&e
 then
 return
 end
 local
-g=w(f)local
-f=ByteCode.DumpToFunctionList(g)gAC[_.b][a][b]={funclist=f}else
+e=n(d)local
+d=ByteCode.DumpToFunctionList(e)gAC[_.b][a][b]={funclist=d}else
 gAC[_.b][a][b]=!!1
 end
 end
@@ -175,7 +177,7 @@ gAC.UpdateLuaFile(a)if!gAC[_._][_.l]then
 return
 end
 local
-b=h(a,gAC[_.c])if
+b=c(a,gAC[_.c])if
 b~=0
 then
 if
@@ -187,42 +189,42 @@ gAC[_.h]("[AntiLua] WARNING: lua refresh occured on "..a..", switching to source
 end
 end
 local
-a={}if!gAC[_._][_.l]then
-a=nil
+c={}if!gAC[_._][_.l]then
+c=nil
 end
 function
-gAC.VerifyFunction(b,c)if!gAC[_._][_.k]then
+gAC.VerifyFunction(a,b)if!gAC[_._][_.k]then
 return!!1
 end
 local
-f=nil
+d=nil
 if
-gAC[_.b][b]&&gAC[_.b][b][c[_.d]]&&p(gAC[_.b][b][c[_.d]])&&gAC[_.b][b][c[_.d]][_.e]then
-f=gAC[_.b][b][c[_.d]][_.e]elseif
-gAC[_.a][c[_.d]]&&p(gAC[_.a][c[_.d]])&&gAC[_.a][c[_.d]][_.e]then
-f=gAC[_.a][c[_.d]][_.e]end
+gAC[_.b][a]&&gAC[_.b][a][b[_.d]]&&g(gAC[_.b][a][b[_.d]])&&gAC[_.b][a][b[_.d]][_.e]then
+d=gAC[_.b][a][b[_.d]][_.e]elseif
+gAC[_.a][b[_.d]]&&g(gAC[_.a][b[_.d]])&&gAC[_.a][b[_.d]][_.e]then
+d=gAC[_.a][b[_.d]][_.e]end
 if
-f
+d
 then
 if
-a&&!a[c[_.d]]then
-a[c[_.d]]=!!1
-gAC.UpdateLuaFile(c[_.d])return
+c&&!c[b[_.d]]then
+c[b[_.d]]=!!1
+gAC.UpdateLuaFile(b[_.d])return
 end
 for
-b=1,#f
+a=1,#d
 do
 local
-g=f[b]if
-g[_.g]~=c[_.g]then
+e=d[a]if
+e[_.g]~=b[_.g]then
 return!1
 end
 if
-g[_.f]~=c[_.f]then
+e[_.f]~=b[_.f]then
 return!1
 end
 if
-g.proto~=c.proto
+e.proto~=b.proto
 then
 return!1
 end
@@ -232,14 +234,14 @@ end
 return!!1
 end
 function
-gAC.AntiLuaAddDetection(a,b,c,f)if
+gAC.AntiLuaAddDetection(a,b,c,e)if
 c~="Probable Execution"then
-f[_.m]=!!1
-gAC[_.n](f,b,gAC[_._].AntiLua_PUNISHMENT,gAC[_._].AntiLua_BANTIME)else
-gAC[_.n](f,b,!1,-1)end
+e[_.m]=!!1
+gAC[_.n](e,b,gAC[_._].AntiLua_PUNISHMENT,gAC[_._].AntiLua_BANTIME)else
+gAC[_.n](e,b,!1,-1)end
 local
-g=G(a,!!1)g="WARNING: Do not reveal this to cheaters!\nClient "..f:SteamID64().."'s reply\n"..g
-g=g.."\nServer's reply\n"..b.."\n"if
+f=q(a,!!1)f="WARNING: Do not reveal this to cheaters!\nClient "..e:SteamID64().."'s reply\n"..f
+f=f.."\nServer's reply\n"..b.."\n"if
 c=="%unknown%"then
 c="Client returned a traceback with nil or unknown type (likely a client detour attempt)"elseif
 c=="Invalid Source"then
@@ -248,127 +250,127 @@ c=="Invalid Bytecode"then
 c="Client returned a traceback leading to '"..a[_.d].."' which exists on the lua cache\n"c=c.."however the function information returned to it is different from the lua cache"elseif
 c=="Probable Execution"then
 c="Client returned a traceback leading to '"..a[_.d].."' which does not exist in the lua cache\n"c=c.."however because of the given environment information, it's unable to be confirmed."end
-g=g..c
-l("gac-antilua/"..f:SteamID64().."-"..os.time()..".dat",g)end
-gAC.Network:AddReceiver("g-AC_LuaExec",function(b,c,f)if
-f[_.m]then
+f=f..c
+d("gac-antilua/"..e:SteamID64().."-"..os.time()..".dat",f)end
+gAC.Network:AddReceiver("g-AC_LuaExec",function(a,b,d)if
+d[_.m]then
 return
 end
 local
-b=f:UserID()if
-c=="1"then
-t("gAC.AntiLua-"..b)return
+a=d:UserID()if
+b=="1"then
+k("gAC.AntiLua-"..a)return
 end
 local
-g,i=r(F,c)if!g
+e,g=i(p,b)if!e
 then
-f[_.m]=!!1
-gAC[_.n](f,"AntiLua network manipulation [Code 126]",gAC[_._][_.o],gAC[_._][_.p])return
+d[_.m]=!!1
+gAC[_.n](d,"AntiLua network manipulation [Code 126]",gAC[_._][_.o],gAC[_._][_.p])return
 end
-t("gAC.AntiLua-"..b)if#i>500
+k("gAC.AntiLua-"..a)if#g>500
 then
-f[_.m]=!!1
-gAC[_.n](f,"AntiLua network manipulation [Code 126]",gAC[_._][_.o],gAC[_._][_.p])return
+d[_.m]=!!1
+gAC[_.n](d,"AntiLua network manipulation [Code 126]",gAC[_._][_.o],gAC[_._][_.p])return
 end
 for
-c=1,#i
+b=1,#g
 do
 local
-g=i[c]if
-g[_.q]then
+e=g[b]if
+e[_.q]then
 if
-g[_.d]&&n(g[_.d])then
+e[_.d]&&f(e[_.d])then
 if
-gAC[_.r](g,b)==!1
+gAC[_.r](e,a)==!1
 then
 if
-g.func&&gAC[_.j][g.func]then
+e.func&&gAC[_.j][e.func]then
 local
-c=nil
+b=nil
 for
-j,k
+j,l
 in
-q(gAC[_.j][g.func])do
+h(gAC[_.j][e.func])do
 if
-g[j]==k
+e[j]==l
 then
-c=!!1
+b=!!1
 break
+end
+end
+if
+b
+then
+if
+e[_.q]=="RunString"||e[_.q]=="RunStringEx"||e[_.q]=="CompileString"then
+if
+e[_.s]then
+gAC[_.t](a,e[_.s],e.code)end
+end
+continue
+end
+elseif
+e[_.d]=="[C]"&&e.short_src=="[C]"&&e.what=="C"then
+if
+e[_.q]=="RunString"||e[_.q]=="RunStringEx"||e[_.q]=="CompileString"then
+if
+e[_.s]then
+gAC[_.t](a,e[_.s],e.code)end
+end
+continue
+end
+gAC[_.u](e,"Unauthorized lua execution (func: "..e[_.q].." | src: "..e[_.d]..") [Code 123]","Invalid Source",d)break
+elseif
+e[_.q]=="RunString"||e[_.q]=="RunStringEx"||e[_.q]=="CompileString"then
+if
+e[_.s]then
+gAC[_.t](a,e[_.s],e.code)end
+end
+else
+gAC[_.u](e,"Unauthorized lua execution [Code 123]","%unknown%",d)break
+end
+else
+if
+e[_.d]&&f(e[_.d])then
+if
+gAC[_.r](e,a)==!1
+then
+if
+e[_.d]=="Startup"&&!d[_.v]&&!gAC[_._].AntiLua_IgnoreBoot
+then
+d[_.v]=!!1
+continue
+else
+gAC[_.u](e,"Lua environment manipulation (src: "..e[_.d]..") [Code 124]","Invalid Source",d)break
+end
+elseif
+gAC.VerifyFunction(e,d)==!1
+then
+gAC[_.u](e,"Lua environment manipulation (src: "..e[_.d]..") [Code 124]","Invalid Bytecode",d)break
+end
+else
+gAC[_.u](e,"Lua environment manipulation [Code 124]","%unknown%",d)break
+end
 end
 end
 if
 c
 then
-if
-g[_.q]=="RunString"||g[_.q]=="RunStringEx"||g[_.q]=="CompileString"then
-if
-g[_.s]then
-gAC[_.t](b,g[_.s],g.code)end
-end
-continue
-end
-elseif
-g[_.d]=="[C]"&&g.short_src=="[C]"&&g.what=="C"then
-if
-g[_.q]=="RunString"||g[_.q]=="RunStringEx"||g[_.q]=="CompileString"then
-if
-g[_.s]then
-gAC[_.t](b,g[_.s],g.code)end
-end
-continue
-end
-gAC[_.u](g,"Unauthorized lua execution (func: "..g[_.q].." | src: "..g[_.d]..") [Code 123]","Invalid Source",f)break
-elseif
-g[_.q]=="RunString"||g[_.q]=="RunStringEx"||g[_.q]=="CompileString"then
-if
-g[_.s]then
-gAC[_.t](b,g[_.s],g.code)end
-end
-else
-gAC[_.u](g,"Unauthorized lua execution [Code 123]","%unknown%",f)break
-end
-else
-if
-g[_.d]&&n(g[_.d])then
-if
-gAC[_.r](g,b)==!1
-then
-if
-g[_.d]=="Startup"&&!f[_.v]&&!gAC[_._].AntiLua_IgnoreBoot
-then
-f[_.v]=!!1
-continue
-else
-gAC[_.u](g,"Lua environment manipulation (src: "..g[_.d]..") [Code 124]","Invalid Source",f)break
-end
-elseif
-gAC.VerifyFunction(g,f)==!1
-then
-gAC[_.u](g,"Lua environment manipulation (src: "..g[_.d]..") [Code 124]","Invalid Bytecode",f)break
-end
-else
-gAC[_.u](g,"Lua environment manipulation [Code 124]","%unknown%",f)break
-end
-end
-end
-if
-a
-then
-a={}end
-end)m("gAC.CLFilesLoaded","gAC.AntiLua",function(a)s("gAC.AntiLua-"..a:UserID(),120,1,function()if
-v(a)&&!a[_.m]then
+c={}end
+end)e("gAC.CLFilesLoaded","gAC.AntiLua",function(a)j("gAC.AntiLua-"..a:UserID(),120,1,function()if
+m(a)&&!a[_.m]then
 a[_.m]=!!1
 gAC[_.n](a,"AntiLua information did not arrive in time [Code 125]",gAC[_._].AntiLua_Fail_PUNISHMENT,gAC[_._].AntiLua_Fail_BANTIME)end
-end)end)m("PlayerInitialSpawn","gAC.AntiLua",function(a)gAC[_.b][a:UserID()]={}end)m("PlayerDisconnected","gAC.AntiLua",function(a)gAC[_.b][a:UserID()]=nil
+end)end)e("PlayerInitialSpawn","gAC.AntiLua",function(a)gAC[_.b][a:UserID()]={}end)e("PlayerDisconnected","gAC.AntiLua",function(a)gAC[_.b][a:UserID()]=nil
 end)if
-a
+c
 then
-m("InitPostEntity","gAC.AntiLua",function(a)gAC.LuaVM=function(a)local
-b=d(a)b[_.d]=A(b[_.d],"^@","")b[_.d]=gAC.dirtosvlua(b[_.d])if
-p(gAC[_.a][b[_.d]])&&gAC[_.a][b[_.d]][_.e]then
-gAC.UpdateLuaFile(b[_.d])end
+e("InitPostEntity","gAC.AntiLua",function(c)gAC.LuaVM=function(c)local
+d=a(c)d[_.d]=o(d[_.d],"^@","")d[_.d]=gAC.dirtosvlua(d[_.d])if
+g(gAC[_.a][d[_.d]])&&gAC[_.a][d[_.d]][_.e]then
+gAC.UpdateLuaFile(d[_.d])end
 end
 local
-a=J()a[_.i]=a[_.i]||{}a[_.i][gAC.LuaVMID]=gAC.LuaVM
-e(function()end,"")end)end
+c=r()c[_.i]=c[_.i]||{}c[_.i][gAC.LuaVMID]=gAC.LuaVM
+b(function()end,"")end)end
 end)
