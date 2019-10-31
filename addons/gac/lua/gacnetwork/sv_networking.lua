@@ -1,263 +1,170 @@
-local _IsValid = IsValid
-local _hook_Add = hook.Add
-local _hook_Run = hook.Run
-local _math_Round = math.Round
-local _math_ceil = math.ceil
-local _math_random = math.random
-local _net_BytesWritten = net.BytesWritten
-local _net_ReadData = net.ReadData
-local _net_ReadUInt = net.ReadUInt
-local _net_Receive = net.Receive
-local _net_Start = net.Start
-local _net_WriteData = net.WriteData
-local _net_WriteUInt = net.WriteUInt
-local _player_GetHumans = player.GetHumans
-local _string_Explode = string.Explode
-local _string_byte = string.byte
-local _string_char = string.char
-local _string_gsub = string.gsub
-local _string_match = string.match
-local _string_rep = string.rep
-local _string_reverse = string.reverse
-local _string_sub = string.sub
-local _timer_Simple = timer.Simple
-local _tonumber = tonumber
-local _util_CRC = util.CRC
-local _util_Compress = util.Compress
-local _util_Decompress = util.Decompress
-local _util_TableToJSON = util.TableToJSON
-
-local _net_Send = (SERVER and net.Send or NULL)
-
---[[
-	GM-LUAI Networking
-	Preventing fucking nutheads from CHM from stealing our shit.
-
-	self:ResetCounters() --Resets network counters
-
-	self:AddReceiver(
-		channelName		--Targeted channel
-		handler(
-			channelID	--Used in debugging
-			data		--Data received
-			player		--Player received from
-		)
-	)
-
-	self:GetChannelId(
-		channelName	--Targeted channel
-	) --Get's the CRC ID of a channel
-
-	self:HandleMessage(
-		bitCount
-		ply
-	) --Note, this is a manditory functions when dealing with messages!
-
-	self:Send(
-		channelName	--Targeted channel
-		data		--Any data type to be written
-		player		--Targeted player
-	)
-
-	self:Stream(
-		channelName	--Targeted channel
-		data		--Any data type to be written
-		player		--Targeted player
-		split		--Split ratio (Note, default is 20000 bytes per split)
-	) --Note, this will allow you to send over 20 MB of data w/o any issues
-	anything larger than 20 MB may result in desyncronization in data messages
-
-	self:Broadcast(
-		channelName	--Targeted channel
-		data		--Any data type to be written
-	) --Unlike SEND, this allows you to send data to all players (not bots dummy)
-
-	self:SendPayload(
-		data	--Any data type to be written
-		player	--Targeted player
-	) --Unlike SEND this will send LUAI's networking payload with your code
-	*You cannot chose a channel as it's set on "LoadPayload"
-
-	self:BroadcastPayload(
-		data	--Any data type to be written
-	) --Unlike BROADCAST this will send LUAI's networking payload with your code
-	*You cannot chose a channel as it's set on "LoadPayload"
-
-	self:StreamPayload (
-		data	--Any data type to be written
-		player	--Targeted player
-		split	--Split ratio (Note, default is 20000 bytes per split)
-	)
-	*You cannot chose a channel as it's set on "LoadPayload"
-
-	Client functions
-	gAC_Send (channelName, data)
-	gAC_Stream (channelName, data, split)
-	gAC_AddReceiver (channelName, handler)
-
-	For an explenation on how this works.
-	There is a normal net message on the client that would receive a custom payload known as
-	Payload_001, this payload is the main handler of all network traffic coming from GM-LUAI.
-	ALL networking (except for the boot payload) is kept on one single randomly generated network string
-	this makes it a hell of a lot harder to intercept network traffic.
-
-	The second payload (Payload_002) allows your code or other things to have access to send messages back
-	to the server via GM-LUAI's randomly generated and custom networking.
-
-	98% of all GM-LUAI's core functions are kept on the server.
-	this includes client interfaces and other things required to run GM-LUAI.
-	2% being the small network string made to load the first payload.
-]]
-
---[[
-    NiceCream's encoder library, making script hidden from reality.
-    My goals atleast: intense encoder, low performance decoder
-]]
-
-gAC.Encoder = {}
-
-gAC.Encoder.Unicode_String = "‪"
-
-gAC.Encoder.Decoder = _string_rep(gAC.Encoder.Unicode_String,8)
-
---[[
-	String Randomizer
-	Generate randomize string including a Unicode character
-]]
-
-gAC.Encoder.Existing_String = {}
-function gAC.Encoder.stringrandom(length)
-	local str = ""
-	for i = 1, length do
-		local typo =  _math_Round(_math_random(1, 4))
-		if typo == 1 then
-			str = str.. _string_char(_math_random(97, 122))
-		elseif typo == 2 then
-			str = str.. _string_char(_math_random(65, 90))
-		elseif typo == 3 then
-			str = str.. _string_char(_math_random(49, 57))
-		end
-	end
-	return str
+local
+⁪else={function⁮⁪='\x45\x6E\x63\x6F\x64\x65\x72',then﻿='\x55\x6E\x69\x63\x6F\x64\x65\x5F\x53\x74\x72\x69\x6E\x67',true⁮⁮='\x44\x65\x63\x6F\x64\x65\x72',in⁮='\x4E\x65\x74\x77\x6F\x72\x6B',﻿‪⁭for='\x52\x65\x63\x65\x69\x76\x65\x43\x6F\x75\x6E\x74',⁮do='\x73\x74\x72\x69\x6E\x67\x72\x61\x6E\x64\x6F\x6D',‪⁭='\x47\x6C\x6F\x62\x61\x6C\x5F\x44\x65\x63\x6F\x64\x65\x72',⁭false='\x44\x65\x63\x6F\x64\x65\x72\x5F\x56\x61\x72',⁮break='\x54\x6F\x48\x65\x78',⁭‪⁭continue='\x47\x6C\x6F\x62\x61\x6C\x43\x68\x61\x6E\x6E\x65\x6C',﻿while='\x47\x6C\x6F\x62\x61\x6C\x41\x53\x54',⁮⁪break='\x43\x68\x61\x6E\x6E\x65\x6C\x5F\x52\x61\x6E\x64',for⁭‪='\x43\x68\x61\x6E\x6E\x65\x6C\x5F\x47\x6C\x6F\x62',goto﻿⁭‪='\x56\x65\x72\x69\x66\x79\x5F\x48\x6F\x6F\x6B',⁪true='\x44\x65\x63\x6F\x64\x65\x72\x5F\x56\x61\x72\x4E\x61\x6D\x65',⁪elseif='\x4B\x65\x79\x54\x6F\x46\x6C\x6F\x61\x74',⁭goto='\x44\x65\x63\x6F\x64\x65\x72\x5F\x56\x65\x72\x69\x66\x79',end﻿='\x44\x65\x63\x6F\x64\x65\x72\x5F\x47\x65\x74',break⁭⁪⁭='\x44\x65\x63\x6F\x64\x65\x72\x5F\x55\x6E\x64\x6F',﻿⁪or='\x50\x61\x79\x6C\x6F\x61\x64\x5F\x30\x30\x31',nil﻿‪='\x53\x65\x6E\x64\x43\x6F\x75\x6E\x74',﻿then='\x48\x61\x6E\x64\x6C\x65\x72\x73',﻿repeat='\x43\x68\x61\x6E\x6E\x65\x6C\x49\x64\x73',function‪='\x49\x64\x43\x68\x61\x6E\x6E\x65\x6C\x73',not‪⁭﻿='\x41\x53\x54',⁪⁪﻿goto='\x6D\x61\x74\x63\x68',and‪='\x44\x42\x47\x50\x72\x69\x6E\x74',local‪‪='\x53\x54\x52\x45\x41\x4D\x49\x44',‪‪‪true='\x44\x65\x62\x75\x67',⁮return='\x50\x61\x79\x6C\x6F\x61\x64\x5F\x30\x30\x32',‪break='\x63\x6F\x6E\x66\x69\x67',﻿⁪true='\x4A\x4F\x49\x4E\x5F\x56\x45\x52\x49\x46\x59',﻿﻿false='\x67\x41\x43\x5F\x43\x6C\x69\x65\x6E\x74\x4C\x6F\x61\x64\x65\x64',﻿⁮‪⁮do='\x67\x41\x43\x5F\x56\x65\x72\x69\x66\x69\x79\x69\x6E\x67',in⁪⁮﻿‪='\x50\x41\x59\x4C\x4F\x41\x44\x5F\x56\x45\x52\x49\x46\x59',⁪⁮‪﻿while='\x41\x64\x64\x44\x65\x74\x65\x63\x74\x69\x6F\x6E'}local
+goto⁪‪⁪=IsValid
+local
+true⁮=hook.Add
+local
+return⁪⁭=hook.Run
+local
+and‪⁮=math.Round
+local
+function﻿﻿=math.ceil
+local
+function⁪﻿=math.random
+local
+for⁪‪⁪=net.BytesWritten
+local
+‪﻿﻿=net.ReadData
+local
+⁮function=net.ReadUInt
+local
+⁭false=net.Receive
+local
+⁮break=net.Start
+local
+and﻿=net.WriteData
+local
+⁪⁪=net.WriteUInt
+local
+repeat﻿=player.GetHumans
+local
+elseif‪=string.Explode
+local
+for‪=string.byte
+local
+⁪⁮⁮and=string.char
+local
+‪return=string.gsub
+local
+﻿⁭return=string[⁪else.⁪⁪﻿goto]local
+⁭‪⁭=string.rep
+local
+⁮⁪⁪if=string.reverse
+local
+⁭⁪and=string.sub
+local
+﻿⁪‪local=timer.Simple
+local
+then⁪⁮‪=tonumber
+local
+⁮until=util.CRC
+local
+⁪﻿⁪⁮and=util.Compress
+local
+⁪while=util.Decompress
+local
+true⁭=util.TableToJSON
+local
+do⁭‪⁪=(SERVER
+and
+net.Send
+or
+NULL)gAC[⁪else.function⁮⁪]={}gAC[⁪else.function⁮⁪][⁪else.then﻿]="\xE2\x80\xAA"gAC[⁪else.function⁮⁪][⁪else.true⁮⁮]=⁭‪⁭(gAC[⁪else.function⁮⁪][⁪else.then﻿],8)gAC[⁪else.function⁮⁪].Existing_String={}function
+gAC.Encoder.stringrandom(⁮﻿)local
+⁪⁭or=""for
+⁮⁪⁭﻿do=1,⁮﻿
+do
+local
+⁪‪‪⁭while=and‪⁮(function⁪﻿(1,4))if
+⁪‪‪⁭while==1
+then
+⁪⁭or=⁪⁭or..⁪⁮⁮and(function⁪﻿(97,122))elseif
+⁪‪‪⁭while==2
+then
+⁪⁭or=⁪⁭or..⁪⁮⁮and(function⁪﻿(65,90))elseif
+⁪‪‪⁭while==3
+then
+⁪⁭or=⁪⁭or..⁪⁮⁮and(function⁪﻿(49,57))end
 end
-
---[[
-	Key String to Key Float
-	Converts a table key into a table of values for encoders/decoders
-]]
-
-function gAC.Encoder.KeyToFloat(s)
-	local z = {}
-	for i = 1, #s do
-		local key = _string_Explode("", s[i])
-		z[i] = 0
-		for v = 1, #key do 
-			z[i] = z[i] + _string_byte(key[v])
-		end 
-	end
-    return z
+return
+⁪⁭or
 end
-
---[[
-	String to Hex
-]]
-
-function gAC.Encoder.ToHex(str)
-	local byte = ''
-    for i = 1, #str do
-        byte = byte .. '\\x' .. string.format('%02X', _string_byte(str:sub(i, i)))
-    end
-	return byte
+function
+gAC.Encoder.KeyToFloat(continue⁭⁮⁪﻿)local
+⁭while={}for
+repeat‪﻿﻿﻿=1,#continue⁭⁮⁪﻿
+do
+local
+‪⁪⁪⁪nil=elseif‪("",continue⁭⁮⁪﻿[repeat‪﻿﻿﻿])⁭while[repeat‪﻿﻿﻿]=0
+for
+﻿‪return=1,#‪⁪⁪⁪nil
+do
+⁭while[repeat‪﻿﻿﻿]=⁭while[repeat‪﻿﻿﻿]+for‪(‪⁪⁪⁪nil[﻿‪return])end
 end
-
---[[
-	Encoder
-	General purpose of encoding string into unreadable format.
-	Just cause someone tried to look into my creations.
-]]
-
-function gAC.Encoder.Encode(str, key)
-    local function floor(number)
-        return number - (number % 1)
-    end
-    local function bxor (a,b,c)
-        local r = 0
-        for i = 0, 31 do
-            local x = (a * .5) + (b * .5) + (c * .5)
-            if x ~= floor (x) then
-            r = r + 2^i
-            end
-            a = floor (a * .5)
-            b = floor (b * .5)
-            c = floor (c * .5)
-        end
-        return r
-    end
-    local encode, key_dir, key = '', 0, gAC.Encoder.KeyToFloat(key)
-    for i = 1, #str do
-		key_dir = key_dir + 1
-        encode = encode .. _string_char( bxor(_string_byte(str:sub(i, i)), key[key_dir] % 255, (#str * #key) % 255) )
-		if key_dir == #key then
-			key_dir = 0
-		end
-    end
-    return gAC.Encoder.ToHex(encode)
+return
+⁭while
 end
-
---[[
-	Decoder function
-	Used on the client-side realm, simply decodes string into readable format for lua to use.
-]]
-gAC.Encoder.Decoder_Func = [[local ‪‪‪‪‪‪‪ ‪‪‪‪‪‪‪= function (‪‪‪‪‪‪return)local return‪=function (while‪‪‪)return while‪‪‪-(while‪‪‪%1)end local ‪‪‪and=function (until‪,‪‪‪local,‪and‪)local nil‪‪=0 for nil‪=0,31 do local function‪‪‪‪‪=(until‪*.5)+(‪‪‪local*.5)+(‪and‪*.5)if function‪‪‪‪‪~=return‪(function‪‪‪‪‪)then nil‪‪=nil‪‪+2^nil‪ end until‪=return‪(until‪*.5)‪‪‪local=return‪(‪‪‪local*.5)‪and‪=return‪(‪and‪*.5)end return nil‪‪ end local continue‪,false‪='',0 for and‪=1,#‪‪‪‪‪‪return do false‪=false‪+1 continue‪=continue‪..‪['\x73\x74\x72\x69\x6e\x67']['\x63\x68\x61\x72'](‪‪‪and(‪['\x73\x74\x72\x69\x6e\x67']['\x62\x79\x74\x65'](‪['\x73\x74\x72\x69\x6e\x67']['\x73\x75\x62'](‪‪‪‪‪‪return,and‪,and‪)),]] .. gAC.Encoder.Decoder .. [[[false‪]%255,(#‪‪‪‪‪‪return*#]] .. gAC.Encoder.Decoder .. [[)%255))if false‪==#]] .. gAC.Encoder.Decoder .. [[ then false‪=0 end end return continue‪ end]]
-
-if gAC.Network.ReceiveCount then return end --prevent lua refresh
-
-gAC.Network = gAC.Network or {}
-gAC.Network.ReceiveCount = 0
-gAC.Network.SendCount    = 0
-
---Added __ to prevent conflicts with GM-LUAI's main network < if you even have GM-LUAI >.>
-gAC.Network.GlobalChannel = gAC.Encoder.stringrandom(_math_Round(_math_random(6, 12))) .. "GAC" .. gAC.Encoder.stringrandom(_math_Round(_math_random(6, 12)))
-gAC.Network.GlobalAST = gAC.Encoder.stringrandom(_math_Round(_math_random(6, 12))) .. "ASTGAC" .. gAC.Encoder.stringrandom(_math_Round(_math_random(6, 12)))
-gAC.Network.Channel_Rand = gAC.Encoder.stringrandom(_math_Round(_math_random(4, 22)))
-gAC.Network.Channel_Glob = gAC.Encoder.stringrandom(_math_Round(_math_random(6, 12))) .. "GAC" .. gAC.Encoder.stringrandom(_math_Round(_math_random(6, 12)))
-gAC.Network.Verify_Hook = gAC.Encoder.stringrandom(_math_Round(_math_random(6, 12))) .. "GAC" .. gAC.Encoder.stringrandom(_math_Round(_math_random(6, 12)))
-
---Global Decoder, NiceCream got pissed
-gAC.Network.Global_Decoder = {}
-for i=1, _math_Round(_math_random(6,8)) do
-	gAC.Network.Global_Decoder[i] = gAC.Encoder.stringrandom(_math_Round(_math_random(4, 8)))
+function
+gAC.Encoder.ToHex(function⁪﻿⁮‪)local
+continue‪=''for
+until‪=1,#function⁪﻿⁮‪
+do
+continue‪=continue‪..'\x5C\x5C\x78'..string.format('\x25\x30\x32\x58',for‪(function⁪﻿⁮‪:sub(until‪,until‪)))end
+return
+continue‪
 end
-local Rand_StrFunc = _math_Round(_math_random(1, 2))
-gAC.Network.Decoder_Var = {"string.lower", "string.upper", "string.Left", "string.Right", "string.rep", "string.reverse", "string.len", "string.byte", 
-"gcinfo", "jit.status", "util.NetworkIDToString", "GetGlobalInt", "GetGlobalFloat", "GetGlobalString"}
-gAC.Network.Decoder_Var = gAC.Network.Decoder_Var[_math_Round(_math_random(1, #gAC.Network.Decoder_Var))]
-gAC.Network.Decoder_VarName = gAC.Network.Decoder_Var
-gAC.Network.Decoder_Verify = "GAC_" .. gAC.Encoder.stringrandom(_math_Round(_math_random(9, 14))) .. "_"
-gAC.Network.Decoder_Get = _string_rep(gAC.Encoder.Unicode_String,_math_Round(_math_random(5, 12)))
-gAC.Network.Decoder_Undo = _string_rep(gAC.Encoder.Unicode_String,_math_Round(_math_random(15, 19)))
-
-local function PerformG(str)
-    local tbl = _string_Explode(".", str)
-    local unloadervar = "['"
-    for k=1, #tbl do
-    	local v = tbl[k]
-        if tbl[k + 1] then
-            unloadervar = unloadervar .. gAC.Encoder.ToHex(v) .. "']['"
-        else
-            unloadervar = unloadervar .. gAC.Encoder.ToHex(v) .. "']"
-        end
-    end
-    return unloadervar
+function
+gAC.Encoder.Encode(‪in,⁮⁮⁪local)local
+function
+⁪﻿and(true﻿)return
+true﻿-(true﻿%1)end
+local
+function
+continue⁭(⁮⁪return,break﻿‪‪﻿,local⁮⁪)local
+﻿⁭⁪in=0
+for
+return‪=0,31
+do
+local
+function﻿⁮⁮﻿=(⁮⁪return*.5)+(break﻿‪‪﻿*.5)+(local⁮⁪*.5)if
+function﻿⁮⁮﻿~=⁪﻿and(function﻿⁮⁮﻿)then
+﻿⁭⁪in=﻿⁭⁪in+2^return‪
 end
-gAC.Network.Decoder_Var = PerformG(gAC.Network.Decoder_Var)
-
---[[
-	Payload 001
-	Loads in as the boot payload for g-AC
-	determines when to send files & handles network
-]]
-local Payload_001 = [[--]] .. gAC.Encoder.stringrandom(_math_Round(_math_random(15, 20))) .. [[
+⁮⁪return=⁪﻿and(⁮⁪return*.5)break﻿‪‪﻿=⁪﻿and(break﻿‪‪﻿*.5)local⁮⁪=⁪﻿and(local⁮⁪*.5)end
+return
+﻿⁭⁪in
+end
+local
+elseif⁪⁭,until⁪,⁮if='',0,gAC[⁪else.function⁮⁪][⁪else.⁪elseif](⁮⁮⁪local)for
+﻿⁭nil=1,#‪in
+do
+until⁪=until⁪+1
+elseif⁪⁭=elseif⁪⁭..⁪⁮⁮and(continue⁭(for‪(‪in:sub(﻿⁭nil,﻿⁭nil)),⁮if[until⁪]%255,(#‪in*#⁮if)%255))if
+until⁪==#⁮if
+then
+until⁪=0
+end
+end
+return
+gAC[⁪else.function⁮⁪][⁪else.⁮break](elseif⁪⁭)end
+gAC[⁪else.function⁮⁪].Decoder_Func=[[local ‪‪‪‪‪‪‪ ‪‪‪‪‪‪‪= function (‪‪‪‪‪‪return)local return‪=function (while‪‪‪)return while‪‪‪-(while‪‪‪%1)end local ‪‪‪and=function (until‪,‪‪‪local,‪and‪)local nil‪‪=0 for nil‪=0,31 do local function‪‪‪‪‪=(until‪*.5)+(‪‪‪local*.5)+(‪and‪*.5)if function‪‪‪‪‪~=return‪(function‪‪‪‪‪)then nil‪‪=nil‪‪+2^nil‪ end until‪=return‪(until‪*.5)‪‪‪local=return‪(‪‪‪local*.5)‪and‪=return‪(‪and‪*.5)end return nil‪‪ end local continue‪,false‪='',0 for and‪=1,#‪‪‪‪‪‪return do false‪=false‪+1 continue‪=continue‪..‪['\x73\x74\x72\x69\x6e\x67']['\x63\x68\x61\x72'](‪‪‪and(‪['\x73\x74\x72\x69\x6e\x67']['\x62\x79\x74\x65'](‪['\x73\x74\x72\x69\x6e\x67']['\x73\x75\x62'](‪‪‪‪‪‪return,and‪,and‪)),]]..gAC[⁪else.function⁮⁪][⁪else.true⁮⁮]..[[[false‪]%255,(#‪‪‪‪‪‪return*#]]..gAC[⁪else.function⁮⁪][⁪else.true⁮⁮]..[[)%255))if false‪==#]]..gAC[⁪else.function⁮⁪][⁪else.true⁮⁮]..[[ then false‪=0 end end return continue‪ end]]if
+gAC[⁪else.in⁮][⁪else.﻿‪⁭for]then
+return
+end
+gAC[⁪else.in⁮]=gAC[⁪else.in⁮]or{}gAC[⁪else.in⁮][⁪else.﻿‪⁭for]=0
+gAC[⁪else.in⁮][⁪else.nil﻿‪]=0
+gAC[⁪else.in⁮][⁪else.⁭‪⁭continue]=gAC[⁪else.function⁮⁪][⁪else.⁮do](and‪⁮(function⁪﻿(6,12))).."\x47\x41\x43"..gAC[⁪else.function⁮⁪][⁪else.⁮do](and‪⁮(function⁪﻿(6,12)))gAC[⁪else.in⁮][⁪else.﻿while]=gAC[⁪else.function⁮⁪][⁪else.⁮do](and‪⁮(function⁪﻿(6,12))).."\x41\x53\x54\x47\x41\x43"..gAC[⁪else.function⁮⁪][⁪else.⁮do](and‪⁮(function⁪﻿(6,12)))gAC[⁪else.in⁮][⁪else.⁮⁪break]=gAC[⁪else.function⁮⁪][⁪else.⁮do](and‪⁮(function⁪﻿(4,22)))gAC[⁪else.in⁮][⁪else.for⁭‪]=gAC[⁪else.function⁮⁪][⁪else.⁮do](and‪⁮(function⁪﻿(6,12))).."\x47\x41\x43"..gAC[⁪else.function⁮⁪][⁪else.⁮do](and‪⁮(function⁪﻿(6,12)))gAC[⁪else.in⁮][⁪else.goto﻿⁭‪]=gAC[⁪else.function⁮⁪][⁪else.⁮do](and‪⁮(function⁪﻿(6,12))).."\x47\x41\x43"..gAC[⁪else.function⁮⁪][⁪else.⁮do](and‪⁮(function⁪﻿(6,12)))gAC[⁪else.in⁮][⁪else.‪⁭]={}for
+elseif⁪‪=1,and‪⁮(function⁪﻿(6,8))do
+gAC[⁪else.in⁮][⁪else.‪⁭][elseif⁪‪]=gAC[⁪else.function⁮⁪][⁪else.⁮do](and‪⁮(function⁪﻿(4,8)))end
+local
+break⁪=and‪⁮(function⁪﻿(1,2))gAC[⁪else.in⁮][⁪else.⁭false]={"\x73\x74\x72\x69\x6E\x67\x2E\x6C\x6F\x77\x65\x72","\x73\x74\x72\x69\x6E\x67\x2E\x75\x70\x70\x65\x72","\x73\x74\x72\x69\x6E\x67\x2E\x4C\x65\x66\x74","\x73\x74\x72\x69\x6E\x67\x2E\x52\x69\x67\x68\x74","\x73\x74\x72\x69\x6E\x67\x2E\x72\x65\x70","\x73\x74\x72\x69\x6E\x67\x2E\x72\x65\x76\x65\x72\x73\x65","\x73\x74\x72\x69\x6E\x67\x2E\x6C\x65\x6E","\x73\x74\x72\x69\x6E\x67\x2E\x62\x79\x74\x65","\x67\x63\x69\x6E\x66\x6F","\x6A\x69\x74\x2E\x73\x74\x61\x74\x75\x73","\x75\x74\x69\x6C\x2E\x4E\x65\x74\x77\x6F\x72\x6B\x49\x44\x54\x6F\x53\x74\x72\x69\x6E\x67","\x47\x65\x74\x47\x6C\x6F\x62\x61\x6C\x49\x6E\x74","\x47\x65\x74\x47\x6C\x6F\x62\x61\x6C\x46\x6C\x6F\x61\x74","\x47\x65\x74\x47\x6C\x6F\x62\x61\x6C\x53\x74\x72\x69\x6E\x67"}gAC[⁪else.in⁮][⁪else.⁭false]=gAC[⁪else.in⁮][⁪else.⁭false][and‪⁮(function⁪﻿(1,#gAC[⁪else.in⁮][⁪else.⁭false]))]gAC[⁪else.in⁮][⁪else.⁪true]=gAC[⁪else.in⁮][⁪else.⁭false]gAC[⁪else.in⁮][⁪else.⁭goto]="\x47\x41\x43\x5F"..gAC[⁪else.function⁮⁪][⁪else.⁮do](and‪⁮(function⁪﻿(9,14))).."\x5F"gAC[⁪else.in⁮][⁪else.end﻿]=⁭‪⁭(gAC[⁪else.function⁮⁪][⁪else.then﻿],and‪⁮(function⁪﻿(5,12)))gAC[⁪else.in⁮][⁪else.break⁭⁪⁭]=⁭‪⁭(gAC[⁪else.function⁮⁪][⁪else.then﻿],and‪⁮(function⁪﻿(15,19)))local
+function
+false⁭(false⁮‪⁭)local
+﻿⁪for=elseif‪("\x2E",false⁮‪⁭)local
+⁮⁮do="\x5B\x27"for
+﻿⁮⁮or=1,#﻿⁪for
+do
+local
+true⁪﻿⁪⁪=﻿⁪for[﻿⁮⁮or]if
+﻿⁪for[﻿⁮⁮or+1]then
+⁮⁮do=⁮⁮do..gAC[⁪else.function⁮⁪][⁪else.⁮break](true⁪﻿⁪⁪).."\x27\x5D\x5B\x27"else
+⁮⁮do=⁮⁮do..gAC[⁪else.function⁮⁪][⁪else.⁮break](true⁪﻿⁪⁪).."\x27\x5D"end
+end
+return
+⁮⁮do
+end
+gAC[⁪else.in⁮][⁪else.⁭false]=false⁭(gAC[⁪else.in⁮][⁪else.⁭false])local
+‪⁭‪﻿while=[[--]]..gAC[⁪else.function⁮⁪][⁪else.⁮do](and‪⁮(function⁪﻿(15,20)))..[[
 
 local
 _,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x=net.Receive,net.Start,net.WriteUInt,net.WriteData,net.ReadUInt,net.ReadData,net.SendToServer,hook.Add,hook.Remove,util.Decompress,util.CRC,string.match,string.gsub,tonumber,{...},1,2,3,4,5,6,7,8,11,32
@@ -301,38 +208,13 @@ end
 _G[n[t] ][m(j("LoadString"..n[s]))]=function(_,a)z(a,n[v].."GAC.LoadString-"..#a)end
 _G[n[t] ][m(j("LoadPayload"..n[s]))]=function(_,a)local
 _=y(a,n[v]..n[w]..#a)_(n[q],n[r],n[s],n[t])end
-_(n[q],function(_)p(_)end)g("Think",n[u],function()a(n[q])b(m(j("g-AC_PayloadVerification"..n[s])),x)c("",#"")f()h("Think",n[u])end)]]
-
-local TBL = {
-	--Payload
-	Payload_001,
-	"\rGAC." .. gAC.Encoder.stringrandom(_math_Round(_math_random(5, 10))),
-	gAC.Network.GlobalChannel,
-	gAC.Network.GlobalAST,
-	gAC.Network.Channel_Rand,
-	gAC.Network.Channel_Glob,
-	gAC.Network.Verify_Hook,
-	"\r", --8
-	--GAC decoder
-	gAC.Network.Decoder_VarName,
-	_util_TableToJSON(gAC.Encoder.KeyToFloat(gAC.Network.Global_Decoder)),
-	gAC.Network.Decoder_Verify,
-	gAC.Network.Decoder_Get,
-	gAC.Network.Decoder_Undo --13
-}
-
-gAC.Network.Payload_001 = ""
-for i=1, #TBL do
-	TBL[i] = _util_Compress(TBL[i])
-	gAC.Network.Payload_001 = gAC.Network.Payload_001 .. TBL[i] .. (i ~= #TBL and "[EXLD]" or "")
-end
-
-
---[[
-	Payload 002 - aka communication payload.
-	allows g-AC scripts to securely contact the server without anyone attempting to detour functions.
-]]
-gAC.Network.Payload_002 = [[--]] .. gAC.Encoder.stringrandom(_math_Round(_math_random(15, 20))) .. [[
+_(n[q],function(_)p(_)end)g("Think",n[u],function()a(n[q])b(m(j("g-AC_PayloadVerification"..n[s])),x)c("",#"")f()h("Think",n[u])end)]]local
+⁮⁪⁪‪elseif={‪⁭‪﻿while,"\x5C\x72\x47\x41\x43\x2E"..gAC[⁪else.function⁮⁪][⁪else.⁮do](and‪⁮(function⁪﻿(5,10))),gAC[⁪else.in⁮][⁪else.⁭‪⁭continue],gAC[⁪else.in⁮][⁪else.﻿while],gAC[⁪else.in⁮][⁪else.⁮⁪break],gAC[⁪else.in⁮][⁪else.for⁭‪],gAC[⁪else.in⁮][⁪else.goto﻿⁭‪],"\x5C\x72",gAC[⁪else.in⁮][⁪else.⁪true],true⁭(gAC[⁪else.function⁮⁪][⁪else.⁪elseif](gAC[⁪else.in⁮][⁪else.‪⁭])),gAC[⁪else.in⁮][⁪else.⁭goto],gAC[⁪else.in⁮][⁪else.end﻿],gAC[⁪else.in⁮][⁪else.break⁭⁪⁭]}gAC[⁪else.in⁮][⁪else.﻿⁪or]=""for
+⁪then=1,#⁮⁪⁪‪elseif
+do
+⁮⁪⁪‪elseif[⁪then]=⁪﻿⁪⁮and(⁮⁪⁪‪elseif[⁪then])gAC[⁪else.in⁮][⁪else.﻿⁪or]=gAC[⁪else.in⁮][⁪else.﻿⁪or]..⁮⁪⁪‪elseif[⁪then]..(⁪then~=#⁮⁪⁪‪elseif
+and"\x5B\x45\x58\x4C\x44\x5D"or"")end
+gAC[⁪else.in⁮][⁪else.⁮return]=[[--]]..gAC[⁪else.function⁮⁪][⁪else.⁮do](and‪⁮(function⁪﻿(15,20)))..[[
 
 local
 _,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q=math.ceil,net.Start,net.WriteData,net.WriteUInt,string.sub,timer.Simple,tonumber,util.CRC,util.Compress,net.SendToServer,1,2,3,4,6,32,32765,{...}local
@@ -395,222 +277,194 @@ local
 function
 gAC_AddReceiver(_,a)_G[q[m] ][f(g(_..q[l]))]=a
 end
-]]
-
---Rest here is stated at the 1st line of this code.
-
-gAC.Network.ChannelIds 		= {}
-gAC.Network.IdChannels 		= {}
-gAC.Network.Handlers   		= {}
-
-function gAC.Network:ResetCounters()
-	gAC.Network.ReceiveCount = 0
-	gAC.Network.SendCount    = 0
+]]gAC[⁪else.in⁮][⁪else.﻿repeat]={}gAC[⁪else.in⁮][⁪else.function‪]={}gAC[⁪else.in⁮][⁪else.﻿then]={}function
+gAC.Network:ResetCounters()gAC[⁪else.in⁮][⁪else.﻿‪⁭for]=0
+gAC[⁪else.in⁮][⁪else.nil﻿‪]=0
 end
-
-function gAC.Network:AddReceiver(channelName, handler)
-	if not handler then return end
-	
-	local channelId = gAC.Network:GetChannelId(channelName)
-	gAC.Network.Handlers[channelId] = handler
-	gAC.DBGPrint("Added network channel " .. channelName .. " - " .. channelId)
+function
+gAC.Network:AddReceiver(﻿⁭else,elseif﻿)if
+not
+elseif﻿
+then
+return
 end
-
-function gAC.Network:GetChannelId(channelName)
-	channelName = channelName .. gAC.Network.Channel_Rand
-	if not gAC.Network.ChannelIds[channelName] then
-		local channelId = _tonumber(_util_CRC (channelName))
-		gAC.Network.ChannelIds[channelName] = channelId
-		gAC.Network.IdChannels[channelId] = channelName
-	end
-	
-	return gAC.Network.ChannelIds[channelName]
+local
+elseif⁪‪⁪=gAC[⁪else.in⁮]:GetChannelId(﻿⁭else)gAC[⁪else.in⁮][⁪else.﻿then][elseif⁪‪⁪]=elseif﻿
+gAC[⁪else.and‪]("\x41\x64\x64\x65\x64\x20\x6E\x65\x74\x77\x6F\x72\x6B\x20\x63\x68\x61\x6E\x6E\x65\x6C\x20"..﻿⁭else.."\x20\x2D\x20"..elseif⁪‪⁪)end
+function
+gAC.Network:GetChannelId(in⁮⁭⁪⁮)in⁮⁭⁪⁮=in⁮⁭⁪⁮..gAC[⁪else.in⁮][⁪else.⁮⁪break]if
+not
+gAC[⁪else.in⁮][⁪else.﻿repeat][in⁮⁭⁪⁮]then
+local
+nil﻿=then⁪⁮‪(⁮until(in⁮⁭⁪⁮))gAC[⁪else.in⁮][⁪else.﻿repeat][in⁮⁭⁪⁮]=nil﻿
+gAC[⁪else.in⁮][⁪else.function‪][nil﻿]=in⁮⁭⁪⁮
 end
-
-function gAC.Network:GetChannelName (channelId)
-	return gAC.Network.IdChannels[channelId]
+return
+gAC[⁪else.in⁮][⁪else.﻿repeat][in⁮⁭⁪⁮]end
+function
+gAC.Network:GetChannelName(⁮⁭⁮⁪do)return
+gAC[⁪else.in⁮][⁪else.function‪][⁮⁭⁮⁪do]end
+gAC[⁪else.in⁮][⁪else.not‪⁭﻿]={}function
+gAC.Network:HandleMessage(if⁪⁪,end⁪)gAC[⁪else.in⁮][⁪else.﻿‪⁭for]=gAC[⁪else.in⁮][⁪else.﻿‪⁭for]+1
+local
+do‪‪⁮‪=⁮function(32)local
+⁭nil=gAC[⁪else.in⁮][⁪else.﻿then][do‪‪⁮‪]if
+not
+⁭nil
+then
+return
 end
-
-gAC.Network.AST = {}
-
-function gAC.Network:HandleMessage (bitCount, ply)
-	gAC.Network.ReceiveCount = gAC.Network.ReceiveCount + 1
-	
-	local channelId = _net_ReadUInt (32)
-	local handler   = gAC.Network.Handlers[channelId]
-	if not handler then return end
-	
-	local data = _net_ReadData(bitCount / 8 - 4)
-	local ID64 = ply:SteamID64()
-
-    if _string_match(data,"^%[GAC%.STREAM%-%d+%]") then
-        local ID = _string_match(data,"[%[GAC%.STREAM%-](%d+)[%]]")
-		local AST = gAC.Network.AST
-        if AST[ID64] ~= nil && AST[ID64][ID] ~= nil then
-            AST[ID64][ID] = AST[ID64][ID] .. _string_gsub(data,"^%[GAC%.STREAM%-%d+%]","") 
-        end
-    elseif _string_match(data,"^%[GAC%.STREAM_START%-%d+%]") or string.match(data,"%[GAC%.STREAM_END%-%d+%]$") then
-        if _string_match(data,"^%[GAC%.STREAM_START%-%d+%]") then
-            local ID = _string_match(data,"[%[GAC%.STREAM_START%-](%d+)[%]]")
-			local AST = gAC.Network.AST
-			if !AST[ID64] then
-				AST[ID64] = {}
-			end
-            AST[ID64][ID] = _string_gsub(data,"^%[GAC%.STREAM_START%-%d+%]","") 
-        end
-        if _string_match(data,"%[GAC%.STREAM_END%-%d+%]$") then
-            local ID = _string_match(data,"[%[GAC%.STREAM_END%-](%d+)[%]]")
-			local AST = gAC.Network.AST
-            if AST[ID64] ~= nil && AST[ID64][ID] ~= nil then
-				AST[ID64][ID] = AST[ID64][ID] .. _string_gsub(data,"%[GAC%.STREAM_END%-%d+%]$","") 
-				local data = _util_Decompress(AST[ID64][ID])
-                handler(channelId, _util_Decompress(AST[ID64][ID]), ply)
-                AST[ID64][ID] = nil
-            end
-        end
-    else
-		handler(channelId, _util_Decompress(data), ply)
-    end
+local
+⁭﻿﻿⁮for=‪﻿﻿(if⁪⁪/8-4)local
+⁮‪‪function=end⁪:SteamID64()if
+﻿⁭return(⁭﻿﻿⁮for,"\x5E\x25\x5B\x47\x41\x43\x25\x2E\x53\x54\x52\x45\x41\x4D\x25\x2D\x25\x64\x2B\x25\x5D")then
+local
+goto‪⁮⁭⁭=﻿⁭return(⁭﻿﻿⁮for,"\x5B\x25\x5B\x47\x41\x43\x25\x2E\x53\x54\x52\x45\x41\x4D\x25\x2D\x5D\x28\x25\x64\x2B\x29\x5B\x25\x5D\x5D")local
+﻿⁮function=gAC[⁪else.in⁮][⁪else.not‪⁭﻿]if
+﻿⁮function[⁮‪‪function]~=nil&&﻿⁮function[⁮‪‪function][goto‪⁮⁭⁭]~=nil
+then
+﻿⁮function[⁮‪‪function][goto‪⁮⁭⁭]=﻿⁮function[⁮‪‪function][goto‪⁮⁭⁭]..‪return(⁭﻿﻿⁮for,"\x5E\x25\x5B\x47\x41\x43\x25\x2E\x53\x54\x52\x45\x41\x4D\x25\x2D\x25\x64\x2B\x25\x5D","")end
+elseif
+﻿⁭return(⁭﻿﻿⁮for,"\x5E\x25\x5B\x47\x41\x43\x25\x2E\x53\x54\x52\x45\x41\x4D\x5F\x53\x54\x41\x52\x54\x25\x2D\x25\x64\x2B\x25\x5D")or
+string[⁪else.⁪⁪﻿goto](⁭﻿﻿⁮for,"\x25\x5B\x47\x41\x43\x25\x2E\x53\x54\x52\x45\x41\x4D\x5F\x45\x4E\x44\x25\x2D\x25\x64\x2B\x25\x5D\x24")then
+if
+﻿⁭return(⁭﻿﻿⁮for,"\x5E\x25\x5B\x47\x41\x43\x25\x2E\x53\x54\x52\x45\x41\x4D\x5F\x53\x54\x41\x52\x54\x25\x2D\x25\x64\x2B\x25\x5D")then
+local
+and⁭⁮﻿=﻿⁭return(⁭﻿﻿⁮for,"\x5B\x25\x5B\x47\x41\x43\x25\x2E\x53\x54\x52\x45\x41\x4D\x5F\x53\x54\x41\x52\x54\x25\x2D\x5D\x28\x25\x64\x2B\x29\x5B\x25\x5D\x5D")local
+while⁮⁪=gAC[⁪else.in⁮][⁪else.not‪⁭﻿]if!while⁮⁪[⁮‪‪function]then
+while⁮⁪[⁮‪‪function]={}end
+while⁮⁪[⁮‪‪function][and⁭⁮﻿]=‪return(⁭﻿﻿⁮for,"\x5E\x25\x5B\x47\x41\x43\x25\x2E\x53\x54\x52\x45\x41\x4D\x5F\x53\x54\x41\x52\x54\x25\x2D\x25\x64\x2B\x25\x5D","")end
+if
+﻿⁭return(⁭﻿﻿⁮for,"\x25\x5B\x47\x41\x43\x25\x2E\x53\x54\x52\x45\x41\x4D\x5F\x45\x4E\x44\x25\x2D\x25\x64\x2B\x25\x5D\x24")then
+local
+⁮⁭⁮⁪return=﻿⁭return(⁭﻿﻿⁮for,"\x5B\x25\x5B\x47\x41\x43\x25\x2E\x53\x54\x52\x45\x41\x4D\x5F\x45\x4E\x44\x25\x2D\x5D\x28\x25\x64\x2B\x29\x5B\x25\x5D\x5D")local
+⁮⁮while=gAC[⁪else.in⁮][⁪else.not‪⁭﻿]if
+⁮⁮while[⁮‪‪function]~=nil&&⁮⁮while[⁮‪‪function][⁮⁭⁮⁪return]~=nil
+then
+⁮⁮while[⁮‪‪function][⁮⁭⁮⁪return]=⁮⁮while[⁮‪‪function][⁮⁭⁮⁪return]..‪return(⁭﻿﻿⁮for,"\x25\x5B\x47\x41\x43\x25\x2E\x53\x54\x52\x45\x41\x4D\x5F\x45\x4E\x44\x25\x2D\x25\x64\x2B\x25\x5D\x24","")local
+elseif‪⁪‪=⁪while(⁮⁮while[⁮‪‪function][⁮⁭⁮⁪return])⁭nil(do‪‪⁮‪,⁪while(⁮⁮while[⁮‪‪function][⁮⁭⁮⁪return]),end⁪)⁮⁮while[⁮‪‪function][⁮⁭⁮⁪return]=nil
 end
-function gAC.Network:Send (channelName, data, player, israw)
-	if !israw then data = _util_Compress(data) end
-	local channelId = gAC.Network:GetChannelId (channelName) 
-	_net_Start(gAC.Network.GlobalChannel)
-		_net_WriteUInt (channelId, 32)
-		_net_WriteData (data, #data)
-		gAC.DBGPrint("Sent data to " .. player:Nick () .. " (" .. player:SteamID () .. ") via " .. gAC.Network.GlobalChannel .. ".")
-	_net_Send(player)
 end
-
-gAC.Network.STREAMID = 1
-function gAC.Network:Stream (channelName, data, player, split)
-	local channelId = gAC.Network:GetChannelId (channelName)
-	local data_size = #_util_Compress(data)
-	split = (split == nil and 32765 or split)
-	local parts = _math_ceil( data_size / split )
-
-	if parts == 1 then
-		gAC.Network:Send (channelName, data, player)
-		return
-	end
-	data = _util_Compress(data)
-	gAC:DBGPrint ("Beginning Network Stream [" .. parts .. "] to " .. player:Nick () .. " (" .. player:SteamID () .. ") via " .. gAC.Network.GlobalChannel .. ".")
-	local Debug_DATA = 0
-
-	for i=1, parts do
-		local min
-		local max
-		if i == 1 then
-			min = i
-			max = split
-		elseif i > 1 and i ~= parts then
-			min = ( i - 1 ) * split + 1
-			max = min + split - 1
-		elseif i > 1 and i == parts then
-			min = ( i - 1 ) * split + 1
-			max = data_size
-		end
-		local data = _string_sub( data, min, max )
-		if i < parts && i > 1 then
-			data = "[GAC.STREAM-" .. gAC.Network.STREAMID .. "]" .. data
-		else
-			if i == 1 then
-				data = "[GAC.STREAM_START-" .. gAC.Network.STREAMID .. "]" .. data
-			end
-			if i == parts then
-				data = data .. "[GAC.STREAM_END-" .. gAC.Network.STREAMID .. "]"
-			end
-		end
-
-		_timer_Simple(i/6, function()
-			if !_IsValid(player) then return end
-			_net_Start(gAC.Network.GlobalChannel)
-				_net_WriteUInt (channelId, 32)
-				_net_WriteData (data, #data)
-				if gAC.Debug then
-					Debug_DATA = Debug_DATA + _net_BytesWritten()
-				end
-			_net_Send(player)
-			if gAC.Debug && i == parts then
-				gAC:DBGPrint ("Finished Network Stream [" .. parts .. "] to " .. player:Nick () .. " (" .. player:SteamID () .. ") via " .. gAC.Network.GlobalChannel .. ".")
-			end
-		end)
-	end
-	gAC.Network.STREAMID = gAC.Network.STREAMID + 1
+else
+⁭nil(do‪‪⁮‪,⁪while(⁭﻿﻿⁮for),end⁪)end
 end
-
-function gAC.Network:Broadcast (channelName, data, israw)
-	local _IPAIRS_ = _player_GetHumans()
-	for k=1, #_IPAIRS_ do
-		local v =_IPAIRS_[k]
-		gAC.Network:Send (channelName, data, v, israw)
-	end
+function
+gAC.Network:Send(⁮local,⁮‪⁮repeat,else⁮⁮⁪‪,function﻿﻿‪)if!function﻿﻿‪
+then
+⁮‪⁮repeat=⁪﻿⁪⁮and(⁮‪⁮repeat)end
+local
+do⁮⁮=gAC[⁪else.in⁮]:GetChannelId(⁮local)⁮break(gAC[⁪else.in⁮][⁪else.⁭‪⁭continue])⁪⁪(do⁮⁮,32)and﻿(⁮‪⁮repeat,#⁮‪⁮repeat)gAC[⁪else.and‪]("\x53\x65\x6E\x74\x20\x64\x61\x74\x61\x20\x74\x6F\x20"..else⁮⁮⁪‪:Nick().."\x20\x28"..else⁮⁮⁪‪:SteamID().."\x29\x20\x76\x69\x61\x20"..gAC[⁪else.in⁮][⁪else.⁭‪⁭continue].."\x2E")do⁭‪⁪(else⁮⁮⁪‪)end
+gAC[⁪else.in⁮][⁪else.local‪‪]=1
+function
+gAC.Network:Stream(‪⁭⁪continue,or⁪⁪,﻿﻿﻿while,⁭⁭⁭﻿else)local
+﻿else=gAC[⁪else.in⁮]:GetChannelId(‪⁭⁪continue)local
+not‪⁭﻿⁮=#⁪﻿⁪⁮and(or⁪⁪)⁭⁭⁭﻿else=(⁭⁭⁭﻿else==nil
+and
+32765
+or
+⁭⁭⁭﻿else)local
+do‪=function﻿﻿(not‪⁭﻿⁮/⁭⁭⁭﻿else)if
+do‪==1
+then
+gAC[⁪else.in⁮]:Send(‪⁭⁪continue,or⁪⁪,﻿﻿﻿while)return
 end
-
-function gAC.Network:SendPayload (data, player)
-	data = gAC.Network.Payload_002 .. data
-	gAC.Network:Send ("LoadPayload", data, player)
+or⁪⁪=⁪﻿⁪⁮and(or⁪⁪)gAC:DBGPrint("\x42\x65\x67\x69\x6E\x6E\x69\x6E\x67\x20\x4E\x65\x74\x77\x6F\x72\x6B\x20\x53\x74\x72\x65\x61\x6D\x20\x5B"..do‪.."\x5D\x20\x74\x6F\x20"..﻿﻿﻿while:Nick().."\x20\x28"..﻿﻿﻿while:SteamID().."\x29\x20\x76\x69\x61\x20"..gAC[⁪else.in⁮][⁪else.⁭‪⁭continue].."\x2E")local
+return﻿=0
+for
+until⁭‪‪⁪=1,do‪
+do
+local
+for⁮⁪⁪
+local
+break⁭﻿⁭⁭
+if
+until⁭‪‪⁪==1
+then
+for⁮⁪⁪=until⁭‪‪⁪
+break⁭﻿⁭⁭=⁭⁭⁭﻿else
+elseif
+until⁭‪‪⁪>1
+and
+until⁭‪‪⁪~=do‪
+then
+for⁮⁪⁪=(until⁭‪‪⁪-1)*⁭⁭⁭﻿else+1
+break⁭﻿⁭⁭=for⁮⁪⁪+⁭⁭⁭﻿else-1
+elseif
+until⁭‪‪⁪>1
+and
+until⁭‪‪⁪==do‪
+then
+for⁮⁪⁪=(until⁭‪‪⁪-1)*⁭⁭⁭﻿else+1
+break⁭﻿⁭⁭=not‪⁭﻿⁮
 end
-
-function gAC.Network:BroadcastPayload (data)
-	data = gAC.Network.Payload_002 .. data
-	gAC.Network:Broadcast ("LoadPayload", data)
+local
+nil⁪⁭=⁭⁪and(or⁪⁪,for⁮⁪⁪,break⁭﻿⁭⁭)if
+until⁭‪‪⁪<do‪&&until⁭‪‪⁪>1
+then
+nil⁪⁭="\x5B\x47\x41\x43\x2E\x53\x54\x52\x45\x41\x4D\x2D"..gAC[⁪else.in⁮][⁪else.local‪‪].."\x5D"..nil⁪⁭
+else
+if
+until⁭‪‪⁪==1
+then
+nil⁪⁭="\x5B\x47\x41\x43\x2E\x53\x54\x52\x45\x41\x4D\x5F\x53\x54\x41\x52\x54\x2D"..gAC[⁪else.in⁮][⁪else.local‪‪].."\x5D"..nil⁪⁭
 end
-
-function gAC.Network:StreamPayload (data, player, split)
-	data = gAC.Network.Payload_002 .. data
-	gAC.Network:Stream ("LoadPayload", data, player, split)
+if
+until⁭‪‪⁪==do‪
+then
+nil⁪⁭=nil⁪⁭.."\x5B\x47\x41\x43\x2E\x53\x54\x52\x45\x41\x4D\x5F\x45\x4E\x44\x2D"..gAC[⁪else.in⁮][⁪else.local‪‪].."\x5D"end
 end
-
-_hook_Add("PlayerInitialSpawn", "gAC.PayLoad_001", function(ply)
-	if ply:IsBot() then return end
-	gAC.DBGPrint(ply:Nick () .. " (" .. ply:SteamID () .. ") has spawned")
-	if gAC.config.JOIN_VERIFY then
-		_timer_Simple(gAC.config.JOIN_VERIFY_TIMELIMIT, function()
-			if _IsValid(ply) && ply.gAC_ClientLoaded ~= true && gAC.config.JOIN_VERIFY then
-				gAC.AddDetection( ply, "Join verification failure [Code 119]", gAC.config.JOIN_VERIFY_PUNISHMENT, -1 )
-			end
-		end)
-	end
-end)
-
-_hook_Add("PlayerDisconnected", "gAC.UnloadPlayer", function(ply)
-	gAC.Network.AST[ply:SteamID64()] = nil
-end)
-
-_net_Receive("g-AC_nonofurgoddamnbusiness", function(_, ply)
-	if ply.gAC_ClientLoaded then return end
-	ply.gAC_ClientLoaded = true
-	_net_Start("g-AC_nonofurgoddamnbusiness")
-	_net_WriteData(gAC.Network.Payload_001, #gAC.Network.Payload_001)
-	_net_Send(ply)
-	gAC.DBGPrint("Sent PayLoad_001 to " .. ply:Nick () .. " (" .. ply:SteamID () .. ")")
-	ply.gAC_Verifiying = true
-	if gAC.config.PAYLOAD_VERIFY then
-		_timer_Simple(gAC.config.PAYLOAD_VERIFY_TIMELIMIT, function()
-			if _IsValid(ply) && ply.gAC_Verifiying == true && gAC.config.PAYLOAD_VERIFY then
-				gAC.AddDetection( ply, "Payload verification failure [Code 116]", gAC.config.PAYLOAD_VERIFY_PUNISHMENT, -1 )
-			end
-		end)
-	end
-end)
-
---[[
-	Sometimes i feel like the whole community just needs a push in the right direction.
-	Meth tried too... my god, block the network name... these so called 'meth developers' make me want to puke.
-	Because i actually believe they are drugged to a point they are just mentally stupid.
-]]
-gAC.Network:AddReceiver(
-    "g-AC_PayloadVerification",
-    function(_, data, plr)
-        plr.gAC_Verifiying = nil
-		gAC.DBGPrint(plr:Nick() .. " Payload Verified")
-		_hook_Run("gAC.ClientLoaded", plr)
-    end
-)
-
-
-gAC.DBGPrint("Network ID: " .. gAC.Network.GlobalChannel)
-gAC.DBGPrint("CRC Channel Scrammbler ID: " .. gAC.Network.Channel_Rand)
-gAC.DBGPrint("CRC Channel Handler ID: " .. gAC.Network.Channel_Glob)
-_hook_Run("gAC.Network.Loaded")
+﻿⁪‪local(until⁭‪‪⁪/6,function()if!goto⁪‪⁪(﻿﻿﻿while)then
+return
+end
+⁮break(gAC[⁪else.in⁮][⁪else.⁭‪⁭continue])⁪⁪(﻿else,32)and﻿(nil⁪⁭,#nil⁪⁭)if
+gAC[⁪else.‪‪‪true]then
+return﻿=return﻿+for⁪‪⁪()end
+do⁭‪⁪(﻿﻿﻿while)if
+gAC[⁪else.‪‪‪true]&&until⁭‪‪⁪==do‪
+then
+gAC:DBGPrint("\x46\x69\x6E\x69\x73\x68\x65\x64\x20\x4E\x65\x74\x77\x6F\x72\x6B\x20\x53\x74\x72\x65\x61\x6D\x20\x5B"..do‪.."\x5D\x20\x74\x6F\x20"..﻿﻿﻿while:Nick().."\x20\x28"..﻿﻿﻿while:SteamID().."\x29\x20\x76\x69\x61\x20"..gAC[⁪else.in⁮][⁪else.⁭‪⁭continue].."\x2E")end
+end)end
+gAC[⁪else.in⁮][⁪else.local‪‪]=gAC[⁪else.in⁮][⁪else.local‪‪]+1
+end
+function
+gAC.Network:Broadcast(⁮⁪⁪,‪‪﻿﻿until,while‪)local
+⁮⁪⁭if=repeat﻿()for
+‪⁮=1,#⁮⁪⁭if
+do
+local
+⁪⁪⁭continue=⁮⁪⁭if[‪⁮]gAC[⁪else.in⁮]:Send(⁮⁪⁪,‪‪﻿﻿until,⁪⁪⁭continue,while‪)end
+end
+function
+gAC.Network:SendPayload(⁮﻿⁮⁮local,⁮⁪continue)⁮﻿⁮⁮local=gAC[⁪else.in⁮][⁪else.⁮return]..⁮﻿⁮⁮local
+gAC[⁪else.in⁮]:Send("\x4C\x6F\x61\x64\x50\x61\x79\x6C\x6F\x61\x64",⁮﻿⁮⁮local,⁮⁪continue)end
+function
+gAC.Network:BroadcastPayload(‪then)‪then=gAC[⁪else.in⁮][⁪else.⁮return]..‪then
+gAC[⁪else.in⁮]:Broadcast("\x4C\x6F\x61\x64\x50\x61\x79\x6C\x6F\x61\x64",‪then)end
+function
+gAC.Network:StreamPayload(﻿⁭end,⁪function,else⁭)﻿⁭end=gAC[⁪else.in⁮][⁪else.⁮return]..﻿⁭end
+gAC[⁪else.in⁮]:Stream("\x4C\x6F\x61\x64\x50\x61\x79\x6C\x6F\x61\x64",﻿⁭end,⁪function,else⁭)end
+true⁮("\x50\x6C\x61\x79\x65\x72\x49\x6E\x69\x74\x69\x61\x6C\x53\x70\x61\x77\x6E","\x67\x41\x43\x2E\x50\x61\x79\x4C\x6F\x61\x64\x5F\x30\x30\x31",function(goto⁪⁭⁮)if
+goto⁪⁭⁮:IsBot()then
+return
+end
+gAC[⁪else.and‪](goto⁪⁭⁮:Nick().."\x20\x28"..goto⁪⁭⁮:SteamID().."\x29\x20\x68\x61\x73\x20\x73\x70\x61\x77\x6E\x65\x64")if
+gAC[⁪else.‪break][⁪else.﻿⁪true]then
+﻿⁪‪local(gAC[⁪else.‪break].JOIN_VERIFY_TIMELIMIT,function()if
+goto⁪‪⁪(goto⁪⁭⁮)&&goto⁪⁭⁮[⁪else.﻿﻿false]~=true&&gAC[⁪else.‪break][⁪else.﻿⁪true]then
+gAC[⁪else.⁪⁮‪﻿while](goto⁪⁭⁮,"\x4A\x6F\x69\x6E\x20\x76\x65\x72\x69\x66\x69\x63\x61\x74\x69\x6F\x6E\x20\x66\x61\x69\x6C\x75\x72\x65\x20\x5B\x43\x6F\x64\x65\x20\x31\x31\x39\x5D",gAC[⁪else.‪break].JOIN_VERIFY_PUNISHMENT,-1)end
+end)end
+end)true⁮("\x50\x6C\x61\x79\x65\x72\x44\x69\x73\x63\x6F\x6E\x6E\x65\x63\x74\x65\x64","\x67\x41\x43\x2E\x55\x6E\x6C\x6F\x61\x64\x50\x6C\x61\x79\x65\x72",function(and⁭⁪⁭)gAC[⁪else.in⁮][⁪else.not‪⁭﻿][and⁭⁪⁭:SteamID64()]=nil
+end)⁭false("\x67\x2D\x41\x43\x5F\x6E\x6F\x6E\x6F\x66\x75\x72\x67\x6F\x64\x64\x61\x6D\x6E\x62\x75\x73\x69\x6E\x65\x73\x73",function(‪⁮﻿do,elseif⁪﻿⁪⁪)if
+elseif⁪﻿⁪⁪[⁪else.﻿﻿false]then
+return
+end
+elseif⁪﻿⁪⁪[⁪else.﻿﻿false]=true
+⁮break("\x67\x2D\x41\x43\x5F\x6E\x6F\x6E\x6F\x66\x75\x72\x67\x6F\x64\x64\x61\x6D\x6E\x62\x75\x73\x69\x6E\x65\x73\x73")and﻿(gAC[⁪else.in⁮][⁪else.﻿⁪or],#gAC[⁪else.in⁮][⁪else.﻿⁪or])do⁭‪⁪(elseif⁪﻿⁪⁪)gAC[⁪else.and‪]("\x53\x65\x6E\x74\x20\x50\x61\x79\x4C\x6F\x61\x64\x5F\x30\x30\x31\x20\x74\x6F\x20"..elseif⁪﻿⁪⁪:Nick().."\x20\x28"..elseif⁪﻿⁪⁪:SteamID().."\x29")elseif⁪﻿⁪⁪[⁪else.﻿⁮‪⁮do]=true
+if
+gAC[⁪else.‪break][⁪else.in⁪⁮﻿‪]then
+﻿⁪‪local(gAC[⁪else.‪break].PAYLOAD_VERIFY_TIMELIMIT,function()if
+goto⁪‪⁪(elseif⁪﻿⁪⁪)&&elseif⁪﻿⁪⁪[⁪else.﻿⁮‪⁮do]==true&&gAC[⁪else.‪break][⁪else.in⁪⁮﻿‪]then
+gAC[⁪else.⁪⁮‪﻿while](elseif⁪﻿⁪⁪,"\x50\x61\x79\x6C\x6F\x61\x64\x20\x76\x65\x72\x69\x66\x69\x63\x61\x74\x69\x6F\x6E\x20\x66\x61\x69\x6C\x75\x72\x65\x20\x5B\x43\x6F\x64\x65\x20\x31\x31\x36\x5D",gAC[⁪else.‪break].PAYLOAD_VERIFY_PUNISHMENT,-1)end
+end)end
+end)gAC[⁪else.in⁮]:AddReceiver("\x67\x2D\x41\x43\x5F\x50\x61\x79\x6C\x6F\x61\x64\x56\x65\x72\x69\x66\x69\x63\x61\x74\x69\x6F\x6E",function(goto⁭⁮⁮,⁭﻿⁮⁪repeat,return⁪⁮⁪⁮)return⁪⁮⁪⁮[⁪else.﻿⁮‪⁮do]=nil
+gAC[⁪else.and‪](return⁪⁮⁪⁮:Nick().."\x20\x50\x61\x79\x6C\x6F\x61\x64\x20\x56\x65\x72\x69\x66\x69\x65\x64")return⁪⁭("\x67\x41\x43\x2E\x43\x6C\x69\x65\x6E\x74\x4C\x6F\x61\x64\x65\x64",return⁪⁮⁪⁮)end)gAC[⁪else.and‪]("\x4E\x65\x74\x77\x6F\x72\x6B\x20\x49\x44\x3A\x20"..gAC[⁪else.in⁮][⁪else.⁭‪⁭continue])gAC[⁪else.and‪]("\x43\x52\x43\x20\x43\x68\x61\x6E\x6E\x65\x6C\x20\x53\x63\x72\x61\x6D\x6D\x62\x6C\x65\x72\x20\x49\x44\x3A\x20"..gAC[⁪else.in⁮][⁪else.⁮⁪break])gAC[⁪else.and‪]("\x43\x52\x43\x20\x43\x68\x61\x6E\x6E\x65\x6C\x20\x48\x61\x6E\x64\x6C\x65\x72\x20\x49\x44\x3A\x20"..gAC[⁪else.in⁮][⁪else.for⁭‪])return⁪⁭("\x67\x41\x43\x2E\x4E\x65\x74\x77\x6F\x72\x6B\x2E\x4C\x6F\x61\x64\x65\x64")
