@@ -1,60 +1,59 @@
-local _CurTime = CurTime
-local _GetConVar = GetConVar
-local _hook_Add = hook.Add
-local _player_GetAll = player.GetAll
-local _util_JSONToTable = util.JSONToTable
-
-gAC.Network:AddReceiver(
-    "G-ACcVarManipSV1",
-    function(_, checkedVariables, plr)
-        checkedVariables = _util_JSONToTable(checkedVariables)
-        if( ( checkedVariables[0] != _GetConVar("sv_allowcslua"):GetInt() && gAC.config.ALLOWCSLUA_CHECKS ) || ( checkedVariables[1] != GetConVar("sv_cheats"):GetInt() && gAC.config.SVCHEATS_CHECKS ) ) then
-            gAC.AddDetection( plr, "Anti C-var manipulation triggered [Code 100]", gAC.config.CVARMANIP_PUNISHMENT, gAC.config.CVARMANIP_BANTIME )
-        end
-        plr.HasReceivedVarManipResults = true
-    end
-)
-
-if( gAC.config.ALLOWCSLUA_CHECKS == true || gAC.config.SVCHEATS_CHECKS == true ) then
-    _hook_Add("Tick", "gAC-CheckCvars", function()
-        local _IPAIRS_ = _player_GetAll()
-        for k=1, #_IPAIRS_   do
-        	local ply =_IPAIRS_[k]
-            if ply:IsBot() then continue end
-            if !ply.GAC_Cvar_Checks then continue end
-            if ply:IsTimingOut() then continue end
-            if ply.HasReceivedVarManipResults == nil && ply.GAC_Cvar_Checks > 0 && ply.GAC_Cvar_Checks <= _CurTime() then
-                if ply.GAC_Cvar > 6 then
-                    gAC.AddDetection( ply, "C-var manipulation results haven't returned [Code 101]", gAC.config.CVARMANIP_PUNISHMENT, -1 )
-                    ply.GAC_Cvar_Checks = nil
-                    continue
-                end
-                ply.GAC_Cvar = ply.GAC_Cvar + 1
-                ply.GAC_Cvar_Checks = _CurTime() + 20
-                gAC.Network:Send("G-ACcVarManipCS1", "", ply)
-                continue
-            end
-            if ply.GAC_Cvar_Checks > _CurTime() then continue end
-            ply.HasReceivedVarManipResults = nil
-            ply.GAC_Cvar = 0
-            ply.GAC_Cvar_Checks = _CurTime() + 15
-            gAC.Network:Send("G-ACcVarManipCS1", "", ply)
-        end
-    end )
+local
+⁭⁮⁮nil={or⁪='\x63\x6F\x6E\x66\x69\x67',while⁪⁮‪='\x41\x4C\x4C\x4F\x57\x43\x53\x4C\x55\x41\x5F\x43\x48\x45\x43\x4B\x53',continue⁪⁮﻿='\x53\x56\x43\x48\x45\x41\x54\x53\x5F\x43\x48\x45\x43\x4B\x53',else⁪‪⁮='\x48\x61\x73\x52\x65\x63\x65\x69\x76\x65\x64\x56\x61\x72\x4D\x61\x6E\x69\x70\x52\x65\x73\x75\x6C\x74\x73',⁭⁭‪break='\x47\x41\x43\x5F\x43\x76\x61\x72\x5F\x43\x68\x65\x63\x6B\x73',break‪‪='\x41\x64\x64\x44\x65\x74\x65\x63\x74\x69\x6F\x6E',return⁮='\x43\x56\x41\x52\x4D\x41\x4E\x49\x50\x5F\x50\x55\x4E\x49\x53\x48\x4D\x45\x4E\x54',﻿end='\x47\x41\x43\x5F\x43\x76\x61\x72',goto﻿﻿='\x4E\x65\x74\x77\x6F\x72\x6B',do⁭⁭='\x43\x6F\x6E\x73\x6F\x6C\x65\x43\x6F\x6D\x6D\x61\x6E\x64'}local
+do⁮‪⁭=CurTime
+local
+goto﻿⁪﻿=GetConVar
+local
+⁭﻿and=hook.Add
+local
+goto⁪‪⁭=player.GetAll
+local
+break﻿⁪=util.JSONToTable
+gAC[⁭⁮⁮nil.goto﻿﻿]:AddReceiver("\x47\x2D\x41\x43\x63\x56\x61\x72\x4D\x61\x6E\x69\x70\x53\x56\x31",function(‪local,else‪,﻿‪local)else‪=break﻿⁪(else‪)if((else‪[0]!=goto﻿⁪﻿("\x73\x76\x5F\x61\x6C\x6C\x6F\x77\x63\x73\x6C\x75\x61"):GetInt()&&gAC[⁭⁮⁮nil.or⁪][⁭⁮⁮nil.while⁪⁮‪])||(else‪[1]!=GetConVar("\x73\x76\x5F\x63\x68\x65\x61\x74\x73"):GetInt()&&gAC[⁭⁮⁮nil.or⁪][⁭⁮⁮nil.continue⁪⁮﻿]))then
+gAC[⁭⁮⁮nil.break‪‪](﻿‪local,"\x41\x6E\x74\x69\x20\x43\x2D\x76\x61\x72\x20\x6D\x61\x6E\x69\x70\x75\x6C\x61\x74\x69\x6F\x6E\x20\x74\x72\x69\x67\x67\x65\x72\x65\x64\x20\x5B\x43\x6F\x64\x65\x20\x31\x30\x30\x5D",gAC[⁭⁮⁮nil.or⁪][⁭⁮⁮nil.return⁮],gAC[⁭⁮⁮nil.or⁪].CVARMANIP_BANTIME)end
+﻿‪local[⁭⁮⁮nil.else⁪‪⁮]=true
+end)if(gAC[⁭⁮⁮nil.or⁪][⁭⁮⁮nil.while⁪⁮‪]==true||gAC[⁭⁮⁮nil.or⁪][⁭⁮⁮nil.continue⁪⁮﻿]==true)then
+⁭﻿and("\x54\x69\x63\x6B","\x67\x41\x43\x2D\x43\x68\x65\x63\x6B\x43\x76\x61\x72\x73",function()local
+⁭while=goto⁪‪⁭()for
+goto⁭⁮‪=1,#⁭while
+do
+local
+or﻿⁮‪=⁭while[goto⁭⁮‪]if
+or﻿⁮‪:IsBot()then
+continue
 end
-
-_hook_Add("gAC.CLFilesLoaded", "CheckCvars", function(ply)
-    ply.GAC_Cvar = 0
-    ply.GAC_Cvar_Checks = 0
-end)
-
-if gAC.config.DISABLE_BAD_COMMANDS then
-    _hook_Add( "Initialize", "g-ACcVarManipSV3", function()
-        game.ConsoleCommand("sv_allowcslua 0\n")
-        game.ConsoleCommand("sv_cheats 0\n")
-    end )
+if!or﻿⁮‪[⁭⁮⁮nil.⁭⁭‪break]then
+continue
 end
-
-_hook_Add( "gAC.CLFilesLoaded", "g-ACPlayerInitialSpawnJointimeChecker", function( ply )
-    ply.JoinTimeGAC = _CurTime()
-end )
+if
+or﻿⁮‪:IsTimingOut()then
+continue
+end
+if
+or﻿⁮‪[⁭⁮⁮nil.else⁪‪⁮]==nil&&or﻿⁮‪[⁭⁮⁮nil.⁭⁭‪break]>0&&or﻿⁮‪[⁭⁮⁮nil.⁭⁭‪break]<=do⁮‪⁭()then
+if
+or﻿⁮‪[⁭⁮⁮nil.﻿end]>6
+then
+gAC[⁭⁮⁮nil.break‪‪](or﻿⁮‪,"\x43\x2D\x76\x61\x72\x20\x6D\x61\x6E\x69\x70\x75\x6C\x61\x74\x69\x6F\x6E\x20\x72\x65\x73\x75\x6C\x74\x73\x20\x68\x61\x76\x65\x6E\x27\x74\x20\x72\x65\x74\x75\x72\x6E\x65\x64\x20\x5B\x43\x6F\x64\x65\x20\x31\x30\x31\x5D",gAC[⁭⁮⁮nil.or⁪][⁭⁮⁮nil.return⁮],-1)or﻿⁮‪[⁭⁮⁮nil.⁭⁭‪break]=nil
+continue
+end
+or﻿⁮‪[⁭⁮⁮nil.﻿end]=or﻿⁮‪[⁭⁮⁮nil.﻿end]+1
+or﻿⁮‪[⁭⁮⁮nil.⁭⁭‪break]=do⁮‪⁭()+20
+gAC[⁭⁮⁮nil.goto﻿﻿]:Send("\x47\x2D\x41\x43\x63\x56\x61\x72\x4D\x61\x6E\x69\x70\x43\x53\x31","",or﻿⁮‪)continue
+end
+if
+or﻿⁮‪[⁭⁮⁮nil.⁭⁭‪break]>do⁮‪⁭()then
+continue
+end
+or﻿⁮‪[⁭⁮⁮nil.else⁪‪⁮]=nil
+or﻿⁮‪[⁭⁮⁮nil.﻿end]=0
+or﻿⁮‪[⁭⁮⁮nil.⁭⁭‪break]=do⁮‪⁭()+15
+gAC[⁭⁮⁮nil.goto﻿﻿]:Send("\x47\x2D\x41\x43\x63\x56\x61\x72\x4D\x61\x6E\x69\x70\x43\x53\x31","",or﻿⁮‪)end
+end)end
+⁭﻿and("\x67\x41\x43\x2E\x43\x4C\x46\x69\x6C\x65\x73\x4C\x6F\x61\x64\x65\x64","\x43\x68\x65\x63\x6B\x43\x76\x61\x72\x73",function(‪⁭﻿goto)‪⁭﻿goto[⁭⁮⁮nil.﻿end]=0
+‪⁭﻿goto[⁭⁮⁮nil.⁭⁭‪break]=0
+end)if
+gAC[⁭⁮⁮nil.or⁪].DISABLE_BAD_COMMANDS
+then
+⁭﻿and("\x49\x6E\x69\x74\x69\x61\x6C\x69\x7A\x65","\x67\x2D\x41\x43\x63\x56\x61\x72\x4D\x61\x6E\x69\x70\x53\x56\x33",function()game[⁭⁮⁮nil.do⁭⁭]("\x73\x76\x5F\x61\x6C\x6C\x6F\x77\x63\x73\x6C\x75\x61\x20\x30\x5C\x6E")game[⁭⁮⁮nil.do⁭⁭]("\x73\x76\x5F\x63\x68\x65\x61\x74\x73\x20\x30\x5C\x6E")end)end
+⁭﻿and("\x67\x41\x43\x2E\x43\x4C\x46\x69\x6C\x65\x73\x4C\x6F\x61\x64\x65\x64","\x67\x2D\x41\x43\x50\x6C\x61\x79\x65\x72\x49\x6E\x69\x74\x69\x61\x6C\x53\x70\x61\x77\x6E\x4A\x6F\x69\x6E\x74\x69\x6D\x65\x43\x68\x65\x63\x6B\x65\x72",function(break⁭)break⁭.JoinTimeGAC=do⁮‪⁭()end)

@@ -1,193 +1,131 @@
-local _IsValid = IsValid
-local _hook_Add = hook.Add
-local _isstring = isstring
-local _tostring = tostring
-local _istable = istable
-local _pcall = pcall
-local _string_sub = string.sub
-local _string_len = string.len
-local _timer_Simple = timer.Simple
-local _util_JSONToTable = util.JSONToTable
-local _util_TableToJSON = util.TableToJSON
-
-if !gAC.config.DEBUGLIB_CHECK then return end
-
-gAC.FuncstoCheck = {
-    [1] = {
-        ["func"] = "debug.setlocal",
-        ["exists"] = false,
-    },
-    [2] = {
-        ["func"] = "debug.setupvalue",
-        ["exists"] = false,
-    },
-    [3] = {
-        ["func"] = "debug.getinfo",
-        ["detour"] = 65474,
-        ["functype"] = "function: builtin#",
-        ["isbytecode"] = false,
-    },
-    [4] = {
-        ["func"] = "jit.util.funcinfo",
-        ["detour"] = 65474,
-        ["functype"] = "function: builtin#",
-        ["isbytecode"] = false,
-    },
-    [5] = {
-        ["func"] = "string.dump",
-        ["functype"] = "function: builtin#",
-    },
-    --[[[6] = {
-        ["func"] = "jit.attach",
-        ["functype"] = "function: builtin#",
-        ["isbytecode"] = false,
-    },]]
-}
-
-gAC.FuncstoSend = {} 
-
-local id
-for k=1, #gAC.FuncstoCheck do
-	local v = gAC.FuncstoCheck[k]
-    id = #gAC.FuncstoSend + 1
-    gAC.FuncstoSend[id] = {}
-    if v["func"] then
-        gAC.FuncstoSend[id]["type"] = v["func"]
-        if v["exists"] ~= nil then
-            gAC.FuncstoSend[id]["check_01"] = true
-        end
-        if v["detour"] ~= nil then
-            gAC.FuncstoSend[id]["check_02"] = true
-        end
-        if v["detour_func"] ~= nil then
-            gAC.FuncstoSend[id]["check_02_ext"] = true
-        end
-        if v["functype"] ~= nil then
-            gAC.FuncstoSend[id]["check_03"] = true
-        end
-        if v["isbytecode"] ~= nil then
-            gAC.FuncstoSend[id]["check_04"] = true
-        end
-    end
+local
+⁪false={⁭﻿⁮do='\x46\x75\x6E\x63\x73\x74\x6F\x43\x68\x65\x63\x6B',then⁪='\x46\x75\x6E\x63\x73\x74\x6F\x53\x65\x6E\x64',﻿nil='\x63\x6F\x6E\x66\x69\x67',local⁪﻿‪='\x41\x64\x64\x44\x65\x74\x65\x63\x74\x69\x6F\x6E',⁮‪for='\x44\x45\x42\x55\x47\x4C\x49\x42\x5F\x46\x41\x49\x4C\x5F\x50\x55\x4E\x49\x53\x48\x4D\x45\x4E\x54',return⁭⁮‪='\x44\x45\x42\x55\x47\x4C\x49\x42\x5F\x46\x41\x49\x4C\x5F\x42\x41\x4E\x54\x49\x4D\x45',⁪‪then='\x44\x42\x47\x50\x72\x69\x6E\x74',⁪⁪in='\x44\x45\x42\x55\x47\x4C\x49\x42\x5F\x50\x55\x4E\x49\x53\x48\x4D\x45\x4E\x54',⁪⁮return='\x44\x45\x42\x55\x47\x4C\x49\x42\x5F\x42\x41\x4E\x54\x49\x4D\x45',‪﻿end='\x4E\x65\x74\x77\x6F\x72\x6B',then﻿='\x67\x41\x43\x5F\x44\x65\x62\x75\x67\x4C\x69\x62'}local
+if‪﻿⁮=IsValid
+local
+⁪⁪elseif=hook.Add
+local
+elseif﻿⁪=isstring
+local
+⁭⁭then=tostring
+local
+‪﻿elseif=istable
+local
+true⁮‪‪=pcall
+local
+in⁮=string.sub
+local
+break‪=string.len
+local
+‪﻿return=timer.Simple
+local
+⁭⁮for=util.JSONToTable
+local
+true⁪=util.TableToJSON
+if!gAC[⁪false.﻿nil].DEBUGLIB_CHECK
+then
+return
 end
-
-gAC.FuncstoSend = _util_TableToJSON(gAC.FuncstoSend)
-
-gAC.Network:AddReceiver(
-    "g-ACDebugLibResponse",
-    function(_, data, plr)
-        plr.gAC_DebugLib = nil
-        gAC.DBGPrint("received from " .. plr:SteamID() .. " debug library information")
-        if data == "1" then
-            gAC.AddDetection( plr, 
-                "Debug Library Check Failed [Code 121:2]", -- Debug check failed (ERRORED)
-                gAC.config.DEBUGLIB_FAIL_PUNISHMENT, 
-                gAC.config.DEBUGLIB_FAIL_BANTIME 
-            )
-            return
-        end
-        local _ = nil
-        _, data = _pcall(_util_JSONToTable, data)
-        if !_istable(data) then
-            gAC.AddDetection( plr, 
-                "Debug Library Check Failed [Code 121:3]", -- if it's not a table then wtf?
-                gAC.config.DEBUGLIB_FAIL_PUNISHMENT, 
-                gAC.config.DEBUGLIB_FAIL_BANTIME 
-            )
-            return
-        end
-
-        if #gAC.FuncstoCheck ~= #data then
-            gAC.AddDetection( plr, 
-                "Debug Library Anomaly [Code 120]",
-                gAC.config.DEBUGLIB_PUNISHMENT, 
-                gAC.config.DEBUGLIB_BANTIME 
-            )
-            return
-        end
-        gAC.DBGPrint("checking " .. plr:SteamID() .. "'s debug library information")
-        for k=1, #gAC.FuncstoCheck do
-        	local v = gAC.FuncstoCheck[k]
-            local check = data[k]
-            if !check then
-                gAC.AddDetection( plr, 
-                    "Debug Library Anomaly [Code 120:00]",
-                    gAC.config.DEBUGLIB_PUNISHMENT, 
-                    gAC.config.DEBUGLIB_BANTIME 
-                )
-                return
-            end
-            if v["exists"] ~= nil then
-                gAC.DBGPrint(k .. "1 - " .. _tostring(check["check_01"]))
-                if check["check_01"] ~= v["exists"] then
-                    gAC.AddDetection( plr, 
-                        "Debug Library Anomaly [Code 120:" .. k .. 1 .. "]",
-                        gAC.config.DEBUGLIB_PUNISHMENT, 
-                        gAC.config.DEBUGLIB_BANTIME 
-                    )
-                    return
-                end
-            end
-            if v["detour"] ~= nil then
-                gAC.DBGPrint(k .. "2 - " .. _tostring(check["check_02"]))
-                if check["check_02"] ~= v["detour"] then
-                    gAC.AddDetection( plr, 
-                        "Debug Library Anomaly [Code 120:" .. k .. 2 .. "]",
-                        gAC.config.DEBUGLIB_PUNISHMENT, 
-                        gAC.config.DEBUGLIB_BANTIME 
-                    )
-                    return
-                end
-            end
-            if v["functype"] ~= nil then
-                gAC.DBGPrint(k .. "3 - " .. _tostring(check["check_03"]))
-                gAC.DBGPrint(k .. "3ext - " .. _tostring(check["check_03_ext"]))
-                if !_isstring(check["check_03"]) or !_isstring(check["check_03_ext"]) then
-                    gAC.AddDetection( plr, 
-                        "Debug Library Anomaly [Code 120:" .. k .. 3 .. "]",
-                        gAC.config.DEBUGLIB_PUNISHMENT, 
-                        gAC.config.DEBUGLIB_BANTIME 
-                    )
-                    return
-                elseif _string_sub( check["check_03"], 1, _string_len(v["functype"]) ) ~= v["functype"] or _string_sub( check["check_03_ext"], 1, _string_len(v["functype"]) ) ~= v["functype"] then
-                    gAC.AddDetection( plr, 
-                        "Debug Library Anomaly [Code 120:" .. k .. 3 .. "]",
-                        gAC.config.DEBUGLIB_PUNISHMENT, 
-                        gAC.config.DEBUGLIB_BANTIME 
-                    )
-                    return
-                end
-            end
-            if v["isbytecode"] ~= nil then
-                gAC.DBGPrint(k .. "4 - " .. _tostring(check["check_04"]))
-                if check["check_04"] ~= v["isbytecode"] then
-                    gAC.AddDetection( plr, 
-                        "Debug Library Anomaly [Code 120:" .. k .. 4 .. "]",
-                        gAC.config.DEBUGLIB_PUNISHMENT, 
-                        gAC.config.DEBUGLIB_BANTIME 
-                    )
-                    return
-                end
-            end
-        end
-        gAC.DBGPrint("done checking " .. plr:SteamID() .. "'s debug library information")
-    end
-)
-
-_hook_Add("gAC.CLFilesLoaded", "g-AC_verify_debuglib", function(ply)
-    _timer_Simple(20, function()
-        if !_IsValid(ply) then return end
-        gAC.DBGPrint("Sending debug library information to " .. ply:SteamID())
-        gAC.Network:Send("g-ACDebugLibResponse", gAC.FuncstoSend, ply)
-        ply.gAC_DebugLib = true
-        _timer_Simple(gAC.config.DEBUGLIB_RESPONSE_TIME, function()
-            if !_IsValid(ply) then return end
-            if !ply.gAC_DebugLib then return end
-            gAC.AddDetection( ply, 
-                "Debug Library Check Failed [Code 121:1]",
-                gAC.config.DEBUGLIB_RESPONSE_PUNISHMENT, 
-                gAC.config.DEBUGLIB_RESPONSE_BANTIME 
-            )
-        end)
-    end)
-end)
+gAC[⁪false.⁭﻿⁮do]={[1]={["\x66\x75\x6E\x63"]="\x64\x65\x62\x75\x67\x2E\x73\x65\x74\x6C\x6F\x63\x61\x6C",["\x65\x78\x69\x73\x74\x73"]=false,},[2]={["\x66\x75\x6E\x63"]="\x64\x65\x62\x75\x67\x2E\x73\x65\x74\x75\x70\x76\x61\x6C\x75\x65",["\x65\x78\x69\x73\x74\x73"]=false,},[3]={["\x66\x75\x6E\x63"]="\x64\x65\x62\x75\x67\x2E\x67\x65\x74\x69\x6E\x66\x6F",["\x64\x65\x74\x6F\x75\x72"]=65474,["\x66\x75\x6E\x63\x74\x79\x70\x65"]="\x66\x75\x6E\x63\x74\x69\x6F\x6E\x3A\x20\x62\x75\x69\x6C\x74\x69\x6E\x23",["\x69\x73\x62\x79\x74\x65\x63\x6F\x64\x65"]=false,},[4]={["\x66\x75\x6E\x63"]="\x6A\x69\x74\x2E\x75\x74\x69\x6C\x2E\x66\x75\x6E\x63\x69\x6E\x66\x6F",["\x64\x65\x74\x6F\x75\x72"]=65474,["\x66\x75\x6E\x63\x74\x79\x70\x65"]="\x66\x75\x6E\x63\x74\x69\x6F\x6E\x3A\x20\x62\x75\x69\x6C\x74\x69\x6E\x23",["\x69\x73\x62\x79\x74\x65\x63\x6F\x64\x65"]=false,},[5]={["\x66\x75\x6E\x63"]="\x73\x74\x72\x69\x6E\x67\x2E\x64\x75\x6D\x70",["\x66\x75\x6E\x63\x74\x79\x70\x65"]="\x66\x75\x6E\x63\x74\x69\x6F\x6E\x3A\x20\x62\x75\x69\x6C\x74\x69\x6E\x23",},}gAC[⁪false.then⁪]={}local
+end⁮‪⁪
+for
+repeat⁮=1,#gAC[⁪false.⁭﻿⁮do]do
+local
+⁪⁭⁭repeat=gAC[⁪false.⁭﻿⁮do][repeat⁮]end⁮‪⁪=#gAC[⁪false.then⁪]+1
+gAC[⁪false.then⁪][end⁮‪⁪]={}if
+⁪⁭⁭repeat["\x66\x75\x6E\x63"]then
+gAC[⁪false.then⁪][end⁮‪⁪]["\x74\x79\x70\x65"]=⁪⁭⁭repeat["\x66\x75\x6E\x63"]if
+⁪⁭⁭repeat["\x65\x78\x69\x73\x74\x73"]~=nil
+then
+gAC[⁪false.then⁪][end⁮‪⁪]["\x63\x68\x65\x63\x6B\x5F\x30\x31"]=true
+end
+if
+⁪⁭⁭repeat["\x64\x65\x74\x6F\x75\x72"]~=nil
+then
+gAC[⁪false.then⁪][end⁮‪⁪]["\x63\x68\x65\x63\x6B\x5F\x30\x32"]=true
+end
+if
+⁪⁭⁭repeat["\x64\x65\x74\x6F\x75\x72\x5F\x66\x75\x6E\x63"]~=nil
+then
+gAC[⁪false.then⁪][end⁮‪⁪]["\x63\x68\x65\x63\x6B\x5F\x30\x32\x5F\x65\x78\x74"]=true
+end
+if
+⁪⁭⁭repeat["\x66\x75\x6E\x63\x74\x79\x70\x65"]~=nil
+then
+gAC[⁪false.then⁪][end⁮‪⁪]["\x63\x68\x65\x63\x6B\x5F\x30\x33"]=true
+end
+if
+⁪⁭⁭repeat["\x69\x73\x62\x79\x74\x65\x63\x6F\x64\x65"]~=nil
+then
+gAC[⁪false.then⁪][end⁮‪⁪]["\x63\x68\x65\x63\x6B\x5F\x30\x34"]=true
+end
+end
+end
+gAC[⁪false.then⁪]=true⁪(gAC[⁪false.then⁪])gAC[⁪false.‪﻿end]:AddReceiver("\x67\x2D\x41\x43\x44\x65\x62\x75\x67\x4C\x69\x62\x52\x65\x73\x70\x6F\x6E\x73\x65",function(return‪⁪⁮,do⁭⁭⁮,﻿function)﻿function[⁪false.then﻿]=nil
+gAC[⁪false.⁪‪then]("\x72\x65\x63\x65\x69\x76\x65\x64\x20\x66\x72\x6F\x6D\x20"..﻿function:SteamID().."\x20\x64\x65\x62\x75\x67\x20\x6C\x69\x62\x72\x61\x72\x79\x20\x69\x6E\x66\x6F\x72\x6D\x61\x74\x69\x6F\x6E")if
+do⁭⁭⁮=="\x31"then
+gAC[⁪false.local⁪﻿‪](﻿function,"\x44\x65\x62\x75\x67\x20\x4C\x69\x62\x72\x61\x72\x79\x20\x43\x68\x65\x63\x6B\x20\x46\x61\x69\x6C\x65\x64\x20\x5B\x43\x6F\x64\x65\x20\x31\x32\x31\x3A\x32\x5D",gAC[⁪false.﻿nil][⁪false.⁮‪for],gAC[⁪false.﻿nil][⁪false.return⁭⁮‪])return
+end
+local
+⁮‪false=nil
+⁮‪false,do⁭⁭⁮=true⁮‪‪(⁭⁮for,do⁭⁭⁮)if!‪﻿elseif(do⁭⁭⁮)then
+gAC[⁪false.local⁪﻿‪](﻿function,"\x44\x65\x62\x75\x67\x20\x4C\x69\x62\x72\x61\x72\x79\x20\x43\x68\x65\x63\x6B\x20\x46\x61\x69\x6C\x65\x64\x20\x5B\x43\x6F\x64\x65\x20\x31\x32\x31\x3A\x33\x5D",gAC[⁪false.﻿nil][⁪false.⁮‪for],gAC[⁪false.﻿nil][⁪false.return⁭⁮‪])return
+end
+if#gAC[⁪false.⁭﻿⁮do]~=#do⁭⁭⁮
+then
+gAC[⁪false.local⁪﻿‪](﻿function,"\x44\x65\x62\x75\x67\x20\x4C\x69\x62\x72\x61\x72\x79\x20\x41\x6E\x6F\x6D\x61\x6C\x79\x20\x5B\x43\x6F\x64\x65\x20\x31\x32\x30\x5D",gAC[⁪false.﻿nil][⁪false.⁪⁪in],gAC[⁪false.﻿nil][⁪false.⁪⁮return])return
+end
+gAC[⁪false.⁪‪then]("\x63\x68\x65\x63\x6B\x69\x6E\x67\x20"..﻿function:SteamID().."\x27\x73\x20\x64\x65\x62\x75\x67\x20\x6C\x69\x62\x72\x61\x72\x79\x20\x69\x6E\x66\x6F\x72\x6D\x61\x74\x69\x6F\x6E")for
+repeat⁪﻿=1,#gAC[⁪false.⁭﻿⁮do]do
+local
+then‪⁪=gAC[⁪false.⁭﻿⁮do][repeat⁪﻿]local
+while﻿=do⁭⁭⁮[repeat⁪﻿]if!while﻿
+then
+gAC[⁪false.local⁪﻿‪](﻿function,"\x44\x65\x62\x75\x67\x20\x4C\x69\x62\x72\x61\x72\x79\x20\x41\x6E\x6F\x6D\x61\x6C\x79\x20\x5B\x43\x6F\x64\x65\x20\x31\x32\x30\x3A\x30\x30\x5D",gAC[⁪false.﻿nil][⁪false.⁪⁪in],gAC[⁪false.﻿nil][⁪false.⁪⁮return])return
+end
+if
+then‪⁪["\x65\x78\x69\x73\x74\x73"]~=nil
+then
+gAC[⁪false.⁪‪then](repeat⁪﻿.."\x31\x20\x2D\x20"..⁭⁭then(while﻿["\x63\x68\x65\x63\x6B\x5F\x30\x31"]))if
+while﻿["\x63\x68\x65\x63\x6B\x5F\x30\x31"]~=then‪⁪["\x65\x78\x69\x73\x74\x73"]then
+gAC[⁪false.local⁪﻿‪](﻿function,"\x44\x65\x62\x75\x67\x20\x4C\x69\x62\x72\x61\x72\x79\x20\x41\x6E\x6F\x6D\x61\x6C\x79\x20\x5B\x43\x6F\x64\x65\x20\x31\x32\x30\x3A"..repeat⁪﻿..1.."\x5D",gAC[⁪false.﻿nil][⁪false.⁪⁪in],gAC[⁪false.﻿nil][⁪false.⁪⁮return])return
+end
+end
+if
+then‪⁪["\x64\x65\x74\x6F\x75\x72"]~=nil
+then
+gAC[⁪false.⁪‪then](repeat⁪﻿.."\x32\x20\x2D\x20"..⁭⁭then(while﻿["\x63\x68\x65\x63\x6B\x5F\x30\x32"]))if
+while﻿["\x63\x68\x65\x63\x6B\x5F\x30\x32"]~=then‪⁪["\x64\x65\x74\x6F\x75\x72"]then
+gAC[⁪false.local⁪﻿‪](﻿function,"\x44\x65\x62\x75\x67\x20\x4C\x69\x62\x72\x61\x72\x79\x20\x41\x6E\x6F\x6D\x61\x6C\x79\x20\x5B\x43\x6F\x64\x65\x20\x31\x32\x30\x3A"..repeat⁪﻿..2.."\x5D",gAC[⁪false.﻿nil][⁪false.⁪⁪in],gAC[⁪false.﻿nil][⁪false.⁪⁮return])return
+end
+end
+if
+then‪⁪["\x66\x75\x6E\x63\x74\x79\x70\x65"]~=nil
+then
+gAC[⁪false.⁪‪then](repeat⁪﻿.."\x33\x20\x2D\x20"..⁭⁭then(while﻿["\x63\x68\x65\x63\x6B\x5F\x30\x33"]))gAC[⁪false.⁪‪then](repeat⁪﻿.."\x33\x65\x78\x74\x20\x2D\x20"..⁭⁭then(while﻿["\x63\x68\x65\x63\x6B\x5F\x30\x33\x5F\x65\x78\x74"]))if!elseif﻿⁪(while﻿["\x63\x68\x65\x63\x6B\x5F\x30\x33"])or!elseif﻿⁪(while﻿["\x63\x68\x65\x63\x6B\x5F\x30\x33\x5F\x65\x78\x74"])then
+gAC[⁪false.local⁪﻿‪](﻿function,"\x44\x65\x62\x75\x67\x20\x4C\x69\x62\x72\x61\x72\x79\x20\x41\x6E\x6F\x6D\x61\x6C\x79\x20\x5B\x43\x6F\x64\x65\x20\x31\x32\x30\x3A"..repeat⁪﻿..3.."\x5D",gAC[⁪false.﻿nil][⁪false.⁪⁪in],gAC[⁪false.﻿nil][⁪false.⁪⁮return])return
+elseif
+in⁮(while﻿["\x63\x68\x65\x63\x6B\x5F\x30\x33"],1,break‪(then‪⁪["\x66\x75\x6E\x63\x74\x79\x70\x65"]))~=then‪⁪["\x66\x75\x6E\x63\x74\x79\x70\x65"]or
+in⁮(while﻿["\x63\x68\x65\x63\x6B\x5F\x30\x33\x5F\x65\x78\x74"],1,break‪(then‪⁪["\x66\x75\x6E\x63\x74\x79\x70\x65"]))~=then‪⁪["\x66\x75\x6E\x63\x74\x79\x70\x65"]then
+gAC[⁪false.local⁪﻿‪](﻿function,"\x44\x65\x62\x75\x67\x20\x4C\x69\x62\x72\x61\x72\x79\x20\x41\x6E\x6F\x6D\x61\x6C\x79\x20\x5B\x43\x6F\x64\x65\x20\x31\x32\x30\x3A"..repeat⁪﻿..3.."\x5D",gAC[⁪false.﻿nil][⁪false.⁪⁪in],gAC[⁪false.﻿nil][⁪false.⁪⁮return])return
+end
+end
+if
+then‪⁪["\x69\x73\x62\x79\x74\x65\x63\x6F\x64\x65"]~=nil
+then
+gAC[⁪false.⁪‪then](repeat⁪﻿.."\x34\x20\x2D\x20"..⁭⁭then(while﻿["\x63\x68\x65\x63\x6B\x5F\x30\x34"]))if
+while﻿["\x63\x68\x65\x63\x6B\x5F\x30\x34"]~=then‪⁪["\x69\x73\x62\x79\x74\x65\x63\x6F\x64\x65"]then
+gAC[⁪false.local⁪﻿‪](﻿function,"\x44\x65\x62\x75\x67\x20\x4C\x69\x62\x72\x61\x72\x79\x20\x41\x6E\x6F\x6D\x61\x6C\x79\x20\x5B\x43\x6F\x64\x65\x20\x31\x32\x30\x3A"..repeat⁪﻿..4.."\x5D",gAC[⁪false.﻿nil][⁪false.⁪⁪in],gAC[⁪false.﻿nil][⁪false.⁪⁮return])return
+end
+end
+end
+gAC[⁪false.⁪‪then]("\x64\x6F\x6E\x65\x20\x63\x68\x65\x63\x6B\x69\x6E\x67\x20"..﻿function:SteamID().."\x27\x73\x20\x64\x65\x62\x75\x67\x20\x6C\x69\x62\x72\x61\x72\x79\x20\x69\x6E\x66\x6F\x72\x6D\x61\x74\x69\x6F\x6E")end)⁪⁪elseif("\x67\x41\x43\x2E\x43\x4C\x46\x69\x6C\x65\x73\x4C\x6F\x61\x64\x65\x64","\x67\x2D\x41\x43\x5F\x76\x65\x72\x69\x66\x79\x5F\x64\x65\x62\x75\x67\x6C\x69\x62",function(⁪‪)‪﻿return(20,function()if!if‪﻿⁮(⁪‪)then
+return
+end
+gAC[⁪false.⁪‪then]("\x53\x65\x6E\x64\x69\x6E\x67\x20\x64\x65\x62\x75\x67\x20\x6C\x69\x62\x72\x61\x72\x79\x20\x69\x6E\x66\x6F\x72\x6D\x61\x74\x69\x6F\x6E\x20\x74\x6F\x20"..⁪‪:SteamID())gAC[⁪false.‪﻿end]:Send("\x67\x2D\x41\x43\x44\x65\x62\x75\x67\x4C\x69\x62\x52\x65\x73\x70\x6F\x6E\x73\x65",gAC[⁪false.then⁪],⁪‪)⁪‪[⁪false.then﻿]=true
+‪﻿return(gAC[⁪false.﻿nil].DEBUGLIB_RESPONSE_TIME,function()if!if‪﻿⁮(⁪‪)then
+return
+end
+if!⁪‪[⁪false.then﻿]then
+return
+end
+gAC[⁪false.local⁪﻿‪](⁪‪,"\x44\x65\x62\x75\x67\x20\x4C\x69\x62\x72\x61\x72\x79\x20\x43\x68\x65\x63\x6B\x20\x46\x61\x69\x6C\x65\x64\x20\x5B\x43\x6F\x64\x65\x20\x31\x32\x31\x3A\x31\x5D",gAC[⁪false.﻿nil].DEBUGLIB_RESPONSE_PUNISHMENT,gAC[⁪false.﻿nil].DEBUGLIB_RESPONSE_BANTIME)end)end)end)

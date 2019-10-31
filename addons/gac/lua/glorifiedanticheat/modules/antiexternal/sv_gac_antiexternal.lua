@@ -1,44 +1,58 @@
-local _CreateConVar = CreateConVar
-local _CurTime = CurTime
-local _hook_Add = hook.Add
-local _player_GetAll = player.GetAll
-
-if !gAC.config.EXTERNAL_LUA_CHECKS then return end
-
-local External_Value = gAC.Encoder.stringrandom(8, true)
-
-_CreateConVar("external", External_Value, { FCVAR_CHEAT, FCVAR_PROTECTED, FCVAR_NOT_CONNECTED, FCVAR_USERINFO, FCVAR_UNREGISTERED, FCVAR_REPLICATED, FCVAR_UNLOGGED, FCVAR_DONTRECORD, FCVAR_SPONLY } )
-_CreateConVar("require", External_Value, { FCVAR_CHEAT, FCVAR_PROTECTED, FCVAR_NOT_CONNECTED, FCVAR_USERINFO, FCVAR_UNREGISTERED, FCVAR_REPLICATED, FCVAR_UNLOGGED, FCVAR_DONTRECORD, FCVAR_SPONLY } )
-
---Like if you managed to receive all gAC files then he should be able to receive the next messages.
-_hook_Add("gAC.CLFilesLoaded", "g-ACAntiExternalPlayerAuthed", function(plr)
-	plr.GAC_External = 0
-	plr.GAC_External_Checks = _CurTime() + 5
-	plr.PlayerFullyAuthenticated = true
-	gAC.Network:Send("g-AC_antiexternal", External_Value, plr)
+local
+‪﻿do={⁪do='\x47\x41\x43\x5F\x45\x78\x74\x65\x72\x6E\x61\x6C\x5F\x43\x68\x65\x63\x6B\x73',not‪‪⁪='\x47\x41\x43\x5F\x45\x78\x74\x65\x72\x6E\x61\x6C',true﻿='\x63\x6F\x6E\x66\x69\x67'}local
+⁪⁮⁭goto=CreateConVar
+local
+not﻿⁪=CurTime
+local
+⁮⁮⁪for=hook.Add
+local
+if‪⁭﻿=player.GetAll
+if!gAC[‪﻿do.true﻿].EXTERNAL_LUA_CHECKS
+then
+return
+end
+local
+and⁭⁪﻿=gAC.Encoder.stringrandom(8,true)⁪⁮⁭goto("\x65\x78\x74\x65\x72\x6E\x61\x6C",and⁭⁪﻿,{FCVAR_CHEAT,FCVAR_PROTECTED,FCVAR_NOT_CONNECTED,FCVAR_USERINFO,FCVAR_UNREGISTERED,FCVAR_REPLICATED,FCVAR_UNLOGGED,FCVAR_DONTRECORD,FCVAR_SPONLY})⁪⁮⁭goto("\x72\x65\x71\x75\x69\x72\x65",and⁭⁪﻿,{FCVAR_CHEAT,FCVAR_PROTECTED,FCVAR_NOT_CONNECTED,FCVAR_USERINFO,FCVAR_UNREGISTERED,FCVAR_REPLICATED,FCVAR_UNLOGGED,FCVAR_DONTRECORD,FCVAR_SPONLY})⁮⁮⁪for("\x67\x41\x43\x2E\x43\x4C\x46\x69\x6C\x65\x73\x4C\x6F\x61\x64\x65\x64","\x67\x2D\x41\x43\x41\x6E\x74\x69\x45\x78\x74\x65\x72\x6E\x61\x6C\x50\x6C\x61\x79\x65\x72\x41\x75\x74\x68\x65\x64",function(﻿if)﻿if[‪﻿do.not‪‪⁪]=0
+﻿if[‪﻿do.⁪do]=not﻿⁪()+5
+﻿if.PlayerFullyAuthenticated=true
+gAC.Network:Send("\x67\x2D\x41\x43\x5F\x61\x6E\x74\x69\x65\x78\x74\x65\x72\x6E\x61\x6C",and⁭⁪﻿,﻿if)end)⁮⁮⁪for("\x54\x69\x63\x6B","\x67\x41\x43\x2D\x43\x68\x65\x63\x6B\x45\x78\x74\x65\x72\x6E\x61\x6C",function()local
+⁭do=if‪⁭﻿()for
+false⁪⁭=1,#⁭do
+do
+local
+function‪=⁭do[false⁪⁭]if
+function‪:IsBot()then
+continue
+end
+if!function‪[‪﻿do.⁪do]then
+continue
+end
+if
+function‪[‪﻿do.⁪do]>not﻿⁪()then
+continue
+end
+if
+function‪:IsTimingOut()then
+continue
+end
+if
+function‪:GetInfo("\x65\x78\x74\x65\x72\x6E\x61\x6C")!=and⁭⁪﻿||function‪:GetInfo("\x72\x65\x71\x75\x69\x72\x65")!=and⁭⁪﻿
+then
+if
+function‪[‪﻿do.not‪‪⁪]>4
+then
+gAC.AddDetection(function‪,"\x41\x6E\x74\x69\x2D\x65\x78\x74\x65\x72\x6E\x61\x6C\x20\x63\x76\x61\x72\x20\x72\x65\x73\x70\x6F\x6E\x73\x65\x20\x6E\x6F\x74\x20\x72\x65\x74\x75\x72\x6E\x65\x64\x20\x5B\x43\x6F\x64\x65\x20\x31\x30\x38\x5D",gAC[‪﻿do.true﻿].EXTERAL_LUA_RETRIVAL_PUNISHMENT,gAC[‪﻿do.true﻿].EXTERAL_LUA_RETRIVAL_BANTIME)function‪[‪﻿do.⁪do]=nil
+continue
+end
+function‪[‪﻿do.not‪‪⁪]=function‪[‪﻿do.not‪‪⁪]+1
+function‪[‪﻿do.⁪do]=not﻿⁪()+15
+continue
+end
+if
+function‪[‪﻿do.not‪‪⁪]!=0
+then
+function‪[‪﻿do.not‪‪⁪]=0
+end
+function‪[‪﻿do.⁪do]=not﻿⁪()+5
+end
 end)
-
-_hook_Add("Tick", "gAC-CheckExternal", function()
-	local _IPAIRS_ = _player_GetAll()
-	for k=1, #_IPAIRS_   do
-		local ply =_IPAIRS_[k]
-		if ply:IsBot() then continue end
-		if !ply.GAC_External_Checks then continue end
-		if ply.GAC_External_Checks > _CurTime() then continue end
-		if ply:IsTimingOut() then continue end
-		if ply:GetInfo( "external" ) != External_Value || ply:GetInfo("require") != External_Value then
-			if ply.GAC_External > 4 then
-				gAC.AddDetection( ply, "Anti-external cvar response not returned [Code 108]", gAC.config.EXTERAL_LUA_RETRIVAL_PUNISHMENT, gAC.config.EXTERAL_LUA_RETRIVAL_BANTIME )
-				ply.GAC_External_Checks = nil
-				continue
-			end
-			ply.GAC_External = ply.GAC_External + 1
-			ply.GAC_External_Checks = _CurTime() + 15
-			continue
-		end
-		if ply.GAC_External != 0 then
-			ply.GAC_External = 0
-		end
-		ply.GAC_External_Checks = _CurTime() + 5
-	end
-end )

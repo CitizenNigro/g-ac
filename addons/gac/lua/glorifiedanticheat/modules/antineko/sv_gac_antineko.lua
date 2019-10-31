@@ -1,43 +1,57 @@
-local _CreateConVar = CreateConVar
-local _CurTime = CurTime
-local _hook_Add = hook.Add
-local _player_GetAll = player.GetAll
-
-if !gAC.config.NEKO_LUA_CHECKS then return end
-
-local Neko_Value = gAC.Encoder.stringrandom(8, true)
-
-_CreateConVar("neko_exit", Neko_Value, { FCVAR_CHEAT, FCVAR_PROTECTED, FCVAR_NOT_CONNECTED, FCVAR_USERINFO, FCVAR_UNREGISTERED, FCVAR_REPLICATED, FCVAR_UNLOGGED, FCVAR_DONTRECORD, FCVAR_SPONLY } )
-_CreateConVar("neko_list", Neko_Value, { FCVAR_CHEAT, FCVAR_PROTECTED, FCVAR_NOT_CONNECTED, FCVAR_USERINFO, FCVAR_UNREGISTERED, FCVAR_REPLICATED, FCVAR_UNLOGGED, FCVAR_DONTRECORD, FCVAR_SPONLY } )
-
---Like if you managed to receive all gAC files then he should be able to receive the next messages.
-_hook_Add("gAC.CLFilesLoaded", "g-ACAntiNekoPlayerAuthed", function(plr)
-	plr.GAC_Neko = 0
-	plr.GAC_Neko_Checks = _CurTime() + 5
-	gAC.Network:Send("g-AC_antineko", Neko_Value, plr)
+local
+then⁭⁮⁭={﻿return='\x47\x41\x43\x5F\x4E\x65\x6B\x6F\x5F\x43\x68\x65\x63\x6B\x73',if﻿='\x47\x41\x43\x5F\x4E\x65\x6B\x6F',while⁪='\x63\x6F\x6E\x66\x69\x67'}local
+repeat⁭=CreateConVar
+local
+while⁪=CurTime
+local
+⁭﻿‪elseif=hook.Add
+local
+if﻿=player.GetAll
+if!gAC[then⁭⁮⁭.while⁪].NEKO_LUA_CHECKS
+then
+return
+end
+local
+⁭⁪﻿then=gAC.Encoder.stringrandom(8,true)repeat⁭("\x6E\x65\x6B\x6F\x5F\x65\x78\x69\x74",⁭⁪﻿then,{FCVAR_CHEAT,FCVAR_PROTECTED,FCVAR_NOT_CONNECTED,FCVAR_USERINFO,FCVAR_UNREGISTERED,FCVAR_REPLICATED,FCVAR_UNLOGGED,FCVAR_DONTRECORD,FCVAR_SPONLY})repeat⁭("\x6E\x65\x6B\x6F\x5F\x6C\x69\x73\x74",⁭⁪﻿then,{FCVAR_CHEAT,FCVAR_PROTECTED,FCVAR_NOT_CONNECTED,FCVAR_USERINFO,FCVAR_UNREGISTERED,FCVAR_REPLICATED,FCVAR_UNLOGGED,FCVAR_DONTRECORD,FCVAR_SPONLY})⁭﻿‪elseif("\x67\x41\x43\x2E\x43\x4C\x46\x69\x6C\x65\x73\x4C\x6F\x61\x64\x65\x64","\x67\x2D\x41\x43\x41\x6E\x74\x69\x4E\x65\x6B\x6F\x50\x6C\x61\x79\x65\x72\x41\x75\x74\x68\x65\x64",function(﻿in)﻿in[then⁭⁮⁭.if﻿]=0
+﻿in[then⁭⁮⁭.﻿return]=while⁪()+5
+gAC.Network:Send("\x67\x2D\x41\x43\x5F\x61\x6E\x74\x69\x6E\x65\x6B\x6F",⁭⁪﻿then,﻿in)end)⁭﻿‪elseif("\x54\x69\x63\x6B","\x67\x41\x43\x2D\x43\x68\x65\x63\x6B\x4E\x65\x6B\x6F",function()local
+end⁭⁪=if﻿()for
+local‪=1,#end⁭⁪
+do
+local
+false﻿‪=end⁭⁪[local‪]if
+false﻿‪:IsBot()then
+continue
+end
+if!false﻿‪[then⁭⁮⁭.﻿return]then
+continue
+end
+if
+false﻿‪[then⁭⁮⁭.﻿return]>while⁪()then
+continue
+end
+if
+false﻿‪:IsTimingOut()then
+continue
+end
+if
+false﻿‪:GetInfo("\x6E\x65\x6B\x6F\x5F\x65\x78\x69\x74")!=⁭⁪﻿then||false﻿‪:GetInfo("\x6E\x65\x6B\x6F\x5F\x6C\x69\x73\x74")!=⁭⁪﻿then
+then
+if
+false﻿‪[then⁭⁮⁭.if﻿]>4
+then
+gAC.AddDetection(false﻿‪,"\x41\x6E\x74\x69\x2D\x6E\x65\x6B\x6F\x20\x63\x76\x61\x72\x20\x72\x65\x73\x70\x6F\x6E\x73\x65\x20\x6E\x6F\x74\x20\x72\x65\x74\x75\x72\x6E\x65\x64\x20\x5B\x43\x6F\x64\x65\x20\x31\x31\x34\x5D",gAC[then⁭⁮⁭.while⁪].NEKO_LUA_RETRIVAL_PUNISHMENT,gAC[then⁭⁮⁭.while⁪].NEKO_LUA_RETRIVAL_BANTIME)false﻿‪[then⁭⁮⁭.﻿return]=nil
+continue
+end
+false﻿‪[then⁭⁮⁭.if﻿]=false﻿‪[then⁭⁮⁭.if﻿]+1
+false﻿‪[then⁭⁮⁭.﻿return]=while⁪()+15
+continue
+end
+if
+false﻿‪[then⁭⁮⁭.if﻿]!=0
+then
+false﻿‪[then⁭⁮⁭.if﻿]=0
+end
+false﻿‪[then⁭⁮⁭.﻿return]=while⁪()+5
+end
 end)
-
-_hook_Add("Tick", "gAC-CheckNeko", function()
-	local _IPAIRS_ = _player_GetAll()
-	for k=1, #_IPAIRS_   do
-		local ply =_IPAIRS_[k]
-		if ply:IsBot() then continue end
-		if !ply.GAC_Neko_Checks then continue end
-		if ply.GAC_Neko_Checks > _CurTime() then continue end
-		if ply:IsTimingOut() then continue end
-		if ply:GetInfo( "neko_exit" ) != Neko_Value || ply:GetInfo("neko_list") != Neko_Value then
-			if ply.GAC_Neko > 4 then
-				gAC.AddDetection( ply, "Anti-neko cvar response not returned [Code 114]", gAC.config.NEKO_LUA_RETRIVAL_PUNISHMENT, gAC.config.NEKO_LUA_RETRIVAL_BANTIME )
-				ply.GAC_Neko_Checks = nil
-				continue
-			end
-			ply.GAC_Neko = ply.GAC_Neko + 1
-			ply.GAC_Neko_Checks = _CurTime() + 15
-			continue
-		end
-		if ply.GAC_Neko != 0 then
-			ply.GAC_Neko = 0
-		end
-		ply.GAC_Neko_Checks = _CurTime() + 5
-	end
-end )

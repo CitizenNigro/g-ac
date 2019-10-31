@@ -1,32 +1,37 @@
-local _CurTime = CurTime
-local _FindMetaTable = FindMetaTable
-local _Vector = Vector
-local _math_random = math.random
-local _math_randomseed = math.randomseed
-local _math_sqrt = math.sqrt
-local _timer_Simple = timer.Simple
-local _type = type
-
-
-if !gAC.config.ANTI_NOSPREAD_CHECKS then return end
-
-_timer_Simple( 5, function()
-    local entityMeta = _FindMetaTable( "Entity" )
-
-    FBFunc = FBFunc or entityMeta.FireBullets
-
-    function entityMeta:FireBullets( bulletInfo, suppressHostEvents )
-        if( !bulletInfo || !bulletInfo.Num || bulletInfo.Num > 1 ) then
-            return FBFunc( self, bulletInfo, suppressHostEvents )
-        end
-
-        local bulletSpread = bulletInfo.Spread
-        if _type( bulletSpread ) == "Vector" then
-            bulletInfo.Spread = vector_origin
-            _math_randomseed( _CurTime() + _math_sqrt( bulletInfo.Dir.x ^ 2 * bulletInfo.Dir.y ^ 2 * bulletInfo.Dir.z ^ 2 ) )
-            bulletInfo.Dir = bulletInfo.Dir + _Vector( bulletSpread.x * ( ( _math_random() * 2.5 ) - 1 ), bulletSpread.y * ( ( _math_random() * 2.5 ) - 1 ), bulletSpread.z * ( ( _math_random() * 2 ) - 1 ) )
-        end
-
-        return FBFunc(self, bulletInfo, suppressHostEvents )
-    end
-end )
+local
+⁮end={nil⁭⁪='\x4E\x75\x6D',⁭﻿⁭repeat='\x53\x70\x72\x65\x61\x64',continue﻿﻿='\x44\x69\x72',⁮﻿﻿then='\x78',‪or='\x79',nil‪﻿⁮='\x7A'}local
+﻿⁮‪=CurTime
+local
+goto⁮=FindMetaTable
+local
+⁮until=Vector
+local
+﻿elseif=math.random
+local
+⁭local=math.randomseed
+local
+until⁭﻿⁪=math.sqrt
+local
+‪‪⁭goto=timer.Simple
+local
+⁭end=type
+if!gAC.config.ANTI_NOSPREAD_CHECKS
+then
+return
+end
+‪‪⁭goto(5,function()local
+or⁪=goto⁮("\x45\x6E\x74\x69\x74\x79")FBFunc=FBFunc
+or
+or⁪.FireBullets
+function
+or⁪:FireBullets(nil‪,local‪⁭⁪)if(!nil‪||!nil‪[⁮end.nil⁭⁪]||nil‪[⁮end.nil⁭⁪]>1)then
+return
+FBFunc(self,nil‪,local‪⁭⁪)end
+local
+‪⁮do=nil‪[⁮end.⁭﻿⁭repeat]if
+⁭end(‪⁮do)=="\x56\x65\x63\x74\x6F\x72"then
+nil‪[⁮end.⁭﻿⁭repeat]=vector_origin
+⁭local(﻿⁮‪()+until⁭﻿⁪(nil‪[⁮end.continue﻿﻿][⁮end.⁮﻿﻿then]^2*nil‪[⁮end.continue﻿﻿][⁮end.‪or]^2*nil‪[⁮end.continue﻿﻿][⁮end.nil‪﻿⁮]^2))nil‪[⁮end.continue﻿﻿]=nil‪[⁮end.continue﻿﻿]+⁮until(‪⁮do[⁮end.⁮﻿﻿then]*((﻿elseif()*2.5)-1),‪⁮do[⁮end.‪or]*((﻿elseif()*2.5)-1),‪⁮do[⁮end.nil‪﻿⁮]*((﻿elseif()*2)-1))end
+return
+FBFunc(self,nil‪,local‪⁭⁪)end
+end)

@@ -1,18 +1,17 @@
-local _CurTime = CurTime
-local _hook_Add = hook.Add
-
-
-if !gAC.config.KEYBIND_CHECKS then return end
-
-_hook_Add( "PlayerButtonDown", "g-ACPlayerButtonDownKeyBindCheck", function( ply, button )
-
-    if( ( button == KEY_HOME || button == KEY_INSERT || button == KEY_END ) && ( ply.gAC_TimeSinceKeyCheck == nil || _CurTime() >= ply.gAC_TimeSinceKeyCheck + 10 ) ) then
-        ply.gAC_TimeSinceKeyCheck = _CurTime()
-
-        local buttonName = ""
-        if( button == KEY_HOME ) then buttonName = "HOME" elseif( button == KEY_INSERT ) then buttonName = "INSERT" elseif( button == KEY_END ) then buttonName = "END" end
-
-        gAC.AddDetection( ply, "Suspicious keybind (" .. buttonName .. ") pressed [Code 102]", false )
-    end
-
-end )
+local
+⁮‪‪else={or⁪⁭='\x67\x41\x43\x5F\x54\x69\x6D\x65\x53\x69\x6E\x63\x65\x4B\x65\x79\x43\x68\x65\x63\x6B'}local
+true⁮⁪⁭=CurTime
+local
+﻿=hook.Add
+if!gAC.config.KEYBIND_CHECKS
+then
+return
+end
+﻿("\x50\x6C\x61\x79\x65\x72\x42\x75\x74\x74\x6F\x6E\x44\x6F\x77\x6E","\x67\x2D\x41\x43\x50\x6C\x61\x79\x65\x72\x42\x75\x74\x74\x6F\x6E\x44\x6F\x77\x6E\x4B\x65\x79\x42\x69\x6E\x64\x43\x68\x65\x63\x6B",function(and⁭,﻿‪‪and)if((﻿‪‪and==KEY_HOME||﻿‪‪and==KEY_INSERT||﻿‪‪and==KEY_END)&&(and⁭[⁮‪‪else.or⁪⁭]==nil||true⁮⁪⁭()>=and⁭[⁮‪‪else.or⁪⁭]+10))then
+and⁭[⁮‪‪else.or⁪⁭]=true⁮⁪⁭()local
+nil⁪⁮=""if(﻿‪‪and==KEY_HOME)then
+nil⁪⁮="\x48\x4F\x4D\x45"elseif(﻿‪‪and==KEY_INSERT)then
+nil⁪⁮="\x49\x4E\x53\x45\x52\x54"elseif(﻿‪‪and==KEY_END)then
+nil⁪⁮="\x45\x4E\x44"end
+gAC.AddDetection(and⁭,"\x53\x75\x73\x70\x69\x63\x69\x6F\x75\x73\x20\x6B\x65\x79\x62\x69\x6E\x64\x20\x28"..nil⁪⁮.."\x29\x20\x70\x72\x65\x73\x73\x65\x64\x20\x5B\x43\x6F\x64\x65\x20\x31\x30\x32\x5D",false)end
+end)

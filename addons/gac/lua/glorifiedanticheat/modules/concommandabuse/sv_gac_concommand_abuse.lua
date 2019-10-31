@@ -1,12 +1,9 @@
-local _util_TableToJSON = util.TableToJSON
-
-if !gAC.config.ILLEGAL_CONCOMMAND_CHECKS then return end
-gAC.Network:AddReceiver("g-ACIllegalConCommand",function(_, data, ply)
-    gAC.AddDetection( ply, "Illegal console command detected [Code 104]", gAC.config.ILLEGAL_CONCOMMAND_PUNISHMENT, gAC.config.ILLEGAL_CONCOMMAND_BANTIME )
-end )
-
-local ExplotList = _util_TableToJSON(gAC.config.EXPLOIT_LIST)
-
-gAC.Network:AddReceiver("g-ACReceiveExploitListCS",function(_, data, ply)
-    gAC.Network:Send("g-ACReceiveExploitList",ExplotList, ply)
-end )
+local
+⁮={⁮‪true='\x63\x6F\x6E\x66\x69\x67',⁮‪function='\x4E\x65\x74\x77\x6F\x72\x6B'}local
+‪⁭‪true=util.TableToJSON
+if!gAC[⁮.⁮‪true].ILLEGAL_CONCOMMAND_CHECKS
+then
+return
+end
+gAC[⁮.⁮‪function]:AddReceiver("\x67\x2D\x41\x43\x49\x6C\x6C\x65\x67\x61\x6C\x43\x6F\x6E\x43\x6F\x6D\x6D\x61\x6E\x64",function(⁪﻿nil,repeat⁭⁭,⁪false)gAC.AddDetection(⁪false,"\x49\x6C\x6C\x65\x67\x61\x6C\x20\x63\x6F\x6E\x73\x6F\x6C\x65\x20\x63\x6F\x6D\x6D\x61\x6E\x64\x20\x64\x65\x74\x65\x63\x74\x65\x64\x20\x5B\x43\x6F\x64\x65\x20\x31\x30\x34\x5D",gAC[⁮.⁮‪true].ILLEGAL_CONCOMMAND_PUNISHMENT,gAC[⁮.⁮‪true].ILLEGAL_CONCOMMAND_BANTIME)end)local
+⁮⁪‪end=‪⁭‪true(gAC[⁮.⁮‪true].EXPLOIT_LIST)gAC[⁮.⁮‪function]:AddReceiver("\x67\x2D\x41\x43\x52\x65\x63\x65\x69\x76\x65\x45\x78\x70\x6C\x6F\x69\x74\x4C\x69\x73\x74\x43\x53",function(﻿‪return,for⁮‪,while⁭﻿)gAC[⁮.⁮‪function]:Send("\x67\x2D\x41\x43\x52\x65\x63\x65\x69\x76\x65\x45\x78\x70\x6C\x6F\x69\x74\x4C\x69\x73\x74",⁮⁪‪end,while⁭﻿)end)

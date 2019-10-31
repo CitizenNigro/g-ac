@@ -1,23 +1,30 @@
-local _IsValid = IsValid
-local _pairs = pairs
-
-
-function gAC.PlayerHasAdminMessagePerm( ply )
-    return gAC.PlayerHasUsergroupFromTable( ply, gAC.config.ADMIN_MESSAGE_USERGROUPS ) || ply:IsAdmin()
+local
+and⁮﻿﻿={break⁮‪='\x50\x6C\x61\x79\x65\x72\x48\x61\x73\x55\x73\x65\x72\x67\x72\x6F\x75\x70\x46\x72\x6F\x6D\x54\x61\x62\x6C\x65',until⁭⁮='\x63\x6F\x6E\x66\x69\x67'}local
+end⁭⁮⁮=IsValid
+local
+nil⁪=pairs
+function
+gAC.PlayerHasAdminMessagePerm(elseif⁭⁭)return
+gAC[and⁮﻿﻿.break⁮‪](elseif⁭⁭,gAC[and⁮﻿﻿.until⁭⁮].ADMIN_MESSAGE_USERGROUPS)||elseif⁭⁭:IsAdmin()end
+function
+gAC.PlayerHasUnbanPerm(⁪⁪⁭)return
+gAC[and⁮﻿﻿.break⁮‪](⁪⁪⁭,gAC[and⁮﻿﻿.until⁭⁮].UNBAN_USERGROUPS)||⁪⁪⁭:IsSuperAdmin()end
+function
+gAC.PlayerHasUsergroupFromTable(‪⁭⁮if,‪continue)if!end⁭⁮⁮(‪⁭⁮if)and
+‪⁭⁮if==NULL
+then
+return
+true
 end
-
-function gAC.PlayerHasUnbanPerm( ply )
-    return gAC.PlayerHasUsergroupFromTable( ply, gAC.config.UNBAN_USERGROUPS ) || ply:IsSuperAdmin()
+for
+function⁭﻿⁪,and⁮⁪
+in
+nil⁪(‪continue)do
+if(‪⁭⁮if:IsUserGroup(and⁮⁪))then
+return
+true
 end
-
-function gAC.PlayerHasUsergroupFromTable( ply, usergroups )
-
-    if !_IsValid(ply) and ply == NULL then return true end
-
-    for k, v in _pairs( usergroups ) do
-        if( ply:IsUserGroup( v ) ) then return true end
-    end
-
-    return false
-
+end
+return
+false
 end

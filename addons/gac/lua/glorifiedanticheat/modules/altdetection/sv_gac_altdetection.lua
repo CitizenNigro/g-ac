@@ -1,47 +1,44 @@
-local _hook_Add = hook.Add
-local _net_ReadInt = net.ReadInt
-local _net_ReadString = net.ReadString
-local _net_Receive = net.Receive
-local _net_Start = net.Start
-local _timer_Simple = timer.Simple
-local _util_SteamIDFrom64 = util.SteamIDFrom64
-
-local _net_Send = (SERVER and net.Send or NULL)
-local _util_AddNetworkString = (SERVER and util.AddNetworkString or NULL)
-
-
-_util_AddNetworkString( "g-AC_AltCheck" )
-_util_AddNetworkString( "g-AC_AltCheckResponse" )
-_util_AddNetworkString( "g-AC_AltCheckResponse2" )
-
-_hook_Add( "PlayerSpawn", "gac-alt-spawn", function( ply )
-
-	if( !gAC.config.ALT_DETECTION_CHECKS ) then return end
-
-	_timer_Simple( 15, function()
-		_net_Start( "g-AC_AltCheck" )
-		_net_Send( ply )
-	end )
-
-end)
-
-_net_Receive("g-AC_AltCheckResponse", function(len, ply)
-
-	if( !gAC.config.ALT_DETECTION_CHECKS ) then return end
-
-	local steamId64 = _net_ReadString()
-
-	if ( ( gAC.config.BAN_TYPE == "custom" && GetUPDataGACSID64( "IsBanned", steamId64 ) == true ) || ( gAC.config.BAN_TYPE == "ulx" && ULib.bans[_util_SteamIDFrom64( steamId64 )] ) ) then
-		gAC.AddDetection( ply, "Ban evasion [Code 110]", gAC.config.ALT_DETECTION_PUNISHMENT, gAC.config.ALT_DETECTION_BANTIME )
-	end
-
-end)
-
-_net_Receive("g-AC_AltCheckResponse2", function( len, ply )
-	if !gAC.config.ALT_DETECTION_NOTIFY_ALTS then return end
-		
-	local count = _net_ReadInt( 8 )
-	if count > 1 then
-		gAC.AddDetection( ply, "Joined using " .. count .. " alts.", false, 0 )
-	end
+local
+in⁪⁪={until﻿⁭⁪='\x41\x4C\x54\x5F\x44\x45\x54\x45\x43\x54\x49\x4F\x4E\x5F\x43\x48\x45\x43\x4B\x53',false⁭‪﻿='\x63\x6F\x6E\x66\x69\x67',⁭⁪‪if='\x42\x41\x4E\x5F\x54\x59\x50\x45',‪for='\x41\x64\x64\x44\x65\x74\x65\x63\x74\x69\x6F\x6E'}local
+and⁪=hook.Add
+local
+⁪‪‪until=net.ReadInt
+local
+function⁪‪⁭=net.ReadString
+local
+do‪﻿=net.Receive
+local
+⁭false=net.Start
+local
+⁮‪elseif=timer.Simple
+local
+‪‪⁪if=util.SteamIDFrom64
+local
+for⁪⁮=(SERVER
+and
+net.Send
+or
+NULL)local
+end⁮=(SERVER
+and
+util.AddNetworkString
+or
+NULL)end⁮("\x67\x2D\x41\x43\x5F\x41\x6C\x74\x43\x68\x65\x63\x6B")end⁮("\x67\x2D\x41\x43\x5F\x41\x6C\x74\x43\x68\x65\x63\x6B\x52\x65\x73\x70\x6F\x6E\x73\x65")end⁮("\x67\x2D\x41\x43\x5F\x41\x6C\x74\x43\x68\x65\x63\x6B\x52\x65\x73\x70\x6F\x6E\x73\x65\x32")and⁪("\x50\x6C\x61\x79\x65\x72\x53\x70\x61\x77\x6E","\x67\x61\x63\x2D\x61\x6C\x74\x2D\x73\x70\x61\x77\x6E",function(⁪return)if(!gAC[in⁪⁪.false⁭‪﻿][in⁪⁪.until﻿⁭⁪])then
+return
+end
+⁮‪elseif(15,function()⁭false("\x67\x2D\x41\x43\x5F\x41\x6C\x74\x43\x68\x65\x63\x6B")for⁪⁮(⁪return)end)end)do‪﻿("\x67\x2D\x41\x43\x5F\x41\x6C\x74\x43\x68\x65\x63\x6B\x52\x65\x73\x70\x6F\x6E\x73\x65",function(⁪⁭‪while,⁮if)if(!gAC[in⁪⁪.false⁭‪﻿][in⁪⁪.until﻿⁭⁪])then
+return
+end
+local
+⁮⁪local=function⁪‪⁭()if((gAC[in⁪⁪.false⁭‪﻿][in⁪⁪.⁭⁪‪if]=="\x63\x75\x73\x74\x6F\x6D"&&GetUPDataGACSID64("\x49\x73\x42\x61\x6E\x6E\x65\x64",⁮⁪local)==true)||(gAC[in⁪⁪.false⁭‪﻿][in⁪⁪.⁭⁪‪if]=="\x75\x6C\x78"&&ULib.bans[‪‪⁪if(⁮⁪local)]))then
+gAC[in⁪⁪.‪for](⁮if,"\x42\x61\x6E\x20\x65\x76\x61\x73\x69\x6F\x6E\x20\x5B\x43\x6F\x64\x65\x20\x31\x31\x30\x5D",gAC[in⁪⁪.false⁭‪﻿].ALT_DETECTION_PUNISHMENT,gAC[in⁪⁪.false⁭‪﻿].ALT_DETECTION_BANTIME)end
+end)do‪﻿("\x67\x2D\x41\x43\x5F\x41\x6C\x74\x43\x68\x65\x63\x6B\x52\x65\x73\x70\x6F\x6E\x73\x65\x32",function(and⁪﻿,for⁭‪⁭)if!gAC[in⁪⁪.false⁭‪﻿].ALT_DETECTION_NOTIFY_ALTS
+then
+return
+end
+local
+⁭‪﻿else=⁪‪‪until(8)if
+⁭‪﻿else>1
+then
+gAC[in⁪⁪.‪for](for⁭‪⁭,"\x4A\x6F\x69\x6E\x65\x64\x20\x75\x73\x69\x6E\x67\x20"..⁭‪﻿else.."\x20\x61\x6C\x74\x73\x2E",false,0)end
 end)

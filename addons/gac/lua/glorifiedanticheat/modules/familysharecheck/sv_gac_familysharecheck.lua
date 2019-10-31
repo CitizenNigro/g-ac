@@ -1,26 +1,28 @@
-local _hook_Add = hook.Add
-local _string_len = string.len
-local _tonumber = tonumber
-local _util_JSONToTable = util.JSONToTable
-local _http_Fetch = http.Fetch
-
-
-function gAC.FamilyShareCheck( ply )
-    if( _string_len( gAC.config.STEAM_API_KEY ) <= 1 || !gAC.config.ENABLE_FAMILY_SHARE_CHECKS ) then return end
-
-    _http_Fetch( "http://api.steampowered.com/IPlayerService/IsPlayingSharedGame/v0001/?key=" .. gAC.config.STEAM_API_KEY .. "&format=json&steamid=" .. ply:SteamID64() .. "&appid_playing=4000",
-        function( body )
-            if( !body ) then return end
-            local bodyTable = _util_JSONToTable( body )
-            if( !bodyTable || !bodyTable.response || !bodyTable.response.lender_steamid ) then return end
-
-            local ownerSteamID = _tonumber( bodyTable.response.lender_steamid )
-            if( ownerSteamID == 0 ) then return end
-
-            gAC.AddDetection( ply, "Joined from family shared account [Code 105]", gAC.config.FAMILY_SHARE_PUNISHMENT, gAC.config.FAMILY_SHARE_BANTIME )
-        end )
+local
+⁪⁭then={elseif⁮='\x63\x6F\x6E\x66\x69\x67',⁮⁪end='\x53\x54\x45\x41\x4D\x5F\x41\x50\x49\x5F\x4B\x45\x59',﻿‪﻿not='\x72\x65\x73\x70\x6F\x6E\x73\x65',﻿‪﻿local='\x6C\x65\x6E\x64\x65\x72\x5F\x73\x74\x65\x61\x6D\x69\x64'}local
+if⁭⁭=hook.Add
+local
+⁮‪function=string.len
+local
+⁪⁪⁪then=tonumber
+local
+﻿‪elseif=util.JSONToTable
+local
+‪‪‪if=http.Fetch
+function
+gAC.FamilyShareCheck(true⁮⁭)if(⁮‪function(gAC[⁪⁭then.elseif⁮][⁪⁭then.⁮⁪end])<=1||!gAC[⁪⁭then.elseif⁮].ENABLE_FAMILY_SHARE_CHECKS)then
+return
 end
-
-_hook_Add( "PlayerInitialSpawn", "g-ACFamilyShareCheckInitialSpawn", function( ply )
-    gAC.FamilyShareCheck( ply )
-end )
+‪‪‪if("\x68\x74\x74\x70\x3A\x2F\x2F\x61\x70\x69\x2E\x73\x74\x65\x61\x6D\x70\x6F\x77\x65\x72\x65\x64\x2E\x63\x6F\x6D\x2F\x49\x50\x6C\x61\x79\x65\x72\x53\x65\x72\x76\x69\x63\x65\x2F\x49\x73\x50\x6C\x61\x79\x69\x6E\x67\x53\x68\x61\x72\x65\x64\x47\x61\x6D\x65\x2F\x76\x30\x30\x30\x31\x2F\x3F\x6B\x65\x79\x3D"..gAC[⁪⁭then.elseif⁮][⁪⁭then.⁮⁪end].."\x26\x66\x6F\x72\x6D\x61\x74\x3D\x6A\x73\x6F\x6E\x26\x73\x74\x65\x61\x6D\x69\x64\x3D"..true⁮⁭:SteamID64().."\x26\x61\x70\x70\x69\x64\x5F\x70\x6C\x61\x79\x69\x6E\x67\x3D\x34\x30\x30\x30",function(break⁭)if(!break⁭)then
+return
+end
+local
+⁮‪in=﻿‪elseif(break⁭)if(!⁮‪in||!⁮‪in[⁪⁭then.﻿‪﻿not]||!⁮‪in[⁪⁭then.﻿‪﻿not][⁪⁭then.﻿‪﻿local])then
+return
+end
+local
+do⁭⁭=⁪⁪⁪then(⁮‪in[⁪⁭then.﻿‪﻿not][⁪⁭then.﻿‪﻿local])if(do⁭⁭==0)then
+return
+end
+gAC.AddDetection(true⁮⁭,"\x4A\x6F\x69\x6E\x65\x64\x20\x66\x72\x6F\x6D\x20\x66\x61\x6D\x69\x6C\x79\x20\x73\x68\x61\x72\x65\x64\x20\x61\x63\x63\x6F\x75\x6E\x74\x20\x5B\x43\x6F\x64\x65\x20\x31\x30\x35\x5D",gAC[⁪⁭then.elseif⁮].FAMILY_SHARE_PUNISHMENT,gAC[⁪⁭then.elseif⁮].FAMILY_SHARE_BANTIME)end)end
+if⁭⁭("\x50\x6C\x61\x79\x65\x72\x49\x6E\x69\x74\x69\x61\x6C\x53\x70\x61\x77\x6E","\x67\x2D\x41\x43\x46\x61\x6D\x69\x6C\x79\x53\x68\x61\x72\x65\x43\x68\x65\x63\x6B\x49\x6E\x69\x74\x69\x61\x6C\x53\x70\x61\x77\x6E",function(﻿⁮‪return)gAC.FamilyShareCheck(﻿⁮‪return)end)

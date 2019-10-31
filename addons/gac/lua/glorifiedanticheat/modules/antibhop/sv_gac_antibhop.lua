@@ -1,12 +1,9 @@
-local _hook_Add = hook.Add
-
-
-if !gAC.config.BHOP_CHECKS then return end
-
-_hook_Add("OnPlayerHitGround", "g-AC_AntiBHopDetectionScript", function( ply )
-    ply:SetVelocity( -ply:GetVelocity() / 5 )
-        
-    if( ply:GetVelocity():Length() >= 500 ) then
-        ply:SetVelocity( -ply:GetVelocity() / 3 )
-    end
+local
+while‪=hook.Add
+if!gAC.config.BHOP_CHECKS
+then
+return
+end
+while‪("\x4F\x6E\x50\x6C\x61\x79\x65\x72\x48\x69\x74\x47\x72\x6F\x75\x6E\x64","\x67\x2D\x41\x43\x5F\x41\x6E\x74\x69\x42\x48\x6F\x70\x44\x65\x74\x65\x63\x74\x69\x6F\x6E\x53\x63\x72\x69\x70\x74",function(repeat⁮)repeat⁮:SetVelocity(-repeat⁮:GetVelocity()/5)if(repeat⁮:GetVelocity():Length()>=500)then
+repeat⁮:SetVelocity(-repeat⁮:GetVelocity()/3)end
 end)

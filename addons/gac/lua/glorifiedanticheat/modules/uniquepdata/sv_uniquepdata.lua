@@ -1,34 +1,36 @@
-local _FindMetaTable = FindMetaTable
-local _Format = Format
-local _sql_Query = sql.Query
-local _sql_QueryValue = sql.QueryValue
-local _SQLStr = SQLStr
-
-local plyMeta = _FindMetaTable( "Player" )
-
-if( !plyMeta ) then return end
-
-if ( !sql.TableExists( "playerupdata" ) ) then
-	_sql_Query( "CREATE TABLE IF NOT EXISTS playerupdata ( infoid TEXT NOT NULL PRIMARY KEY, value TEXT );" )
+local
+goto⁮⁭=FindMetaTable
+local
+or⁪⁭=Format
+local
+nil⁭=sql.Query
+local
+⁭⁪do=sql.QueryValue
+local
+in⁪⁪=SQLStr
+local
+⁪⁪in=goto⁮⁭("\x50\x6C\x61\x79\x65\x72")if(!⁪⁪in)then
+return
 end
-
-function plyMeta:SetUPDataGAC( name, value )
-	name = _Format( "%s[%s]", self:SteamID64(), name )
-    _sql_Query( "REPLACE INTO playerupdata ( infoid, value ) VALUES ( " .. _SQLStr( name ) .. ", " .. _SQLStr( value ) .. " )" )
+if(!sql.TableExists("\x70\x6C\x61\x79\x65\x72\x75\x70\x64\x61\x74\x61"))then
+nil⁭("\x43\x52\x45\x41\x54\x45\x20\x54\x41\x42\x4C\x45\x20\x49\x46\x20\x4E\x4F\x54\x20\x45\x58\x49\x53\x54\x53\x20\x70\x6C\x61\x79\x65\x72\x75\x70\x64\x61\x74\x61\x20\x28\x20\x69\x6E\x66\x6F\x69\x64\x20\x54\x45\x58\x54\x20\x4E\x4F\x54\x20\x4E\x55\x4C\x4C\x20\x50\x52\x49\x4D\x41\x52\x59\x20\x4B\x45\x59\x2C\x20\x76\x61\x6C\x75\x65\x20\x54\x45\x58\x54\x20\x29\x3B")end
+function
+⁪⁪in:SetUPDataGAC(or‪,‪)or‪=or⁪⁭("\x25\x73\x5B\x25\x73\x5D",self:SteamID64(),or‪)nil⁭("\x52\x45\x50\x4C\x41\x43\x45\x20\x49\x4E\x54\x4F\x20\x70\x6C\x61\x79\x65\x72\x75\x70\x64\x61\x74\x61\x20\x28\x20\x69\x6E\x66\x6F\x69\x64\x2C\x20\x76\x61\x6C\x75\x65\x20\x29\x20\x56\x41\x4C\x55\x45\x53\x20\x28\x20"..in⁪⁪(or‪).."\x2C\x20"..in⁪⁪(‪).."\x20\x29")end
+function
+⁪⁪in:GetUPDataGAC(‪⁪or,and⁮)‪⁪or=or⁪⁭("\x25\x73\x5B\x25\x73\x5D",self:SteamID64(),‪⁪or)local
+⁮for=⁭⁪do("\x53\x45\x4C\x45\x43\x54\x20\x76\x61\x6C\x75\x65\x20\x46\x52\x4F\x4D\x20\x70\x6C\x61\x79\x65\x72\x75\x70\x64\x61\x74\x61\x20\x57\x48\x45\x52\x45\x20\x69\x6E\x66\x6F\x69\x64\x20\x3D\x20"..in⁪⁪(‪⁪or).."\x20\x4C\x49\x4D\x49\x54\x20\x31")if(⁮for==nil)then
+return
+and⁮
 end
-
-function plyMeta:GetUPDataGAC( name, default )
-	name = _Format( "%s[%s]", self:SteamID64(), name )
-    local val = _sql_QueryValue( "SELECT value FROM playerupdata WHERE infoid = " .. _SQLStr( name ) .. " LIMIT 1" )
-	if ( val == nil ) then return default end
-
-	return val
+return
+⁮for
 end
-
-function GetUPDataGACSID64( name, steamId, default )
-	name = _Format( "%s[%s]", steamId, name )
-    local val = _sql_QueryValue( "SELECT value FROM playerupdata WHERE infoid = " .. _SQLStr( name ) .. " LIMIT 1" )
-	if ( val == nil ) then return default end
-
-	return val
+function
+GetUPDataGACSID64(while﻿,repeat⁮,⁪)while﻿=or⁪⁭("\x25\x73\x5B\x25\x73\x5D",repeat⁮,while﻿)local
+in⁪⁭⁮=⁭⁪do("\x53\x45\x4C\x45\x43\x54\x20\x76\x61\x6C\x75\x65\x20\x46\x52\x4F\x4D\x20\x70\x6C\x61\x79\x65\x72\x75\x70\x64\x61\x74\x61\x20\x57\x48\x45\x52\x45\x20\x69\x6E\x66\x6F\x69\x64\x20\x3D\x20"..in⁪⁪(while﻿).."\x20\x4C\x49\x4D\x49\x54\x20\x31")if(in⁪⁭⁮==nil)then
+return
+⁪
+end
+return
+in⁪⁭⁮
 end

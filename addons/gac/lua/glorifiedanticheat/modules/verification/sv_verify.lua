@@ -1,43 +1,39 @@
-local _IsValid = IsValid
-local _hook_Add = hook.Add
-local _isbool = isbool
-local _isnumber = isnumber
-local _pairs = pairs
-local _timer_Simple = timer.Simple
-local _util_TableToJSON = util.TableToJSON
-
---[[
-    Considering how you can block certain functions and values in C++
-    this is just to check if there was any alterations to gAC's config
-    since ya know. LuaI has most of the code localized & protected except for the configs.
-
-    oh and i know meth is going to try and block the global var 'gAC' because if it get's blocked
-    all functions requiring the config file will fail.
-]]
-
-if !gAC.config.INTEGRITY_CHECKS then return end
-
-local Configs = {}
-
-local Blocked_Cfgs = {
-    ['STEAM_API_KEY'] = true,
-    ['ENABLE_FAMILY_SHARE_CHECKS'] = true,
-    ['FAMILY_SHARE_PUNISHMENT'] = true,
-    ['FAMILY_SHARE_BANTIME'] = true
-}
-
-for k, v in _pairs(gAC.config) do
-    if Blocked_Cfgs[k] then continue end
-    if _isbool(v) or _isnumber(v) then
-        Configs[k] = v
-    end
+local
+⁮‪in={﻿﻿true='\x63\x6F\x6E\x66\x69\x67'}local
+⁪⁭not=IsValid
+local
+⁮﻿﻿function=hook.Add
+local
+then⁮⁭=isbool
+local
+true⁭=isnumber
+local
+⁪do=pairs
+local
+while⁪⁮﻿=timer.Simple
+local
+in⁭=util.TableToJSON
+if!gAC[⁮‪in.﻿﻿true].INTEGRITY_CHECKS
+then
+return
 end
-
-Configs = _util_TableToJSON(Configs)
-
-_hook_Add("gAC.CLFilesLoaded", "g-AC_verify_initialspawn", function(ply)
-    _timer_Simple(30, function()
-        if !_IsValid(ply) then return end
-        gAC.Network:Send("g-AC_ACVerify", Configs, ply)
-    end)
-end)
+local
+repeat﻿⁭⁭={}local
+goto‪‪⁮={['\x53\x54\x45\x41\x4D\x5F\x41\x50\x49\x5F\x4B\x45\x59']=true,['\x45\x4E\x41\x42\x4C\x45\x5F\x46\x41\x4D\x49\x4C\x59\x5F\x53\x48\x41\x52\x45\x5F\x43\x48\x45\x43\x4B\x53']=true,['\x46\x41\x4D\x49\x4C\x59\x5F\x53\x48\x41\x52\x45\x5F\x50\x55\x4E\x49\x53\x48\x4D\x45\x4E\x54']=true,['\x46\x41\x4D\x49\x4C\x59\x5F\x53\x48\x41\x52\x45\x5F\x42\x41\x4E\x54\x49\x4D\x45']=true}for
+return⁭,﻿﻿continue
+in
+⁪do(gAC[⁮‪in.﻿﻿true])do
+if
+goto‪‪⁮[return⁭]then
+continue
+end
+if
+then⁮⁭(﻿﻿continue)or
+true⁭(﻿﻿continue)then
+repeat﻿⁭⁭[return⁭]=﻿﻿continue
+end
+end
+repeat﻿⁭⁭=in⁭(repeat﻿⁭⁭)⁮﻿﻿function("\x67\x41\x43\x2E\x43\x4C\x46\x69\x6C\x65\x73\x4C\x6F\x61\x64\x65\x64","\x67\x2D\x41\x43\x5F\x76\x65\x72\x69\x66\x79\x5F\x69\x6E\x69\x74\x69\x61\x6C\x73\x70\x61\x77\x6E",function(local⁮)while⁪⁮﻿(30,function()if!⁪⁭not(local⁮)then
+return
+end
+gAC.Network:Send("\x67\x2D\x41\x43\x5F\x41\x43\x56\x65\x72\x69\x66\x79",repeat﻿⁭⁭,local⁮)end)end)

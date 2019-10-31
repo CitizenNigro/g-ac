@@ -1,25 +1,20 @@
-local _util_JSONToTable = util.JSONToTable
-
-function gAC.AddDetection( ply, displayReason, shouldPunish, banTime )
-    if !gAC.Debug && gAC.config.IMMUNE_USERS[ply:SteamID64()] then return end
-
-    gAC.AdminMessage( ply:Nick() .. " (" .. ply:SteamID() .. ")" , displayReason, shouldPunish, banTime )
-    if gAC.Debug then return end
-    
-    gAC.LogEvent( ply, displayReason )
-    if !shouldPunish then return end
-
-    if( banTime >= 0 ) then
-        gAC.AddBan( ply, displayReason, banTime )
-    elseif( banTime == -1 ) then
-        gAC.Kick( ply, displayReason )
-    end
+local
+⁪={continue‪⁭⁪='\x44\x65\x62\x75\x67'}local
+‪in=util.JSONToTable
+function
+gAC.AddDetection(while⁮‪⁮,﻿‪‪while,while‪,false⁭)if!gAC[⁪.continue‪⁭⁪]&&gAC.config.IMMUNE_USERS[while⁮‪⁮:SteamID64()]then
+return
 end
-
-gAC.Network:AddReceiver(
-    "g-AC_Detections",
-    function(_, data, plr)
-        data = _util_JSONToTable(data)
-        gAC.AddDetection( plr, data[1], data[2], data[3] )
-    end
-)
+gAC.AdminMessage(while⁮‪⁮:Nick().."\x20\x28"..while⁮‪⁮:SteamID().."\x29",﻿‪‪while,while‪,false⁭)if
+gAC[⁪.continue‪⁭⁪]then
+return
+end
+gAC.LogEvent(while⁮‪⁮,﻿‪‪while)if!while‪
+then
+return
+end
+if(false⁭>=0)then
+gAC.AddBan(while⁮‪⁮,﻿‪‪while,false⁭)elseif(false⁭==-1)then
+gAC.Kick(while⁮‪⁮,﻿‪‪while)end
+end
+gAC.Network:AddReceiver("\x67\x2D\x41\x43\x5F\x44\x65\x74\x65\x63\x74\x69\x6F\x6E\x73",function(﻿⁮in,goto⁭,﻿⁪⁮and)goto⁭=‪in(goto⁭)gAC.AddDetection(﻿⁪⁮and,goto⁭[1],goto⁭[2],goto⁭[3])end)

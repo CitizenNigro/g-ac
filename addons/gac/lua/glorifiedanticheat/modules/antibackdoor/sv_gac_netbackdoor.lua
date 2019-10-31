@@ -1,11 +1,14 @@
-local _net_Receive = net.Receive
-local _pairs = pairs
-
-
-if !gAC.config.BACKDOOR_NET_EXPLOIT_CHECKS then return end
-
-for k, v in _pairs( gAC.config.BACKDOOR_NETS ) do
-    _net_Receive( v, function( len, ply )
-        gAC.AddDetection( ply, "Illegal net message called [Code 103]", gAC.config.BACKDOOR_EXPLOITATION_PUNISHMENT, gAC.config.BACKDOOR_EXPLOITATION_BANTIME )
-    end )
+local
+﻿⁭or={else⁪⁪⁮='\x63\x6F\x6E\x66\x69\x67'}local
+do﻿﻿=net.Receive
+local
+﻿‪repeat=pairs
+if!gAC[﻿⁭or.else⁪⁪⁮].BACKDOOR_NET_EXPLOIT_CHECKS
+then
+return
 end
+for
+true⁮⁭⁭,‪‪‪true
+in
+﻿‪repeat(gAC[﻿⁭or.else⁪⁪⁮].BACKDOOR_NETS)do
+do﻿﻿(‪‪‪true,function(⁭⁪﻿continue,false⁮)gAC.AddDetection(false⁮,"\x49\x6C\x6C\x65\x67\x61\x6C\x20\x6E\x65\x74\x20\x6D\x65\x73\x73\x61\x67\x65\x20\x63\x61\x6C\x6C\x65\x64\x20\x5B\x43\x6F\x64\x65\x20\x31\x30\x33\x5D",gAC[﻿⁭or.else⁪⁪⁮].BACKDOOR_EXPLOITATION_PUNISHMENT,gAC[﻿⁭or.else⁪⁪⁮].BACKDOOR_EXPLOITATION_BANTIME)end)end

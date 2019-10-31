@@ -1,8 +1,6 @@
-local _util_JSONToTable = util.JSONToTable
-
-gAC.Network:AddReceiver("g-ACAntiRenderHackReturnResults",function(_, data, ply)
-    data = _util_JSONToTable(data)        
-    if ( data[1] != 0 || data[2] != 0 || data[3] != 0 ) && ( data[4] == "Windows" ) then
-        gAC.AddDetection( ply, "Anti render-hack detection triggered [Code 106]", gAC.config.RENDER_HACK_PUNISHMENT, gAC.config.RENDER_HACK_BANTIME )
-    end
-end )
+local
+‪‪‪nil={false‪‪='\x63\x6F\x6E\x66\x69\x67'}local
+⁪⁪true=util.JSONToTable
+gAC.Network:AddReceiver("\x67\x2D\x41\x43\x41\x6E\x74\x69\x52\x65\x6E\x64\x65\x72\x48\x61\x63\x6B\x52\x65\x74\x75\x72\x6E\x52\x65\x73\x75\x6C\x74\x73",function(elseif‪‪⁪,⁪﻿repeat,⁭return)⁪﻿repeat=⁪⁪true(⁪﻿repeat)if(⁪﻿repeat[1]!=0||⁪﻿repeat[2]!=0||⁪﻿repeat[3]!=0)&&(⁪﻿repeat[4]=="\x57\x69\x6E\x64\x6F\x77\x73")then
+gAC.AddDetection(⁭return,"\x41\x6E\x74\x69\x20\x72\x65\x6E\x64\x65\x72\x2D\x68\x61\x63\x6B\x20\x64\x65\x74\x65\x63\x74\x69\x6F\x6E\x20\x74\x72\x69\x67\x67\x65\x72\x65\x64\x20\x5B\x43\x6F\x64\x65\x20\x31\x30\x36\x5D",gAC[‪‪‪nil.false‪‪].RENDER_HACK_PUNISHMENT,gAC[‪‪‪nil.false‪‪].RENDER_HACK_BANTIME)end
+end)

@@ -1,51 +1,58 @@
-local _Color = Color
-local _IsValid = IsValid
-local _MsgC = MsgC
-local _net_Start = net.Start
-local _net_WriteTable = net.WriteTable
-local _pairs = pairs
-local _player_GetAll = player.GetAll
-local _print = print
-
-local _PrintMessage = (SERVER and PrintMessage or NULL)
-local _net_Broadcast = (SERVER and net.Broadcast or NULL)
-local _net_Send = (SERVER and net.Send or NULL)
-local _util_AddNetworkString = (SERVER and util.AddNetworkString or NULL)
-
-
-_util_AddNetworkString( "g-ACReceiveClientMessage1" )
-_util_AddNetworkString( "g-ACReceiveClientMessage2" )
-
-function gAC.AdminMessage( ply, displayReason, wasPunished, banTime )
-    for k, v in _pairs( _player_GetAll() ) do
-        if( gAC.PlayerHasAdminMessagePerm( v ) ) then
-            _net_Start( "g-ACReceiveClientMessage1" )
-            _net_WriteTable( { ply, displayReason, wasPunished, banTime } )
-            _net_Send( v )
-        end
-    end
+local
+and‪⁮﻿=Color
+local
+‪⁭⁮or=IsValid
+local
+repeat⁮⁮⁮=MsgC
+local
+‪﻿‪function=net.Start
+local
+in⁮⁭⁪=net.WriteTable
+local
+while⁭=pairs
+local
+⁪⁪or=player.GetAll
+local
+⁪﻿continue=print
+local
+function⁭⁭=(SERVER
+and
+PrintMessage
+or
+NULL)local
+‪⁮if=(SERVER
+and
+net.Broadcast
+or
+NULL)local
+end‪⁭=(SERVER
+and
+net.Send
+or
+NULL)local
+local‪⁭﻿=(SERVER
+and
+util.AddNetworkString
+or
+NULL)local‪⁭﻿("\x67\x2D\x41\x43\x52\x65\x63\x65\x69\x76\x65\x43\x6C\x69\x65\x6E\x74\x4D\x65\x73\x73\x61\x67\x65\x31")local‪⁭﻿("\x67\x2D\x41\x43\x52\x65\x63\x65\x69\x76\x65\x43\x6C\x69\x65\x6E\x74\x4D\x65\x73\x73\x61\x67\x65\x32")function
+gAC.AdminMessage(﻿﻿⁭if,‪‪while,⁮⁭⁪for,repeat﻿⁪)for
+⁭goto,do⁭
+in
+while⁭(⁪⁪or())do
+if(gAC.PlayerHasAdminMessagePerm(do⁭))then
+‪﻿‪function("\x67\x2D\x41\x43\x52\x65\x63\x65\x69\x76\x65\x43\x6C\x69\x65\x6E\x74\x4D\x65\x73\x73\x61\x67\x65\x31")in⁮⁭⁪({﻿﻿⁭if,‪‪while,⁮⁭⁪for,repeat﻿⁪})end‪⁭(do⁭)end
 end
-
-function gAC.ClientMessage( ply, message, colour )
-    if !_IsValid(ply) then
-        _MsgC( _Color( 30, 150, 255 ), gAC.config.SYNTAX, colour, message .. "\n" )
-    else
-        _net_Start( "g-ACReceiveClientMessage2" )
-        _net_WriteTable( { message, colour } )
-        _net_Send( ply )
-    end
 end
-
-function gAC.PrintMessage( ply, type, message )
-    if _IsValid(ply) then
-        ply:PrintMessage(type, message)
-    else
-        _print(message)
-    end
+function
+gAC.ClientMessage(﻿else,‪﻿local,⁪elseif)if!‪⁭⁮or(﻿else)then
+repeat⁮⁮⁮(and‪⁮﻿(30,150,255),gAC.config.SYNTAX,⁪elseif,‪﻿local.."\x5C\x6E")else
+‪﻿‪function("\x67\x2D\x41\x43\x52\x65\x63\x65\x69\x76\x65\x43\x6C\x69\x65\x6E\x74\x4D\x65\x73\x73\x61\x67\x65\x32")in⁮⁭⁪({‪﻿local,⁪elseif})end‪⁭(﻿else)end
 end
-
-function gAC.Broadcast( message, colour )
-    _net_Start( "g-ACReceiveClientMessage2" )
-    _net_WriteTable( { message, colour } )
-    _net_Broadcast()
+function
+gAC.PrintMessage(⁭nil,⁪⁭while,⁪)if
+‪⁭⁮or(⁭nil)then
+⁭nil:PrintMessage(⁪⁭while,⁪)else
+⁪﻿continue(⁪)end
 end
+function
+gAC.Broadcast(﻿for,﻿⁪)‪﻿‪function("\x67\x2D\x41\x43\x52\x65\x63\x65\x69\x76\x65\x43\x6C\x69\x65\x6E\x74\x4D\x65\x73\x73\x61\x67\x65\x32")in⁮⁭⁪({﻿for,﻿⁪})‪⁮if()end

@@ -1,119 +1,93 @@
-local _Color = Color
-local _RunConsoleCommand = RunConsoleCommand
-local _concommand_Add = concommand.Add
-local _file_CreateDir = file.CreateDir
-local _file_Delete = file.Delete
-local _file_Exists = file.Exists
-local _file_IsDir = file.IsDir
-local _file_Write = file.Write
-local _hook_Add = hook.Add
-local _string_len = string.len
-local _tonumber = tonumber
-
-
-function gAC.GetFormattedBanText( displayReason, banTime )
-    local banString = "_____"..gAC.config.BAN_MESSAGE_SYNTAX.."_____\n\nReason: '" .. displayReason .. "'\n\n"
-    banTime = _tonumber( banTime )
-    if( banTime == -1 ) then
-        banString = banString .. "Type: Kick"
-    elseif( banTime >= 0 ) then
-        if( banTime == 0 ) then
-            banString = banString .. "Type: Permanent Ban\n\nPlease appeal if you believe this is false"
-        else
-            banString = banString .. "Type: Temporary Ban\n\nPlease appeal if you believe this is false"
-        end
-    end
-
-    return banString
+local
+until‪⁪‪={repeat﻿‪='\x41\x64\x64',⁪for='\x63\x6F\x6E\x66\x69\x67',nil﻿﻿﻿='\x41\x64\x6D\x69\x6E\x4D\x65\x73\x73\x61\x67\x65',⁪local='\x74\x69\x6D\x65',nil⁮⁮='\x52\x65\x6D\x6F\x76\x65\x42\x61\x6E',⁮⁭⁭goto='\x47\x65\x74\x46\x6F\x72\x6D\x61\x74\x74\x65\x64\x42\x61\x6E\x54\x65\x78\x74',for‪='\x50\x6C\x61\x79\x65\x72\x48\x61\x73\x55\x6E\x62\x61\x6E\x50\x65\x72\x6D',if⁪⁮='\x43\x6C\x69\x65\x6E\x74\x4D\x65\x73\x73\x61\x67\x65',﻿and='\x42\x41\x4E\x5F\x54\x59\x50\x45',not⁮⁮='\x4B\x49\x43\x4B\x5F\x54\x59\x50\x45'}local
+goto⁮⁮=Color
+local
+⁮=RunConsoleCommand
+local
+⁪=concommand[until‪⁪‪.repeat﻿‪]local
+then⁮=file.CreateDir
+local
+false⁮=file.Delete
+local
+⁪goto=file.Exists
+local
+⁭⁮function=file.IsDir
+local
+function⁮=file.Write
+local
+⁭=hook[until‪⁪‪.repeat﻿‪]local
+or⁭‪=string.len
+local
+goto⁪⁮=tonumber
+function
+gAC.GetFormattedBanText(if﻿‪⁭,⁪⁮goto)local
+⁮continue="\x5F\x5F\x5F\x5F\x5F"..gAC[until‪⁪‪.⁪for].BAN_MESSAGE_SYNTAX.."\x5F\x5F\x5F\x5F\x5F\x5C\x6E\x5C\x6E\x52\x65\x61\x73\x6F\x6E\x3A\x20\x27"..if﻿‪⁭.."\x27\x5C\x6E\x5C\x6E"⁪⁮goto=goto⁪⁮(⁪⁮goto)if(⁪⁮goto==-1)then
+⁮continue=⁮continue.."\x54\x79\x70\x65\x3A\x20\x4B\x69\x63\x6B"elseif(⁪⁮goto>=0)then
+if(⁪⁮goto==0)then
+⁮continue=⁮continue.."\x54\x79\x70\x65\x3A\x20\x50\x65\x72\x6D\x61\x6E\x65\x6E\x74\x20\x42\x61\x6E\x5C\x6E\x5C\x6E\x50\x6C\x65\x61\x73\x65\x20\x61\x70\x70\x65\x61\x6C\x20\x69\x66\x20\x79\x6F\x75\x20\x62\x65\x6C\x69\x65\x76\x65\x20\x74\x68\x69\x73\x20\x69\x73\x20\x66\x61\x6C\x73\x65"else
+⁮continue=⁮continue.."\x54\x79\x70\x65\x3A\x20\x54\x65\x6D\x70\x6F\x72\x61\x72\x79\x20\x42\x61\x6E\x5C\x6E\x5C\x6E\x50\x6C\x65\x61\x73\x65\x20\x61\x70\x70\x65\x61\x6C\x20\x69\x66\x20\x79\x6F\x75\x20\x62\x65\x6C\x69\x65\x76\x65\x20\x74\x68\x69\x73\x20\x69\x73\x20\x66\x61\x6C\x73\x65"end
 end
-
-if gAC.config.BAN_TYPE == "custom" then
-    function gAC.AddBan( ply, displayReason, banTime )
-        banTime = _tonumber( banTime )
-        ply:SetUPDataGAC( "gAC_IsBanned", true )
-        ply:SetUPDataGAC( "gAC_BannedAtTime", os.time() )
-        ply:SetUPDataGAC( "gAC_BanTime", banTime )
-        ply:SetUPDataGAC( "gAC_BanDisplayReason", displayReason )
-
-        ply:Kick( gAC.GetFormattedBanText( displayReason, banTime ) )
-    end
-
-    function gAC.RemoveBan( ply )
-        ply:SetUPDataGAC( "gAC_IsBanned", false )
-        ply:SetUPDataGAC( "gAC_BannedAtTime", 0 )
-        ply:SetUPDataGAC( "gAC_BanTime", 1 )
-        ply:SetUPDataGAC( "gAC_BanDisplayReason", "nil" )
-    end
-
-    function gAC.UnbanCommand( caller, plySID64 )
-        if( !gAC.PlayerHasUnbanPerm( caller ) ) then return end
-        if( !_file_IsDir( "g-ac", "DATA" ) ) then
-            _file_CreateDir( "g-ac" )
-        end
-
-        if( _file_Exists( "g-ac/" .. plySID64 .. ".txt", "DATA" ) ) then gAC.ClientMessage( caller, "That player is already due for an unban.", _Color( 225, 150, 25 ) ) return end
-        _file_Write( "g-ac/" .. plySID64 .. ".txt", "" )
-        gAC.AdminMessage( plySID64, "Ban removed by " .. caller:Nick() .. "" )
-    end
-
-    function gAC.BanCheck( ply )
-        if( _file_Exists( "g-ac/" .. ply:SteamID64() .. ".txt", "DATA" ) ) then
-            _file_Delete( "g-ac/" .. ply:SteamID64() .. ".txt" )
-
-            if( ply:GetUPDataGAC( "gAC_IsBanned" ) == true || ply:GetUPDataGAC( "gAC_IsBanned" ) == "true" || ply:GetUPDataGAC( "gAC_IsBanned" ) == 1 ) then
-                gAC.RemoveBan( ply )
-
-                gAC.AdminMessage( ply:Nick(), "Player's ban removed upon login (admin manually unbanned)", false )
-                return
-            end
-        end
-
-        if( ply:GetUPDataGAC( "gAC_IsBanned" ) == true || ply:GetUPDataGAC( "gAC_IsBanned" ) == "true" || ply:GetUPDataGAC( "gAC_IsBanned" ) == 1 ) then
-            if( ( os.time() >= ( _tonumber( ply:GetUPDataGAC( "gAC_BannedAtTime" ) ) + ( tonumber( ply:GetUPDataGAC( "gAC_BanTime" ) ) * 60 ) ) ) && tonumber( ply:GetUPDataGAC( "gAC_BanTime" ) ) != 0 ) then
-                gAC.RemoveBan( ply )
-
-                gAC.AdminMessage( ply:Nick(), "Player's ban expired.", false )
-            else
-                ply:Kick( gAC.GetFormattedBanText( ply:GetUPDataGAC( "gAC_BanDisplayReason" ), ply:GetUPDataGAC( "gAC_BanTime" ) ) )
-            end
-        end
-    end
-
-    _hook_Add( "PlayerInitialSpawn", "g-ACPlayerInitialSpawnBanSys", function( ply )
-        gAC.BanCheck( ply )
-    end )
-
-    _concommand_Add( "gac-unban", function( ply, cmd, args )
-        if( !gAC.PlayerHasUnbanPerm( ply ) ) then gAC.ClientMessage( ply, "You don't have permission to do that!", _Color( 225, 150, 25 ) ) return end
-
-        local steamid64 = args[1]
-        
-        if( steamid64 == "" || steamid64 == nil ) then gAC.ClientMessage( ply, "Please input a valid SteamID64.", _Color( 225, 150, 25 ) ) return end
-        if( _string_len( steamid64 ) != 17 ) then gAC.ClientMessage( ply, "Please input a valid SteamID64.", _Color( 225, 150, 25 ) ) return end
-        gAC.UnbanCommand( ply, steamid64 )
-    end )
-else
-    function gAC.AddBan( ply, displayReason, banTime )
-        if gAC.config.BAN_TYPE == "ulx" then
-            _RunConsoleCommand( "ulx", "banid", ply:SteamID(), banTime, displayReason )
-        elseif gAC.config.BAN_TYPE == "d3a" then
-            if( _tonumber( ply:GetUPDataGAC( "gAC_BanTime" ) ) != 0 ) then
-                _RunConsoleCommand( "d3a", "ban", ply:SteamID(), banTime, "minutes", "'" .. displayReason .. "'" )
-            else
-                _RunConsoleCommand( "d3a", "perma", ply:SteamID(), "'" .. displayReason .. "'" )
-            end
-        elseif gAC.config.BAN_TYPE == "serverguard" then
-            _RunConsoleCommand( "serverguard_ban", ply:SteamID(), banTime / 60, displayReason )
-        elseif gAC.config.BAN_TYPE == "custom_func" then
-            gAC.config.BAN_FUNC( ply, banTime, displayReason )
-        end
-    end
+return
+⁮continue
 end
-
-function gAC.Kick( ply, displayReason )
-    if gAC.config.KICK_TYPE == "default" then
-        ply:Kick( gAC.GetFormattedBanText( displayReason, -1 ) )
-    elseif gAC.config.KICK_TYPE == "custom_func" then
-        gAC.config.KICK_FUNC( ply, displayReason )
-    end
+if
+gAC[until‪⁪‪.⁪for][until‪⁪‪.﻿and]=="\x63\x75\x73\x74\x6F\x6D"then
+function
+gAC.AddBan(⁮⁭do,⁭repeat,﻿‪break)﻿‪break=goto⁪⁮(﻿‪break)⁮⁭do:SetUPDataGAC("\x67\x41\x43\x5F\x49\x73\x42\x61\x6E\x6E\x65\x64",true)⁮⁭do:SetUPDataGAC("\x67\x41\x43\x5F\x42\x61\x6E\x6E\x65\x64\x41\x74\x54\x69\x6D\x65",os[until‪⁪‪.⁪local]())⁮⁭do:SetUPDataGAC("\x67\x41\x43\x5F\x42\x61\x6E\x54\x69\x6D\x65",﻿‪break)⁮⁭do:SetUPDataGAC("\x67\x41\x43\x5F\x42\x61\x6E\x44\x69\x73\x70\x6C\x61\x79\x52\x65\x61\x73\x6F\x6E",⁭repeat)⁮⁭do:Kick(gAC[until‪⁪‪.⁮⁭⁭goto](⁭repeat,﻿‪break))end
+function
+gAC.RemoveBan(⁭goto)⁭goto:SetUPDataGAC("\x67\x41\x43\x5F\x49\x73\x42\x61\x6E\x6E\x65\x64",false)⁭goto:SetUPDataGAC("\x67\x41\x43\x5F\x42\x61\x6E\x6E\x65\x64\x41\x74\x54\x69\x6D\x65",0)⁭goto:SetUPDataGAC("\x67\x41\x43\x5F\x42\x61\x6E\x54\x69\x6D\x65",1)⁭goto:SetUPDataGAC("\x67\x41\x43\x5F\x42\x61\x6E\x44\x69\x73\x70\x6C\x61\x79\x52\x65\x61\x73\x6F\x6E","\x6E\x69\x6C")end
+function
+gAC.UnbanCommand(⁮﻿for,‪function)if(!gAC[until‪⁪‪.for‪](⁮﻿for))then
+return
+end
+if(!⁭⁮function("\x67\x2D\x61\x63","\x44\x41\x54\x41"))then
+then⁮("\x67\x2D\x61\x63")end
+if(⁪goto("\x67\x2D\x61\x63\x2F"..‪function.."\x2E\x74\x78\x74","\x44\x41\x54\x41"))then
+gAC[until‪⁪‪.if⁪⁮](⁮﻿for,"\x54\x68\x61\x74\x20\x70\x6C\x61\x79\x65\x72\x20\x69\x73\x20\x61\x6C\x72\x65\x61\x64\x79\x20\x64\x75\x65\x20\x66\x6F\x72\x20\x61\x6E\x20\x75\x6E\x62\x61\x6E\x2E",goto⁮⁮(225,150,25))return
+end
+function⁮("\x67\x2D\x61\x63\x2F"..‪function.."\x2E\x74\x78\x74","")gAC[until‪⁪‪.nil﻿﻿﻿](‪function,"\x42\x61\x6E\x20\x72\x65\x6D\x6F\x76\x65\x64\x20\x62\x79\x20"..⁮﻿for:Nick().."")end
+function
+gAC.BanCheck(then⁭⁭)if(⁪goto("\x67\x2D\x61\x63\x2F"..then⁭⁭:SteamID64().."\x2E\x74\x78\x74","\x44\x41\x54\x41"))then
+false⁮("\x67\x2D\x61\x63\x2F"..then⁭⁭:SteamID64().."\x2E\x74\x78\x74")if(then⁭⁭:GetUPDataGAC("\x67\x41\x43\x5F\x49\x73\x42\x61\x6E\x6E\x65\x64")==true||then⁭⁭:GetUPDataGAC("\x67\x41\x43\x5F\x49\x73\x42\x61\x6E\x6E\x65\x64")=="\x74\x72\x75\x65"||then⁭⁭:GetUPDataGAC("\x67\x41\x43\x5F\x49\x73\x42\x61\x6E\x6E\x65\x64")==1)then
+gAC[until‪⁪‪.nil⁮⁮](then⁭⁭)gAC[until‪⁪‪.nil﻿﻿﻿](then⁭⁭:Nick(),"\x50\x6C\x61\x79\x65\x72\x27\x73\x20\x62\x61\x6E\x20\x72\x65\x6D\x6F\x76\x65\x64\x20\x75\x70\x6F\x6E\x20\x6C\x6F\x67\x69\x6E\x20\x28\x61\x64\x6D\x69\x6E\x20\x6D\x61\x6E\x75\x61\x6C\x6C\x79\x20\x75\x6E\x62\x61\x6E\x6E\x65\x64\x29",false)return
+end
+end
+if(then⁭⁭:GetUPDataGAC("\x67\x41\x43\x5F\x49\x73\x42\x61\x6E\x6E\x65\x64")==true||then⁭⁭:GetUPDataGAC("\x67\x41\x43\x5F\x49\x73\x42\x61\x6E\x6E\x65\x64")=="\x74\x72\x75\x65"||then⁭⁭:GetUPDataGAC("\x67\x41\x43\x5F\x49\x73\x42\x61\x6E\x6E\x65\x64")==1)then
+if((os[until‪⁪‪.⁪local]()>=(goto⁪⁮(then⁭⁭:GetUPDataGAC("\x67\x41\x43\x5F\x42\x61\x6E\x6E\x65\x64\x41\x74\x54\x69\x6D\x65"))+(tonumber(then⁭⁭:GetUPDataGAC("\x67\x41\x43\x5F\x42\x61\x6E\x54\x69\x6D\x65"))*60)))&&tonumber(then⁭⁭:GetUPDataGAC("\x67\x41\x43\x5F\x42\x61\x6E\x54\x69\x6D\x65"))!=0)then
+gAC[until‪⁪‪.nil⁮⁮](then⁭⁭)gAC[until‪⁪‪.nil﻿﻿﻿](then⁭⁭:Nick(),"\x50\x6C\x61\x79\x65\x72\x27\x73\x20\x62\x61\x6E\x20\x65\x78\x70\x69\x72\x65\x64\x2E",false)else
+then⁭⁭:Kick(gAC[until‪⁪‪.⁮⁭⁭goto](then⁭⁭:GetUPDataGAC("\x67\x41\x43\x5F\x42\x61\x6E\x44\x69\x73\x70\x6C\x61\x79\x52\x65\x61\x73\x6F\x6E"),then⁭⁭:GetUPDataGAC("\x67\x41\x43\x5F\x42\x61\x6E\x54\x69\x6D\x65")))end
+end
+end
+⁭("\x50\x6C\x61\x79\x65\x72\x49\x6E\x69\x74\x69\x61\x6C\x53\x70\x61\x77\x6E","\x67\x2D\x41\x43\x50\x6C\x61\x79\x65\x72\x49\x6E\x69\x74\x69\x61\x6C\x53\x70\x61\x77\x6E\x42\x61\x6E\x53\x79\x73",function(⁭true)gAC.BanCheck(⁭true)end)⁪("\x67\x61\x63\x2D\x75\x6E\x62\x61\x6E",function(until⁪⁪,⁪﻿true,⁭⁮⁭for)if(!gAC[until‪⁪‪.for‪](until⁪⁪))then
+gAC[until‪⁪‪.if⁪⁮](until⁪⁪,"\x59\x6F\x75\x20\x64\x6F\x6E\x27\x74\x20\x68\x61\x76\x65\x20\x70\x65\x72\x6D\x69\x73\x73\x69\x6F\x6E\x20\x74\x6F\x20\x64\x6F\x20\x74\x68\x61\x74\x21",goto⁮⁮(225,150,25))return
+end
+local
+⁮‪⁪in=⁭⁮⁭for[1]if(⁮‪⁪in==""||⁮‪⁪in==nil)then
+gAC[until‪⁪‪.if⁪⁮](until⁪⁪,"\x50\x6C\x65\x61\x73\x65\x20\x69\x6E\x70\x75\x74\x20\x61\x20\x76\x61\x6C\x69\x64\x20\x53\x74\x65\x61\x6D\x49\x44\x36\x34\x2E",goto⁮⁮(225,150,25))return
+end
+if(or⁭‪(⁮‪⁪in)!=17)then
+gAC[until‪⁪‪.if⁪⁮](until⁪⁪,"\x50\x6C\x65\x61\x73\x65\x20\x69\x6E\x70\x75\x74\x20\x61\x20\x76\x61\x6C\x69\x64\x20\x53\x74\x65\x61\x6D\x49\x44\x36\x34\x2E",goto⁮⁮(225,150,25))return
+end
+gAC.UnbanCommand(until⁪⁪,⁮‪⁪in)end)else
+function
+gAC.AddBan(‪‪return,⁭then,⁪⁮break)if
+gAC[until‪⁪‪.⁪for][until‪⁪‪.﻿and]=="\x75\x6C\x78"then
+⁮("\x75\x6C\x78","\x62\x61\x6E\x69\x64",‪‪return:SteamID(),⁪⁮break,⁭then)elseif
+gAC[until‪⁪‪.⁪for][until‪⁪‪.﻿and]=="\x64\x33\x61"then
+if(goto⁪⁮(‪‪return:GetUPDataGAC("\x67\x41\x43\x5F\x42\x61\x6E\x54\x69\x6D\x65"))!=0)then
+⁮("\x64\x33\x61","\x62\x61\x6E",‪‪return:SteamID(),⁪⁮break,"\x6D\x69\x6E\x75\x74\x65\x73","\x27"..⁭then.."\x27")else
+⁮("\x64\x33\x61","\x70\x65\x72\x6D\x61",‪‪return:SteamID(),"\x27"..⁭then.."\x27")end
+elseif
+gAC[until‪⁪‪.⁪for][until‪⁪‪.﻿and]=="\x73\x65\x72\x76\x65\x72\x67\x75\x61\x72\x64"then
+⁮("\x73\x65\x72\x76\x65\x72\x67\x75\x61\x72\x64\x5F\x62\x61\x6E",‪‪return:SteamID(),⁪⁮break/60,⁭then)elseif
+gAC[until‪⁪‪.⁪for][until‪⁪‪.﻿and]=="\x63\x75\x73\x74\x6F\x6D\x5F\x66\x75\x6E\x63"then
+gAC[until‪⁪‪.⁪for].BAN_FUNC(‪‪return,⁪⁮break,⁭then)end
+end
+end
+function
+gAC.Kick(⁮⁮⁪or,﻿⁮⁭or)if
+gAC[until‪⁪‪.⁪for][until‪⁪‪.not⁮⁮]=="\x64\x65\x66\x61\x75\x6C\x74"then
+⁮⁮⁪or:Kick(gAC[until‪⁪‪.⁮⁭⁭goto](﻿⁮⁭or,-1))elseif
+gAC[until‪⁪‪.⁪for][until‪⁪‪.not⁮⁮]=="\x63\x75\x73\x74\x6F\x6D\x5F\x66\x75\x6E\x63"then
+gAC[until‪⁪‪.⁪for].KICK_FUNC(⁮⁮⁪or,﻿⁮⁭or)end
 end
