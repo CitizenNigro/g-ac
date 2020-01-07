@@ -9,7 +9,7 @@ local
 goto⁪‪⁭=player.GetAll
 local
 break﻿⁪=util.JSONToTable
-gAC[⁭⁮⁮nil.goto﻿﻿]:AddReceiver("\x47\x2D\x41\x43\x63\x56\x61\x72\x4D\x61\x6E\x69\x70\x53\x56\x31",function(‪local,else‪,﻿‪local)else‪=break﻿⁪(else‪)if((else‪[0]!=goto﻿⁪﻿("\x73\x76\x5F\x61\x6C\x6C\x6F\x77\x63\x73\x6C\x75\x61"):GetInt()&&gAC[⁭⁮⁮nil.or⁪][⁭⁮⁮nil.while⁪⁮‪])||(else‪[1]!=GetConVar("\x73\x76\x5F\x63\x68\x65\x61\x74\x73"):GetInt()&&gAC[⁭⁮⁮nil.or⁪][⁭⁮⁮nil.continue⁪⁮﻿]))then
+gAC[⁭⁮⁮nil.goto﻿﻿]:AddReceiver("\x47\x2D\x41\x43\x63\x56\x61\x72\x4D\x61\x6E\x69\x70\x53\x56\x31",function(else‪,﻿‪local)else‪=break﻿⁪(else‪)if((else‪[0]!=goto﻿⁪﻿("\x73\x76\x5F\x61\x6C\x6C\x6F\x77\x63\x73\x6C\x75\x61"):GetInt()&&gAC[⁭⁮⁮nil.or⁪][⁭⁮⁮nil.while⁪⁮‪])||(else‪[1]!=GetConVar("\x73\x76\x5F\x63\x68\x65\x61\x74\x73"):GetInt()&&gAC[⁭⁮⁮nil.or⁪][⁭⁮⁮nil.continue⁪⁮﻿]))then
 gAC[⁭⁮⁮nil.break‪‪](﻿‪local,"\x41\x6E\x74\x69\x20\x43\x2D\x76\x61\x72\x20\x6D\x61\x6E\x69\x70\x75\x6C\x61\x74\x69\x6F\x6E\x20\x74\x72\x69\x67\x67\x65\x72\x65\x64\x20\x5B\x43\x6F\x64\x65\x20\x31\x30\x30\x5D",gAC[⁭⁮⁮nil.or⁪][⁭⁮⁮nil.return⁮],gAC[⁭⁮⁮nil.or⁪].CVARMANIP_BANTIME)end
 ﻿‪local[⁭⁮⁮nil.else⁪‪⁮]=true
 end)if(gAC[⁭⁮⁮nil.or⁪][⁭⁮⁮nil.while⁪⁮‪]==true||gAC[⁭⁮⁮nil.or⁪][⁭⁮⁮nil.continue⁪⁮﻿]==true)then

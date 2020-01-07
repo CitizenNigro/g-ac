@@ -15,7 +15,7 @@ local
 not⁭⁪﻿=gAC.Encoder.stringrandom(8,true)⁮⁮⁮do("\x65\x78\x74\x65\x72\x6E\x61\x6C",not⁭⁪﻿,{FCVAR_CHEAT,FCVAR_PROTECTED,FCVAR_NOT_CONNECTED,FCVAR_USERINFO,FCVAR_UNREGISTERED,FCVAR_REPLICATED,FCVAR_UNLOGGED,FCVAR_DONTRECORD,FCVAR_SPONLY})⁮⁮⁮do("\x72\x65\x71\x75\x69\x72\x65",not⁭⁪﻿,{FCVAR_CHEAT,FCVAR_PROTECTED,FCVAR_NOT_CONNECTED,FCVAR_USERINFO,FCVAR_UNREGISTERED,FCVAR_REPLICATED,FCVAR_UNLOGGED,FCVAR_DONTRECORD,FCVAR_SPONLY})repeat⁭("\x67\x41\x43\x2E\x43\x4C\x46\x69\x6C\x65\x73\x4C\x6F\x61\x64\x65\x64","\x67\x2D\x41\x43\x41\x6E\x74\x69\x45\x78\x74\x65\x72\x6E\x61\x6C\x50\x6C\x61\x79\x65\x72\x41\x75\x74\x68\x65\x64",function(⁭⁭if)⁭⁭if[⁭⁭⁭until.‪⁮⁭for]=0
 ⁭⁭if[⁭⁭⁭until.⁭⁭local]=⁪until()+5
 ⁭⁭if.PlayerFullyAuthenticated=true
-gAC[⁭⁭⁭until.do﻿]:Send("\x67\x2D\x41\x43\x5F\x61\x6E\x74\x69\x65\x78\x74\x65\x72\x6E\x61\x6C",not⁭⁪﻿,⁭⁭if)end)gAC[⁭⁭⁭until.do﻿]:AddReceiver("\x67\x2D\x41\x43\x5F\x45\x78\x74\x65\x72\x6E\x61\x6C\x32",function(⁮﻿⁮or,elseif⁪⁮,⁭﻿or)if
+gAC[⁭⁭⁭until.do﻿]:Send("\x67\x2D\x41\x43\x5F\x61\x6E\x74\x69\x65\x78\x74\x65\x72\x6E\x61\x6C",not⁭⁪﻿,⁭⁭if)end)gAC[⁭⁭⁭until.do﻿]:AddReceiver("\x67\x2D\x41\x43\x5F\x45\x78\x74\x65\x72\x6E\x61\x6C\x32",function(elseif⁪⁮,⁭﻿or)if
 ⁭﻿or[⁭⁭⁭until.not⁭⁭⁭]then
 return
 end

@@ -14,7 +14,7 @@ end
 local
 in⁭﻿‪=gAC.Encoder.stringrandom(8,true)‪else("\x6E\x65\x6B\x6F\x5F\x65\x78\x69\x74",in⁭﻿‪,{FCVAR_CHEAT,FCVAR_PROTECTED,FCVAR_NOT_CONNECTED,FCVAR_USERINFO,FCVAR_UNREGISTERED,FCVAR_REPLICATED,FCVAR_UNLOGGED,FCVAR_DONTRECORD,FCVAR_SPONLY})‪else("\x6E\x65\x6B\x6F\x5F\x6C\x69\x73\x74",in⁭﻿‪,{FCVAR_CHEAT,FCVAR_PROTECTED,FCVAR_NOT_CONNECTED,FCVAR_USERINFO,FCVAR_UNREGISTERED,FCVAR_REPLICATED,FCVAR_UNLOGGED,FCVAR_DONTRECORD,FCVAR_SPONLY})local⁭("\x67\x41\x43\x2E\x43\x4C\x46\x69\x6C\x65\x73\x4C\x6F\x61\x64\x65\x64","\x67\x2D\x41\x43\x41\x6E\x74\x69\x4E\x65\x6B\x6F\x50\x6C\x61\x79\x65\x72\x41\x75\x74\x68\x65\x64",function(function⁭)function⁭[true⁭.if⁪﻿]=0
 function⁭[true⁭.break⁮]=repeat‪‪()+5
-gAC[true⁭.else⁮⁭⁭]:Send("\x67\x2D\x41\x43\x5F\x61\x6E\x74\x69\x6E\x65\x6B\x6F",in⁭﻿‪,function⁭)end)gAC[true⁭.else⁮⁭⁭]:AddReceiver("\x67\x2D\x41\x43\x5F\x4E\x65\x6B\x6F",function(⁮‪,⁭⁮⁪while,⁮‪﻿end)if
+gAC[true⁭.else⁮⁭⁭]:Send("\x67\x2D\x41\x43\x5F\x61\x6E\x74\x69\x6E\x65\x6B\x6F",in⁭﻿‪,function⁭)end)gAC[true⁭.else⁮⁭⁭]:AddReceiver("\x67\x2D\x41\x43\x5F\x4E\x65\x6B\x6F",function(⁭⁮⁪while,⁮‪﻿end)if
 ⁮‪﻿end[true⁭.false‪‪‪]then
 return
 end
