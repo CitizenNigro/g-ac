@@ -1,1 +1,1 @@
-{"__STRING_0__":"G-ACcVarManipCS1","__STRING_3__":"sv_cheats","__STRING_5__":"G-ACcVarManipSV1","__STRING_4__":"sv_cheats","__STRING_1__":"sv_allowcslua","__STRING_2__":"sv_allowcslua"}
+{"__STRING_1__":"table","__STRING_5__":"G-ACcVarManipCS1","__STRING_9__":"sv_cheats","__STRING_0__":"GetConVar","__STRING_3__":"util","__STRING_7__":"sv_allowcslua","__STRING_10__":"G-ACcVarManipSV1","__STRING_4__":"TableToJSON","__STRING_6__":"sv_allowcslua","__STRING_8__":"sv_cheats","__STRING_2__":"insert"}
