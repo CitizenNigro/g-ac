@@ -1,411 +1,453 @@
-local _SortedPairs = SortedPairs
-local _file_Exists = file.Exists
-local _file_Read = file.Read
-local _hook_Add = hook.Add
-local _hook_Run = hook.Run
-local _pairs = pairs
-local _string_Replace = string.Replace
-local _string_match = string.match
-local _util_Compress = util.Compress
-local _util_JSONToTable = util.JSONToTable
-local _http_Post = http.Post
-local _gmod_GetGamemode = gmod.GetGamemode
-local _debug_getinfo = debug.getinfo
-local _debug_getupvalue = debug.getupvalue
-local _require = require
-local _string_sub = string.sub
-local _string_gsub = string.gsub
-local _print = print
-local _tostring = tostring
-local _xpcall = xpcall
-local _debug_traceback = debug.traceback
-local _string_byte = string.byte
-local _GetHostName = GetHostName
-local _util_AddNetworkString = (SERVER and util.AddNetworkString or nil)
-local _net_Receive = net.Receive
-local _net_Start = net.Start
-local _net_WriteData = net.WriteData
-local _net_Send = net.Send
-local _hook_Run = hook.Run
-local _timer_Simple = timer.Simple
-local _hook_Remove = hook.Remove
-
-gAC.FileQuery = gAC.FileQuery or {}
-gAC.FileRelation = gAC.FileRelation or {}
-gAC.NetworkReceivers = gAC.NetworkReceivers or {}
-
-if !gAC.Network then -- Network didn't load in yet. so make sure to compensate
-    gAC.Network = {}
-    gAC.Encoder = {}
-
-    function gAC.Network:AddReceiver(channelName, handler)
-        gAC.NetworkReceivers[#gAC.NetworkReceivers + 1] = {channelName, handler}
-    end
-
-    local _math_Round = math.Round
-    local _string_char = string.char
-    local _math_random = math.random
-    function gAC.Encoder.stringrandom(length)
-        local str = ""
-        for i = 1, length do
-            local typo =  _math_Round(_math_random(1, 4))
-            if typo == 1 then
-                str = str.. _string_char(_math_random(97, 122))
-            elseif typo == 2 then
-                str = str.. _string_char(_math_random(65, 90))
-            elseif typo == 3 then
-                str = str.. _string_char(_math_random(49, 57))
-            end
-        end
-        return str
-    end
-
-    gAC.Network.NonNetworkedPlayers = {}
-
-    _util_AddNetworkString ("gAC.PlayerInit")
-
-    _net_Receive("gAC.PlayerInit", function(_, ply)
-        if ply.gAC_ClientLoaded then return end
-        if ply.gAC_NonNetClientLoaded then return end
-        ply.gAC_NonNetClientLoaded = true
-        gAC.Network.NonNetworkedPlayers[#gAC.Network.NonNetworkedPlayers + 1] = ply:SteamID64()
-    end)
-end
-
-function gAC.AddQuery(filepath)
-    local FileName = filepath
-    if _string_match(_string_match( filepath, "^.+(%..+)$"), ".json") then return end
-    filepath = _file_Read(filepath, "LUA")
-    local index = #gAC.FileQuery + 1
-	gAC.FileQuery[index] = filepath
-    gAC.FileRelation[index] = FileName
-    gAC.DBGPrint("Added file " .. FileName .. " to file query")
-end
-
-local DecoderUnloaderIndex = -1
-
-_hook_Add("gAC.IncludesLoaded", "Decoder_Unloader", function()
-    if DecoderUnloaderIndex > 0 then
-        gAC.FileQuery[#gAC.FileQuery] = nil
-    end
-    for k=1, #gAC.FileQuery do
-        local data = gAC.FileQuery[k]
-        local relation = gAC.FileRelation[k]
-        local json_filepath = _string_match( relation, "^(.+)%..+$") .. '.json'
-        if _file_Exists(json_filepath, "LUA") then
-            local json = _util_JSONToTable(_file_Read(json_filepath, "LUA"))
-            for k, v in _pairs(json) do
-                data = _string_Replace(data, k, gAC.Encoder.Encode(v, gAC.Network.Global_Decoder))
-            end
-            data = _string_Replace(data, "__DECODER_STR__", "_G" .. gAC.Network.Decoder_Var .. "('" .. gAC.Network.Decoder_Get .. "')")
-            data = _string_Replace(data, "__DECODER_FUNC__", gAC.Encoder.Decoder_Func)
-            gAC.DBGPrint('Encoded local file "' .. relation .. '"')
-        end
-        gAC.FileQuery[k] = _util_Compress(data)
-        gAC.DBGPrint('Added compressed file "' .. relation .. '" to file query')
-    end
-
-    if #gAC.FileQuery > 0 then
-        gAC.FileQuery[#gAC.FileQuery + 1] = _util_Compress("_G" .. gAC.Network.Decoder_Var .. " = _G" .. gAC.Network.Decoder_Var .. "('" .. gAC.Network.Decoder_Undo .. "')")
-        DecoderUnloaderIndex = #gAC.FileQuery
-    end
-
-    for k=1, #gAC.NetworkReceivers do
-        local v = gAC.NetworkReceivers[k]
-        gAC.Network:AddReceiver(v[1], v[2])
-    end
-
-    gAC.NetworkReceivers = {}
-end)
-
+local
+a={a='Run',b='FileQuery',c='FileRelation',d='NetworkReceivers',e='Network',f='gAC_NonNetClientLoaded',g='NonNetworkedPlayers',h='Encoder',i='DBGPrint',j='Decoder_Var',k='DRMAddCLCode',l='Encode',m='Global_Decoder',n='Decoder_Get',o='Decoder_Func',p='Decoder_Undo',q='DRM_LoadIndexes',r='LICENSE',s='config',t='Add',u='Print'}local
+b=SortedPairs
+local
+c=file.Exists
+local
+d=file.Read
+local
+e=hook[a.t]local
+f=hook[a.a]local
+g=pairs
+local
+h=string.Replace
+local
+i=string.match
+local
+j=util.Compress
+local
+k=util.JSONToTable
+local
+l=http.Post
+local
+m=gmod.GetGamemode
+local
+n=debug.getinfo
+local
+o=debug.getupvalue
+local
+p=require
+local
+q=string.sub
+local
+r=string.gsub
+local
+s=print
+local
+t=tostring
+local
+u=xpcall
+local
+v=debug.traceback
+local
+w=string.byte
+local
+x=GetHostName
+local
+y=(SERVER
+and
+util.AddNetworkString
+or
+nil)local
+z=net.Receive
+local
+A=net.Start
+local
+B=net.WriteData
+local
+C=net.Send
+local
+D=hook[a.a]local
+E=timer.Simple
+local
+F=hook.Remove
+gAC[a.b]=gAC[a.b]or{}gAC[a.c]=gAC[a.c]or{}gAC[a.d]=gAC[a.d]or{}if!gAC[a.e]then
+gAC[a.e]={}gAC[a.h]={}function
+gAC.Network:AddReceiver(L,M)gAC[a.d][#gAC[a.d]+1]={L,M}end
+local
+I=math.Round
+local
+J=string.char
+local
+K=math.random
+function
+gAC.Encoder.stringrandom(L)local
+M=""for
+N=1,L
 do
-    local DRM_Url, Module = 'https://glorifieddrm.net/main.php', 'gac'
-    
-    local CalledDRM, RunFunc = false, function() end
-    local CheckDetours = function(func)
-        if func == nil then return true end
-        local funcdetails = _debug_getinfo( func )
-
-        if (funcdetails.what == 'C'
-        and funcdetails.source == '=[C]'
-        and funcdetails.short_src == '[C]'
-        and funcdetails.nups == 0
-        and funcdetails.linedefined == -1
-        and funcdetails.lastlinedefined == -1
-        and funcdetails.currentline == -1
-        and _debug_getupvalue( funcdetails.func, 1 ) == nil) then
-            return true
-        else
-            return false
-        end
-    end
-
-    local require_drm = function(name)
-        _require(name)
-        if CheckDetours(RunString) == true and CheckDetours(RunStringG) == true then
-            local _RunStringG = RunStringG
-            RunFunc = function( file, index )
-                return _xpcall(_RunStringG, _debug_traceback, file, index)
-            end
-        end
-        RunStringG = nil
-    end
-
-    local _ends = {
-        '',
-        '==',
-        '='
-    }
-
-    local b = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'
-
-    local function InChunk( x) 
-        local r, b = '', _string_byte(x)
-        for i = 8, 1, -1 do
-            r = r..(b % 2 ^ i - b % 2 ^ (i - 1) > 0 and '1' or '0')
-        end
-        return r
-    end
-
-    local function OutChunk( x)
-        if (#x < 6) then
-            return ''
-        end
-        local c = 0
-        for i = 1, 6 do
-            c = c + (_string_sub(x, i, i) == '1' and 2 ^ (6 - i) or 0)
-        end
-        return _string_sub(b, c + 1, c + 1)
-    end
-
-    local function Encode( data)
-        return _string_gsub(
-            _string_gsub(data, '.', InChunk) .. '0000',
-            '%d%d%d?%d?%d?%d?',
-            OutChunk
-        ) .. _ends[#data % 3 + 1]
-    end
-
-    local LoadIndexRequested = {}
-
-    for k, v in _pairs(gAC.DRM_LoadIndexes) do
-        LoadIndexRequested[k] = 0
-    end
-
-    local function DRM_AllisLoaded()
-        for k, v in _pairs(LoadIndexRequested) do
-            if v ~= 0 and (v < 2 or v == 4) then return false end
-        end
-        return true
-    end
-
-    local CLFileData, SVFileData = {}, {}
-
-    local function DRM_InitalizeEncoding()
-        if !DRM_AllisLoaded() then return end
-        if DecoderUnloaderIndex > 0 then
-            gAC.FileQuery[#gAC.FileQuery] = nil
-        end
-
-        for i=1, #SVFileData do
-            local v = SVFileData[i]
-            local stat, err = RunFunc(v[1], v[2])
-            if stat == false then
-                _print("[GlorifiedDRM] Execution error for file '" .. FileIndex .. "'")
-                _print("[GlorifiedDRM] Recommend contacting the developers on this...\n" .. err)
-                LoadIndexRequested[v[2]] = 5
-            else
-                LoadIndexRequested[v[2]] = 3
-            end
-            SVFileData[i] = nil
-        end
-
-        for k=1, #CLFileData do
-            local v = CLFileData[k]
-            local clcode = nil
-            do
-                gAC.DRMAddCLCode = function(code, json)
-                    clcode = {code, _util_JSONToTable(json)}
-                end
-                local stat, err = RunFunc(v[1], v[2])
-                gAC.DRMAddCLCode = nil
-                if stat == false then
-                    _print("[GlorifiedDRM] Execution error for file '" .. FileIndex .. "'")
-                    _print("[GlorifiedDRM] Recommend contacting the developers on this...\n" .. err)
-                    LoadIndexRequested[v[2]] = 5
-                    clcode = nil
-                else
-                    LoadIndexRequested[v[2]] = 3
-                end
-            end
-            if clcode ~= nil then
-                local data, json = clcode[1], clcode[2]
-                if json ~= false then
-                    for k, v in _pairs(json) do
-                        data = _string_Replace(data, k, gAC.Encoder.Encode(v, gAC.Network.Global_Decoder))
-                    end
-                    data = _string_Replace(data, "__DECODER_STR__", "_G" .. gAC.Network.Decoder_Var .. "('" .. gAC.Network.Decoder_Get .. "')")
-                    data = _string_Replace(data, "__DECODER_FUNC__", gAC.Encoder.Decoder_Func)
-                end
-                gAC.FileQuery[#gAC.FileQuery + 1] = _util_Compress(data)
-                gAC.DBGPrint('Encoded DRM file "' .. v[2] .. '"')
-            end
-            CLFileData[k] = nil
-        end
-
-        if DRM_AllisLoaded() then
-            if #gAC.FileQuery > 0 then
-                gAC.FileQuery[#gAC.FileQuery + 1] = _util_Compress("_G" .. gAC.Network.Decoder_Var .. " = _G" .. gAC.Network.Decoder_Var .. "('" .. gAC.Network.Decoder_Undo .. "')")
-                DecoderUnloaderIndex = #gAC.FileQuery
-            end
-            for k=1, #gAC.NetworkReceivers do
-                local v = gAC.NetworkReceivers[k]
-                gAC.Network:AddReceiver(v[1], v[2])
-            end
-            gAC.NetworkReceivers = {}
-            gAC.Print('DRM files has initialized!')
-            _hook_Run('gAC.DRMInitalized', true)
-        end
-    end
-
-    _hook_Add("gAC.IncludesLoaded", "gAC.DidDRMInitalized", function()
-        if DRM_AllisLoaded() then
-            _hook_Run('gAC.DRMInitalized', false)
-        end
-    end)
-
-    local DRM_Retrys = {}
-
-    function gAC.DRMAdd(Hook, Index)
-        local FileIndex = gAC.DRM_LoadIndexes[Index]
-        if !FileIndex then return end
-        if not CalledDRM then
-            require_drm(Module)
-            CalledDRM = true
-        end
-        local function DRM_HTTP()
-            LoadIndexRequested[Index] = 1
-            _http_Post( DRM_Url, {
-                license = gAC.config.LICENSE,
-                file_ID = FileIndex,
-                addon = "GlorifiedAnticheat"
-            }, function( result )
-                if _string_sub(result, 1, 4) == 'ERR:' then
-                    _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "'")
-                    _print("[GlorifiedDRM] To prevent the system from recursive errors, the DRM has halted.")
-                    _print("[GlorifiedDRM] ERR: " .. result)
-                    LoadIndexRequested[Index] = 4
-                else
-                    if DRM_Retrys[FileIndex] then
-                        _print("[GlorifiedDRM] File '" .. FileIndex .. "' received after " .. DRM_Retrys[FileIndex] .. "/4 attempts")
-                    end
-                    SVFileData[#SVFileData + 1] = {result, Index}
-                    LoadIndexRequested[Index] = 2
-                end
-                DRM_InitalizeEncoding()
-            end, function( failed )
-                if not DRM_Retrys[FileIndex] then
-                    DRM_Retrys[FileIndex] = 1
-                else
-                    DRM_Retrys[FileIndex] = DRM_Retrys[FileIndex] + 1
-                end
-                if DRM_Retrys[FileIndex] and DRM_Retrys[FileIndex] >= 4 then
-                    _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "' all attempts failed.")
-                    _print("[GlorifiedDRM] To prevent the system from recursive errors, the DRM has halted.")
-                    LoadIndexRequested[Index] = 4
-                else
-                    _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "' retrying in 3s " .. DRM_Retrys[FileIndex] .. "/4")
-                    _timer_Simple(3, DRM_HTTP)
-                end
-                _print("[GlorifiedDRM] ERR: '" .. failed .. "'")
-                DRM_InitalizeEncoding()
-            end )
-            _hook_Remove(Hook, Index)
-        end
-        _hook_Add(Hook, Index, DRM_HTTP)
-    end
-
-    function gAC.DRMAddClient(Hook, Index)
-        local FileIndex = gAC.DRM_LoadIndexes[Index]
-        if !FileIndex then return end
-        if not CalledDRM then
-            require_drm(Module)
-            CalledDRM = true
-        end
-        local function DRM_HTTP()
-            LoadIndexRequested[Index] = 1
-            _http_Post( DRM_Url, {
-                license = gAC.config.LICENSE,
-                file_ID = FileIndex,
-                addon = "GlorifiedAnticheat"
-            }, function( result )
-                if _string_sub(result, 1, 4) == 'ERR:' then
-                    _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "'")
-                    _print("[GlorifiedDRM] To prevent the system from recursive errors, the DRM has halted.")
-                    _print("[GlorifiedDRM] ERR: " .. result)
-                    LoadIndexRequested[Index] = 4
-                else
-                    if DRM_Retrys[FileIndex] then
-                        _print("[GlorifiedDRM] File '" .. FileIndex .. "' received after " .. DRM_Retrys[FileIndex] .. "/4 attempts")
-                    end
-                    CLFileData[#CLFileData + 1] = {result, Index}
-                    LoadIndexRequested[Index] = 2
-                end
-                DRM_InitalizeEncoding()
-            end, function( failed )
-                if not DRM_Retrys[FileIndex] then
-                    DRM_Retrys[FileIndex] = 1
-                else
-                    DRM_Retrys[FileIndex] = DRM_Retrys[FileIndex] + 1
-                end
-                if DRM_Retrys[FileIndex] and DRM_Retrys[FileIndex] >= 4 then
-                    _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "' all attempts failed.")
-                    _print("[GlorifiedDRM] To prevent the system from recursive errors, the DRM has halted.")
-                    LoadIndexRequested[Index] = 4
-                else
-                    _print("[GlorifiedDRM] File request failure for '" .. FileIndex .. "' retrying in 3s " .. DRM_Retrys[FileIndex] .. "/4")
-                    _timer_Simple(3, DRM_HTTP)
-                end
-                _print("[GlorifiedDRM] ERR: '" .. failed .. "'")
-                DRM_InitalizeEncoding()
-            end )
-            _hook_Remove(Hook, Index)
-        end
-        _hook_Add(Hook, Index, DRM_HTTP)
-    end
-
-    concommand.Add('drm_filestatus', function()
-        gAC.Print('GlorifiedDRM file status')
-        for k, v in _pairs(LoadIndexRequested) do
-            local response = ""
-            if v == 0 then response = "Not Requested" end
-            if v == 1 then response = "Not Received" end
-            if v == 2 then response = "Finializing" end
-            if v == 3 then response = "Executed" end
-            if v == 4 then response = "Request Error" end
-            if v == 5 then response = "Execution Error" end
-            _print('[GlorifiedDRM] index "' .. k .. "' - " .. response)
-        end
-    end)
+local
+O=I(K(1,4))if
+O==1
+then
+M=M..J(K(97,122))elseif
+O==2
+then
+M=M..J(K(65,90))elseif
+O==3
+then
+M=M..J(K(49,57))end
 end
-
-_hook_Add("gAC.ClientLoaded", "SendFiles", function(ply)
-    if #gAC.FileQuery > 0 then
-        for k, v in _SortedPairs(gAC.FileQuery) do
-            if gAC.FileQuery[k] == nil then continue end
-            gAC.Network:Send ("LoadPayload", gAC.FileQuery[k], ply, true)
-        end
-        _hook_Run("gAC.CLFilesLoaded", ply)
-    end
-end)
-
-local Checkactivity = false
-
-_hook_Add('PlayerInitialSpawn', 'DidGacLoad?', function(ply)
-    if gAC.Network and gAC.Network.ReceiveCount then return end
-    if Checkactivity then return end
-    gAC.Print('WARNING, gAC networking did not initialize in time.')
-    gAC.Print('Chances are that something is wrong with your license key.')
-    gAC.Print('Please contact the developers of gAC to resolve this.')
-    Checkactivity = true
+return
+M
+end
+gAC[a.e][a.g]={}y("gAC.PlayerInit")z("gAC.PlayerInit",function(L,M)if
+M.gAC_ClientLoaded
+then
+return
+end
+if
+M[a.f]then
+return
+end
+M[a.f]=!!1
+gAC[a.e][a.g][#gAC[a.e][a.g]+1]=M:SteamID64()end)end
+function
+gAC.AddQuery(I)local
+J=I
+if
+i(i(I,"^.+(%..+)$"),".json")then
+return
+end
+I=d(I,"LUA")local
+K=#gAC[a.b]+1
+gAC[a.b][K]=I
+gAC[a.c][K]=J
+gAC[a.i]("Added file "..J.." to file query")end
+local
+G=-1
+e("gAC.IncludesLoaded","Decoder_Unloader",function()if
+G>0
+then
+gAC[a.b][#gAC[a.b]]=nil
+end
+for
+I=1,#gAC[a.b]do
+local
+J=gAC[a.b][I]local
+K=gAC[a.c][I]local
+L=i(K,"^(.+)%..+$")..'.json'if
+c(L,"LUA")then
+local
+M=k(d(L,"LUA"))for
+N,O
+in
+g(M)do
+J=h(J,N,gAC[a.h][a.l](O,gAC[a.e][a.m]))end
+J=h(J,"__DECODER_STR__","_G"..gAC[a.e][a.j].."('"..gAC[a.e][a.n].."')")J=h(J,"__DECODER_FUNC__",gAC[a.h][a.o])gAC[a.i]('Encoded local file "'..K..'"')end
+gAC[a.b][I]=j(J)gAC[a.i]('Added compressed file "'..K..'" to file query')end
+if#gAC[a.b]>0
+then
+gAC[a.b][#gAC[a.b]+1]=j("_G"..gAC[a.e][a.j].." = _G"..gAC[a.e][a.j].."('"..gAC[a.e][a.p].."')")G=#gAC[a.b]end
+for
+I=1,#gAC[a.d]do
+local
+J=gAC[a.d][I]gAC[a.e]:AddReceiver(J[1],J[2])end
+gAC[a.d]={}end)do
+local
+I,J='https://glorifieddrm.net/main.php','gac'local
+K,L=!1,function()end
+local
+M=function(Z)if
+Z==nil
+then
+return!!1
+end
+local
+ab=n(Z)if(ab.what=='C'and
+ab.source=='=[C]'and
+ab.short_src=='[C]'and
+ab.nups==0
+and
+ab.linedefined==-1
+and
+ab.lastlinedefined==-1
+and
+ab.currentline==-1
+and
+o(ab.func,1)==nil)then
+return!!1
+else
+return!1
+end
+end
+local
+N=function(Z)p(Z)if
+M(RunString)==!!1
+and
+M(RunStringG)==!!1
+then
+local
+ab=RunStringG
+L=function(bb,cb)return
+u(ab,v,bb,cb)end
+end
+RunStringG=nil
+end
+local
+O={'','==','='}local
+P='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'local
+function
+Q(Z)local
+ab,bb='',w(Z)for
+cb=8,1,-1
+do
+ab=ab..(bb%2^cb-bb%2^(cb-1)>0
+and'1'or'0')end
+return
+ab
+end
+local
+function
+R(Z)if(#Z<6)then
+return''end
+local
+ab=0
+for
+bb=1,6
+do
+ab=ab+(q(Z,bb,bb)=='1'and
+2^(6-bb)or
+0)end
+return
+q(P,ab+1,ab+1)end
+local
+function
+S(Z)return
+r(r(Z,'.',Q)..'0000','%d%d%d?%d?%d?%d?',R)..O[#Z%3+1]end
+local
+T={}for
+Z,ab
+in
+g(gAC[a.q])do
+T[Z]=0
+end
+local
+function
+U()for
+Z,ab
+in
+g(T)do
+if
+ab~=0
+and(ab<2
+or
+ab==4)then
+return!1
+end
+end
+return!!1
+end
+local
+V,W={},{}local
+function
+X()if!U()then
+return
+end
+if
+G>0
+then
+gAC[a.b][#gAC[a.b]]=nil
+end
+for
+Z=1,#W
+do
+local
+ab=W[Z]local
+bb,cb=L(ab[1],ab[2])if
+bb==!1
+then
+s("[GlorifiedDRM] Execution error for file '"..FileIndex.."'")s("[GlorifiedDRM] Recommend contacting the developers on this...\n"..cb)T[ab[2]]=5
+else
+T[ab[2]]=3
+end
+W[Z]=nil
+end
+for
+Z=1,#V
+do
+local
+ab=V[Z]local
+bb=nil
+do
+gAC[a.k]=function(eb,fb)bb={eb,k(fb)}end
+local
+cb,db=L(ab[1],ab[2])gAC[a.k]=nil
+if
+cb==!1
+then
+s("[GlorifiedDRM] Execution error for file '"..FileIndex.."'")s("[GlorifiedDRM] Recommend contacting the developers on this...\n"..db)T[ab[2]]=5
+bb=nil
+else
+T[ab[2]]=3
+end
+end
+if
+bb~=nil
+then
+local
+cb,db=bb[1],bb[2]if
+db~=!1
+then
+for
+eb,fb
+in
+g(db)do
+cb=h(cb,eb,gAC[a.h][a.l](fb,gAC[a.e][a.m]))end
+cb=h(cb,"__DECODER_STR__","_G"..gAC[a.e][a.j].."('"..gAC[a.e][a.n].."')")cb=h(cb,"__DECODER_FUNC__",gAC[a.h][a.o])end
+gAC[a.b][#gAC[a.b]+1]=j(cb)gAC[a.i]('Encoded DRM file "'..ab[2]..'"')end
+V[Z]=nil
+end
+if
+U()then
+if#gAC[a.b]>0
+then
+gAC[a.b][#gAC[a.b]+1]=j("_G"..gAC[a.e][a.j].." = _G"..gAC[a.e][a.j].."('"..gAC[a.e][a.p].."')")G=#gAC[a.b]end
+for
+Z=1,#gAC[a.d]do
+local
+ab=gAC[a.d][Z]gAC[a.e]:AddReceiver(ab[1],ab[2])end
+gAC[a.d]={}gAC[a.u]('DRM files has initialized!')D('gAC.DRMInitalized',!!1)end
+end
+e("gAC.IncludesLoaded","gAC.DidDRMInitalized",function()if
+U()then
+D('gAC.DRMInitalized',!1)end
+end)local
+Y={}function
+gAC.DRMAdd(Z,ab)local
+bb=gAC[a.q][ab]if!bb
+then
+return
+end
+if
+not
+K
+then
+N(J)K=!!1
+end
+local
+function
+cb()T[ab]=1
+l(I,{license=gAC[a.s][a.r],file_ID=bb,addon="GlorifiedAnticheat"},function(db)if
+q(db,1,4)=='ERR:'then
+s("[GlorifiedDRM] File request failure for '"..bb.."'")s("[GlorifiedDRM] To prevent the system from recursive errors, the DRM has halted.")s("[GlorifiedDRM] ERR: "..db)T[ab]=4
+else
+if
+Y[bb]then
+s("[GlorifiedDRM] File '"..bb.."' received after "..Y[bb].."/4 attempts")end
+W[#W+1]={db,ab}T[ab]=2
+end
+X()end,function(db)if
+not
+Y[bb]then
+Y[bb]=1
+else
+Y[bb]=Y[bb]+1
+end
+if
+Y[bb]and
+Y[bb]>=4
+then
+s("[GlorifiedDRM] File request failure for '"..bb.."' all attempts failed.")s("[GlorifiedDRM] To prevent the system from recursive errors, the DRM has halted.")T[ab]=4
+else
+s("[GlorifiedDRM] File request failure for '"..bb.."' retrying in 3s "..Y[bb].."/4")E(3,cb)end
+s("[GlorifiedDRM] ERR: '"..db.."'")X()end)F(Z,ab)end
+e(Z,ab,cb)end
+function
+gAC.DRMAddClient(Z,ab)local
+bb=gAC[a.q][ab]if!bb
+then
+return
+end
+if
+not
+K
+then
+N(J)K=!!1
+end
+local
+function
+cb()T[ab]=1
+l(I,{license=gAC[a.s][a.r],file_ID=bb,addon="GlorifiedAnticheat"},function(db)if
+q(db,1,4)=='ERR:'then
+s("[GlorifiedDRM] File request failure for '"..bb.."'")s("[GlorifiedDRM] To prevent the system from recursive errors, the DRM has halted.")s("[GlorifiedDRM] ERR: "..db)T[ab]=4
+else
+if
+Y[bb]then
+s("[GlorifiedDRM] File '"..bb.."' received after "..Y[bb].."/4 attempts")end
+V[#V+1]={db,ab}T[ab]=2
+end
+X()end,function(db)if
+not
+Y[bb]then
+Y[bb]=1
+else
+Y[bb]=Y[bb]+1
+end
+if
+Y[bb]and
+Y[bb]>=4
+then
+s("[GlorifiedDRM] File request failure for '"..bb.."' all attempts failed.")s("[GlorifiedDRM] To prevent the system from recursive errors, the DRM has halted.")T[ab]=4
+else
+s("[GlorifiedDRM] File request failure for '"..bb.."' retrying in 3s "..Y[bb].."/4")E(3,cb)end
+s("[GlorifiedDRM] ERR: '"..db.."'")X()end)F(Z,ab)end
+e(Z,ab,cb)end
+concommand[a.t]('drm_filestatus',function()gAC[a.u]('GlorifiedDRM file status')for
+Z,ab
+in
+g(T)do
+local
+bb=""if
+ab==0
+then
+bb="Not Requested"end
+if
+ab==1
+then
+bb="Not Received"end
+if
+ab==2
+then
+bb="Finializing"end
+if
+ab==3
+then
+bb="Executed"end
+if
+ab==4
+then
+bb="Request Error"end
+if
+ab==5
+then
+bb="Execution Error"end
+s('[GlorifiedDRM] index "'..Z.."' - "..bb)end
+end)end
+e("gAC.ClientLoaded","SendFiles",function(I)if#gAC[a.b]>0
+then
+for
+J,K
+in
+b(gAC[a.b])do
+if
+gAC[a.b][J]==nil
+then
+continue
+end
+gAC[a.e]:Send("LoadPayload",gAC[a.b][J],I,!!1)end
+D("gAC.CLFilesLoaded",I)end
+end)local
+H=!1
+e('PlayerInitialSpawn','DidGacLoad?',function(I)if
+gAC[a.e]and
+gAC[a.e].ReceiveCount
+then
+return
+end
+if
+H
+then
+return
+end
+gAC[a.u]('WARNING, gAC networking did not initialize in time.')gAC[a.u]('Chances are that something is wrong with your license key.')gAC[a.u]('Please contact the developers of gAC to resolve this.')H=!!1
 end)

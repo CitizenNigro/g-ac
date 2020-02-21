@@ -1,50 +1,41 @@
-local _util_JSONToTable = util.JSONToTable
-local _print = print
-local _http_Post = http.Post
-
-function gAC.AddDetection( ply, displayReason, shouldPunish, banTime )
-    if !gAC.Debug && gAC.config.IMMUNE_USERS[ply:SteamID64()] then return end
-
-    gAC.AdminMessage( ply:Nick() .. " (" .. ply:SteamID() .. ")" , displayReason, shouldPunish, banTime )
-    gAC.Print( "Detection from " .. ply:Nick() .. " (" .. ply:SteamID() .. ") -> " .. displayReason )
-    gAC.SendDetectionWebhook( ply, displayReason, shouldPunish, banTime )
-
-    local punishmentT = 0
-    if shouldPunish == 1 then
-        punishmentT = banTime
-    else
-        punishmentT = -2
-    end
-
-    _http_Post( "https://stats.g-ac.dev/api/detection/add", { server_id = gAC.server_id, target = ply:SteamID64(), detection = displayReason, punishment = punishmentT }, function( result )
-        local resp = util.JSONToTable(result)
-        if resp == nil then return end
-        if(resp["success"] == "false") then
-            gAC.Print("[Statistics] Generating statistics report failed: "..resp["error"])
-        else
-            gAC.Print("[Statistics] Stat report generated. ID: "..resp["id"])
-        end
-    end, function( failed )
-        gAC.Print( "[Statistics] Stats report failed: " .. failed )
-    end )
-    
-    if gAC.Debug then return end
-    
-    gAC.LogEvent( ply, displayReason )
-
-    if !shouldPunish then return end
-
-    if( banTime >= 0 ) then
-        gAC.AddBan( ply, displayReason, banTime )
-    elseif( banTime == -1 ) then
-        gAC.Kick( ply, displayReason )
-    end
+local
+a={a='JSONToTable',b='Print',c='Debug'}local
+b=util[a.a]local
+c=print
+local
+d=http.Post
+function
+gAC.AddDetection(e,f,g,h)if!gAC[a.c]&&gAC.config.IMMUNE_USERS[e:SteamID64()]then
+return
 end
-
-gAC.Network:AddReceiver(
-    "g-AC_Detections",
-    function(data, plr)
-        data = _util_JSONToTable(data)
-        gAC.AddDetection( plr, data[1], data[2], data[3] )
-    end
-)
+gAC.AdminMessage(e:Nick().." ("..e:SteamID()..")",f,g,h)gAC[a.b]("Detection from "..e:Nick().." ("..e:SteamID()..") -> "..f)gAC.SendDetectionWebhook(e,f,g,h)local
+i=0
+if
+g==1
+then
+i=h
+else
+i=-2
+end
+d("https://stats.g-ac.dev/api/detection/add",{server_id=gAC.server_id,target=e:SteamID64(),detection=f,punishment=i},function(j)local
+k=util[a.a](j)if
+k==nil
+then
+return
+end
+if(k["success"]=="false")then
+gAC[a.b]("[Statistics] Generating statistics report failed: "..k["error"])else
+gAC[a.b]("[Statistics] Stat report generated. ID: "..k["id"])end
+end,function(j)gAC[a.b]("[Statistics] Stats report failed: "..j)end)if
+gAC[a.c]then
+return
+end
+gAC.LogEvent(e,f)if!g
+then
+return
+end
+if(h>=0)then
+gAC.AddBan(e,f,h)elseif(h==-1)then
+gAC.Kick(e,f)end
+end
+gAC.Network:AddReceiver("g-AC_Detections",function(e,f)e=b(e)gAC.AddDetection(f,e[1],e[2],e[3])end)

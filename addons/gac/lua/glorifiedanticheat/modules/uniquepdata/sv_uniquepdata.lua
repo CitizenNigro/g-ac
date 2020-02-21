@@ -1,34 +1,36 @@
-local _FindMetaTable = FindMetaTable
-local _Format = Format
-local _sql_Query = sql.Query
-local _sql_QueryValue = sql.QueryValue
-local _SQLStr = SQLStr
-
-local plyMeta = _FindMetaTable( "Player" )
-
-if( !plyMeta ) then return end
-
-if ( !sql.TableExists( "playerupdata" ) ) then
-	_sql_Query( "CREATE TABLE IF NOT EXISTS playerupdata ( infoid TEXT NOT NULL PRIMARY KEY, value TEXT );" )
+local
+b=FindMetaTable
+local
+c=Format
+local
+d=sql.Query
+local
+e=sql.QueryValue
+local
+f=SQLStr
+local
+g=b("Player")if(!g)then
+return
 end
-
-function plyMeta:SetUPDataGAC( name, value )
-	name = _Format( "%s[%s]", self:SteamID64(), name )
-    _sql_Query( "REPLACE INTO playerupdata ( infoid, value ) VALUES ( " .. _SQLStr( name ) .. ", " .. _SQLStr( value ) .. " )" )
+if(!sql.TableExists("playerupdata"))then
+d("CREATE TABLE IF NOT EXISTS playerupdata ( infoid TEXT NOT NULL PRIMARY KEY, value TEXT );")end
+function
+g:SetUPDataGAC(h,i)h=c("%s[%s]",self:SteamID64(),h)d("REPLACE INTO playerupdata ( infoid, value ) VALUES ( "..f(h)..", "..f(i).." )")end
+function
+g:GetUPDataGAC(h,i)h=c("%s[%s]",self:SteamID64(),h)local
+j=e("SELECT value FROM playerupdata WHERE infoid = "..f(h).." LIMIT 1")if(j==nil)then
+return
+i
 end
-
-function plyMeta:GetUPDataGAC( name, default )
-	name = _Format( "%s[%s]", self:SteamID64(), name )
-    local val = _sql_QueryValue( "SELECT value FROM playerupdata WHERE infoid = " .. _SQLStr( name ) .. " LIMIT 1" )
-	if ( val == nil ) then return default end
-
-	return val
+return
+j
 end
-
-function GetUPDataGACSID64( name, steamId, default )
-	name = _Format( "%s[%s]", steamId, name )
-    local val = _sql_QueryValue( "SELECT value FROM playerupdata WHERE infoid = " .. _SQLStr( name ) .. " LIMIT 1" )
-	if ( val == nil ) then return default end
-
-	return val
+function
+GetUPDataGACSID64(h,i,j)h=c("%s[%s]",i,h)local
+k=e("SELECT value FROM playerupdata WHERE infoid = "..f(h).." LIMIT 1")if(k==nil)then
+return
+j
+end
+return
+k
 end

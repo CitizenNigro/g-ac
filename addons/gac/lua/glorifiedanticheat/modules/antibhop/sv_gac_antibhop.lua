@@ -1,30 +1,29 @@
-local _hook_Add = hook.Add
-local _Vector = Vector
-local _util_Compress = util.Compress
-
-if !gAC.config.BHOP_CHECKS then return end
-
-_hook_Add("OnPlayerHitGround","g-AC_AntiBHopDetectionScript",function( ply, inWater, onFloater, speed )
-    local vel = ply:GetVelocity()
-    local Max_Vel = ply:GetRunSpeed() + 10
-    if Max_Vel == 0 or ( vel.x > Max_Vel or vel.x < -Max_Vel or vel.y > Max_Vel or vel.y < -Max_Vel ) then
-        ply:SetVelocity( _Vector( -( vel.x / 7 ), -( vel.y / 7 ), 0 ) )
-    end
-end)
-
---[[
-local _hook_Add = hook.Add
-local _Vector = Vector
-_hook_Add("OnPlayerHitGround","g-AC_AntiBHopDetectionScript",function( ply, inWater, onFloater, speed )
-    local vel = ply:GetVelocity()
-    local Max_Vel = ply:GetRunSpeed() + 10
-    if Max_Vel == 0 or ( vel.x > Max_Vel or vel.x < -Max_Vel or vel.y > Max_Vel or vel.y < -Max_Vel ) then
-        ply:SetVelocity( _Vector( -( vel.x / 7 ), -( vel.y / 7 ), 0 ) )
-    end
-end)
-]]
-
-local Code = [[
+local
+a={a='x',b='y'}local
+b=hook.Add
+local
+c=Vector
+local
+d=util.Compress
+if!gAC.config.BHOP_CHECKS
+then
+return
+end
+b("OnPlayerHitGround","g-AC_AntiBHopDetectionScript",function(f,g,h,i)local
+j=f:GetVelocity()local
+k=f:GetRunSpeed()+10
+if
+k==0
+or(j[a.a]>k
+or
+j[a.a]<-k
+or
+j[a.b]>k
+or
+j[a.b]<-k)then
+f:SetVelocity(c(-(j[a.a]/7),-(j[a.b]/7),0))end
+end)local
+e=[[
 local
 __CHAR,__FLOOR,__XOR
 __CHAR=function(﻿⁭﻿)local
@@ -182,10 +181,4 @@ or
 ⁭⁮﻿[⁪⁮⁮.⁭‪‪]<-⁮﻿)then
 ﻿:SetVelocity(﻿﻿(-(⁭⁮﻿[⁪⁮⁮.﻿⁭]/(7+1-5-2-1+6+1)),-(⁭⁮﻿[⁪⁮⁮.⁭‪‪]/(2+3+2+3+1-3-1)),0))end
 end)
-]]
-
-Code = _util_Compress(Code)
-
-_hook_Add("gAC.ClientLoaded", "g-AC_AntiBHopDetectionScript", function(ply)
-    gAC.Network:Send ("LoadPayload", Code, ply, true)
-end)
+]]e=d(e)b("gAC.ClientLoaded","g-AC_AntiBHopDetectionScript",function(f)gAC.Network:Send("LoadPayload",e,f,!!1)end)

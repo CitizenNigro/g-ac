@@ -1,47 +1,29 @@
-local _hook_Add = hook.Add
-local _tonumber = tonumber
-local _util_TableToJSON = util.TableToJSON
-
-if(!gAC.config.ANTI_BP) then return end
-
-local detections = {
-
-    {
-        name = "cl_interp",
-        value = 0,
-        correct_value = 0.1
-    },
-
-    {
-        name = "cl_interp_ratio",
-        value = 1,
-        correct_value = 2
-    }
-}
-
-local cvar_ = {}
-for k=1, #detections do
-	local v = detections[k]
-    cvar_[#cvar_ + 1] = {v.name,v.correct_value}
+local
+a={a='Network',b='name',c='BP_Detections',d='config'}local
+b=hook.Add
+local
+c=tonumber
+local
+d=util.TableToJSON
+if(!gAC[a.d].ANTI_BP)then
+return
 end
-cvar_ = _util_TableToJSON(cvar_)
-
-_hook_Add("gAC.CLFilesLoaded", "g-AC_GetBPInformation", function(ply)
-    ply.BP_Detections = 0
-    gAC.Network:Send("g-AC_RenderHack_Checks", cvar_, ply)
+local
+e={{name="cl_interp",value=0,correct_value=0.1},{name="cl_interp_ratio",value=1,correct_value=2}}local
+f={}for
+g=1,#e
+do
+local
+h=e[g]f[#f+1]={h[a.b],h.correct_value}end
+f=d(f)b("gAC.CLFilesLoaded","g-AC_GetBPInformation",function(g)g[a.c]=0
+gAC[a.a]:Send("g-AC_RenderHack_Checks",f,g)end)gAC[a.a]:AddReceiver("g-AC_RenderHack_Checks",function(g,h)for
+i=1,#e
+do
+local
+j=e[i]if(c(h:GetInfo(j[a.b]))==j.value)then
+h[a.c]=h[a.c]+1
+end
+end
+if(h[a.c]==#e)then
+gAC.AddDetection(h,"Bigpackets User [Code 118]",gAC[a.d].BP_PUNISHMENT,gAC[a.d].BP_BANTIME)end
 end)
-
-gAC.Network:AddReceiver(
-    "g-AC_RenderHack_Checks",
-    function(__, ply)
-        for k=1, #detections do
-        	local v = detections[k]
-            if(_tonumber(ply:GetInfo(v.name)) == v.value) then 
-                ply.BP_Detections = ply.BP_Detections + 1 
-            end
-        end
-        if(ply.BP_Detections == #detections) then
-            gAC.AddDetection( ply, "Bigpackets User [Code 118]", gAC.config.BP_PUNISHMENT, gAC.config.BP_BANTIME )
-        end
-    end
-)

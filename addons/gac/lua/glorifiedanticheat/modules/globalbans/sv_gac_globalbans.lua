@@ -1,87 +1,72 @@
-local _hook_Add = hook.Add
-local _hook_Remove = hook.Remove
-local _util_JSONToTable = util.JSONToTable
-local _tonumber = tonumber
-local _print = print
-local _http_Post = http.Post
-local _game_KickID = game.KickID
-local _util_SteamIDFrom64 = util.SteamIDFrom64
-
-function gAC.GetFormattedGlobalText( displayReason, banTime )
-    local banString = "g-AC Global Ban ["..displayReason.."]".. '\n'
-
-    banTime = _tonumber( banTime )
-    if( banTime == -1 ) then
-        banString = banString .. "Type: Kick"
-    elseif( banTime >= 0 ) then
-        if( banTime == 0 ) then
-            banString = banString .. "Type: Permanent Ban\n\nPlease appeal if you believe this is false"
-        else
-            banString = banString .. "Type: Temporary Ban\n\nPlease appeal if you believe this is false"
-        end
-    end
-
-    return banString
+local
+a={a='Print',b='server_id',c='CheckPassword',d='CheckPassword_Old',e='GetFormattedGlobalText'}local
+b=hook.Add
+local
+c=hook.Remove
+local
+d=util.JSONToTable
+local
+e=tonumber
+local
+f=print
+local
+g=http.Post
+local
+h=game.KickID
+local
+i=util.SteamIDFrom64
+function
+gAC.GetFormattedGlobalText(j,k)local
+l="g-AC Global Ban ["..j.."]"..'\n'k=e(k)if(k==-1)then
+l=l.."Type: Kick"elseif(k>=0)then
+if(k==0)then
+l=l.."Type: Permanent Ban\n\nPlease appeal if you believe this is false"else
+l=l.."Type: Temporary Ban\n\nPlease appeal if you believe this is false"end
 end
-
-_hook_Add( 'Think', 'g-AC_getGlobalInfo', function()
-    _hook_Remove( 'Think', 'g-AC_getGlobalInfo' )
-    _http_Post( "https://stats.g-ac.dev/api/server/id", { license = gAC.config.LICENSE, hostname = GetHostName() }, function( result )
-        local resp = _util_JSONToTable(result)
-        if resp == nil then 
-            gAC.Print("[Global Bans] No API response - please contact GlorifiedPig.")
-            return
-        end
-        if(resp["success"] == "false") then
-            gAC.Print( "[Global Bans] Retreiving Server ID failed: " .. resp["error"] )
-            gAC.server_id = 0
-        else
-            gAC.Print( "[Global Bans] Server ID has been assigned (" .. resp["id"] .. ")." )
-            gAC.server_id = resp["id"]
-        end
-    end, function( failed )
-        gAC.Print( "[Global Bans] Retreiving Server ID failed: " .. failed )
-    end )
-end )
-
--- Due to how admin systems prevent any other system from using CheckPassword, :shrug:
-
-_hook_Add( 'PostGamemodeLoaded', 'gAC.GlobalBansInit', function()
-    local GAMEMODE = GAMEMODE or GM
-    if GAMEMODE.CheckPassword then
-        gAC.CheckPassword_Old = GAMEMODE.CheckPassword
-        function GAMEMODE:CheckPassword(SteamID, IP, sv_Pass, cl_Pass, Name, ...)
-            _http_Post( "https://stats.g-ac.dev/api/checkban", { player = SteamID }, function( result )
-                local resp = _util_JSONToTable(result)
-                if resp == nil then return end
-                if(resp["success"] == "false") then
-                    gAC.Print("[Global Bans] Fetching global ban data failed: "..resp["error"])
-                else    
-                    if(resp["banned"] == "true") then
-                        _game_KickID(_util_SteamIDFrom64(SteamID), gAC.GetFormattedGlobalText(resp["id"], 0));
-                    end
-                end
-            end, function( failed )
-                gAC.Print("[Global Bans] Fetching global ban data failed: " .. failed )
-            end )
-            return gAC.CheckPassword_Old(self, SteamID, IP, sv_Pass, cl_Pass, Name, ...)
-        end
-    else
-        _hook_Add("PlayerAuthed", "g-AC_getGlobalInfo", function( ply )
-            _http_Post( "https://stats.g-ac.dev/api/checkban", { player = ply:SteamID64() }, function( result )
-                local resp = _util_JSONToTable(result)
-                if resp == nil then return end
-                if(resp["success"] == "false") then
-                    gAC.Print( "[Global Bans] Fetching global ban data failed: "..resp["error"] )
-                else    
-                    if(resp["banned"] == "true") then
-                        ply:Kick(gAC.GetFormattedGlobalText(resp["id"], 0))
-                    end
-                end
-            end, function( failed )
-                gAC.Print("[Global Bans] Fetching global ban data failed: " .. failed )
-            end )
-        end)
-    end
-    _hook_Remove( 'PostGamemodeLoaded', 'gAC.GlobalBansInit' )
-end )
+return
+l
+end
+b('Think','g-AC_getGlobalInfo',function()c('Think','g-AC_getGlobalInfo')g("https://stats.g-ac.dev/api/server/id",{license=gAC.config.LICENSE,hostname=GetHostName()},function(j)local
+k=d(j)if
+k==nil
+then
+gAC[a.a]("[Global Bans] No API response - please contact GlorifiedPig.")return
+end
+if(k["success"]=="false")then
+gAC[a.a]("[Global Bans] Retreiving Server ID failed: "..k["error"])gAC[a.b]=0
+else
+gAC[a.a]("[Global Bans] Server ID has been assigned ("..k["id"]..").")gAC[a.b]=k["id"]end
+end,function(j)gAC[a.a]("[Global Bans] Retreiving Server ID failed: "..j)end)end)b('PostGamemodeLoaded','gAC.GlobalBansInit',function()local
+j=GAMEMODE
+or
+GM
+if
+j[a.c]then
+gAC[a.d]=j[a.c]function
+j:CheckPassword(k,l,m,n,o,...)g("https://stats.g-ac.dev/api/checkban",{player=k},function(p)local
+q=d(p)if
+q==nil
+then
+return
+end
+if(q["success"]=="false")then
+gAC[a.a]("[Global Bans] Fetching global ban data failed: "..q["error"])else
+if(q["banned"]=="true")then
+h(i(k),gAC[a.e](q["id"],0))end
+end
+end,function(p)gAC[a.a]("[Global Bans] Fetching global ban data failed: "..p)end)return
+gAC[a.d](self,k,l,m,n,o,...)end
+else
+b("PlayerAuthed","g-AC_getGlobalInfo",function(k)g("https://stats.g-ac.dev/api/checkban",{player=k:SteamID64()},function(l)local
+m=d(l)if
+m==nil
+then
+return
+end
+if(m["success"]=="false")then
+gAC[a.a]("[Global Bans] Fetching global ban data failed: "..m["error"])else
+if(m["banned"]=="true")then
+k:Kick(gAC[a.e](m["id"],0))end
+end
+end,function(l)gAC[a.a]("[Global Bans] Fetching global ban data failed: "..l)end)end)end
+c('PostGamemodeLoaded','gAC.GlobalBansInit')end)

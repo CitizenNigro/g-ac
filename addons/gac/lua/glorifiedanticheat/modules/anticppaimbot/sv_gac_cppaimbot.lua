@@ -1,66 +1,73 @@
-local _CurTime = CurTime
-local _IsValid = IsValid
-local _hook_Add = hook.Add
-local _math_abs = math.abs
-local _util_TraceLine = util.TraceLine
-
-local _EyePos = (CLIENT and EyePos or NULL)
-
-if !gAC.config.ENABLE_CPPAIMBOT_CHECKS then return end
-
-local Blacklisted_Weapons = {
-    ["weapon_physgun"] = true,
-    ["gmod_tool"] = true,
-    ["weapon_physcannon"] = true
-}
-
-local tr
-
-_hook_Add( "StartCommand", "gAC_AntiCobalt.StartCommand", function( ply, cmd )
-
-    if( ply:InVehicle() || ply.gAC_AimbotDetected || !ply:Alive() || ply:GetObserverMode() != OBS_MODE_NONE
-    || ply:IsBot() || !_IsValid( ply ) || ply:IsTimingOut() || ply:PacketLoss() > 80 ) then return end
-
-    if( ply.JoinTimeGAC == nil || !( _CurTime() >= ply.JoinTimeGAC + 25 ) || ply.PlayerFullyAuthenticated != true ) then return end
-
-    if _IsValid(ply:GetActiveWeapon()) && Blacklisted_Weapons[ply:GetActiveWeapon():GetClass()] then 
-        ply.gAC_CPPAimbotDetections = 0
-        return 
-    end
-
-    ply.gAC_CPPMX = _math_abs( cmd:GetMouseX() )
-    ply.gAC_CPPMY = _math_abs( cmd:GetMouseY() )
-    ply.gAC_CPPAimView = cmd:GetViewAngles()
-
-    if ply.gAC_CPPAimViewOld == nil then
-        ply.gAC_CPPAimViewOld = ply.gAC_CPPAimView
-        return
-    end
-
-    if ply.gAC_CPPAimbotDetections == nil then
-        ply.gAC_CPPAimbotDetections = 0
-    end
-
-    if ply.gAC_CPPMX == 0 && ply.gAC_CPPMY == 0 then
-        if ( ply.gAC_CPPAimView.p ~= ply.gAC_CPPAimViewOld.p && ply.gAC_CPPAimView.y ~= ply.gAC_CPPAimViewOld.y ) then
-            tr = _util_TraceLine({start = ply:EyePos(), endpos = ply:EyePos() + ((ply.gAC_CPPAimView):Forward() * (4096 * 8) ), filter = ply})
-        	if tr.Entity:IsPlayer() then
-                if ply.gAC_CPPAimbotDetections >= 40 then
-                    ply.gAC_AimbotDetected = true
-                    gAC.AddDetection( ply, "C++ Aimbot detection triggered [Code 123]", gAC.config.CPPAIMBOT_PUNISHMENT, gAC.config.CPPAIMBOT_PUNSIHMENT_BANTIME )
-                else
-                    ply.gAC_CPPAimbotDetections = ply.gAC_CPPAimbotDetections + 1
-                end
-            elseif ply.gAC_CPPAimbotDetections != 0 then
-                ply.gAC_CPPAimbotDetections = ply.gAC_CPPAimbotDetections - 1
-            end
-        elseif ply.gAC_CPPAimbotDetections != 0 then
-            ply.gAC_CPPAimbotDetections = 0
-        end
-    elseif ply.gAC_CPPAimbotDetections != 0 then
-        ply.gAC_CPPAimbotDetections = 0
-    end
-
-    ply.gAC_CPPAimViewOld = ply.gAC_CPPAimView
-
-end )
+local
+a={a='JoinTimeGAC',b='gAC_CPPAimViewOld',c='gAC_CPPAimView',d='gAC_CPPAimbotDetections',e='gAC_CPPMX',f='gAC_CPPMY',g='p',h='y',i='gAC_AimbotDetected',j='config'}local
+b=CurTime
+local
+c=IsValid
+local
+d=hook.Add
+local
+e=math.abs
+local
+f=util.TraceLine
+local
+g=(CLIENT
+and
+EyePos
+or
+NULL)if!gAC[a.j].ENABLE_CPPAIMBOT_CHECKS
+then
+return
+end
+local
+h={["weapon_physgun"]=!!1,["gmod_tool"]=!!1,["weapon_physcannon"]=!!1}local
+i
+d("StartCommand","gAC_AntiCobalt.StartCommand",function(j,k)if(j:InVehicle()||j[a.i]||!j:Alive()||j:GetObserverMode()!=OBS_MODE_NONE||j:IsBot()||!c(j)||j:IsTimingOut()||j:PacketLoss()>80)then
+return
+end
+if(j[a.a]==nil||!(b()>=j[a.a]+25)||j.PlayerFullyAuthenticated!=!!1)then
+return
+end
+if
+c(j:GetActiveWeapon())&&h[j:GetActiveWeapon():GetClass()]then
+j[a.d]=0
+return
+end
+j[a.e]=e(k:GetMouseX())j[a.f]=e(k:GetMouseY())j[a.c]=k:GetViewAngles()if
+j[a.b]==nil
+then
+j[a.b]=j[a.c]return
+end
+if
+j[a.d]==nil
+then
+j[a.d]=0
+end
+if
+j[a.e]==0&&j[a.f]==0
+then
+if(j[a.c][a.g]~=j[a.b][a.g]&&j[a.c][a.h]~=j[a.b][a.h])then
+i=f({start=j:EyePos(),endpos=j:EyePos()+((j[a.c]):Forward()*(4096*8)),filter=j})if
+i.Entity:IsPlayer()then
+if
+j[a.d]>=40
+then
+j[a.i]=!!1
+gAC.AddDetection(j,"C++ Aimbot detection triggered [Code 123]",gAC[a.j].CPPAIMBOT_PUNISHMENT,gAC[a.j].CPPAIMBOT_PUNSIHMENT_BANTIME)else
+j[a.d]=j[a.d]+1
+end
+elseif
+j[a.d]!=0
+then
+j[a.d]=j[a.d]-1
+end
+elseif
+j[a.d]!=0
+then
+j[a.d]=0
+end
+elseif
+j[a.d]!=0
+then
+j[a.d]=0
+end
+j[a.b]=j[a.c]end)

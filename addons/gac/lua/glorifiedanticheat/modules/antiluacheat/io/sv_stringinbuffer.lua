@@ -1,119 +1,218 @@
---[[
-    https://github.com/notcake/glib/blob/master/lua/glib/io/stringinbuffer.lua
-    Cake's io.stringinbuffer (converted to not use constuctor)
-]]
-local math_max    = math.max
-local string_byte = string.byte
-local string_find = string.find
-local string_sub  = string.sub
-
-function gAC.StringInBuffer(data)
-	local self = gAC.InBuffer()
-	self.Data = data or ""
-	self.Position = 1
-
-	-- Position
-	function self:GetBytesRemaining ()
-		return math_max (0, #self.Data - self.Position + 1)
-	end
-
-	function self:GetPosition ()
-		return self.Position
-	end
-
-	function self:GetSize ()
-		return #self.Data
-	end
-
-	function self:IsEndOfStream ()
-		return self.Position > #self.Data
-	end
-
-	function self:Pin ()
-		return self
-	end
-
-	function self:SeekRelative (relativeSeekPos)
-		self.Position = self.Position + relativeSeekPos
-	end
-
-	function self:SeekAbsolute (seekPos)
-		self.Position = seekPos
-	end
-
-	function self:UInt8 ()
-		local uint80 = string_byte (self.Data, self.Position, self.Position)
-		self.Position = self.Position + 1
-		return gAC.BitConverter.UInt8sToUInt8 (uint80 or 0)
-	end
-
-	function self:UInt16 ()
-		local uint80, uint81 = string_byte (self.Data, self.Position, self.Position + 1)
-		self.Position = self.Position + 2
-		return gAC.BitConverter.UInt8sToUInt16 (uint80 or 0, uint81 or 0)
-	end
-
-	function self:UInt32 ()
-		local uint80, uint81, uint82, uint83 = string_byte (self.Data, self.Position, self.Position + 3)
-		self.Position = self.Position + 4
-		return gAC.BitConverter.UInt8sToUInt32 (uint80 or 0, uint81 or 0, uint82 or 0, uint83 or 0)
-	end
-
-	function self:UInt64 ()
-		local uint80, uint81, uint82, uint83, uint84, uint85, uint86, uint87 = string_byte (self.Data, self.Position, self.Position + 7)
-		self.Position = self.Position + 8
-		return gAC.BitConverter.UInt8sToUInt64 (uint80 or 0, uint81 or 0, uint82 or 0, uint83 or 0, uint84 or 0, uint85 or 0, uint86 or 0, uint87 or 0)
-	end
-
-	function self:Int8 ()
-		local uint80 = string_byte (self.Data, self.Position, self.Position)
-		self.Position = self.Position + 1
-		return gAC.BitConverter.UInt8sToInt8 (uint80 or 0)
-	end
-
-	function self:Int16 ()
-		local uint80, uint81 = string_byte (self.Data, self.Position, self.Position + 1)
-		self.Position = self.Position + 2
-		return gAC.BitConverter.UInt8sToInt16 (uint80 or 0, uint81 or 0)
-	end
-
-	function self:Int32 ()
-		local uint80, uint81, uint82, uint83 = string_byte (self.Data, self.Position, self.Position + 3)
-		self.Position = self.Position + 4
-		return gAC.BitConverter.UInt8sToInt32 (uint80 or 0, uint81 or 0, uint82 or 0, uint83 or 0)
-	end
-
-	function self:Int64 ()
-		local uint80, uint81, uint82, uint83, uint84, uint85, uint86, uint87 = string_byte (self.Data, self.Position, self.Position + 7)
-		self.Position = self.Position + 8
-		return gAC.BitConverter.UInt8sToInt64 (uint80 or 0, uint81 or 0, uint82 or 0, uint83 or 0, uint84 or 0, uint85 or 0, uint86 or 0, uint87 or 0)
-	end
-
-	function self:Bytes (length)
-		local str = string_sub (self.Data, self.Position, self.Position + length - 1)
-		self.Position = self.Position + length
-		return str
-	end
-
-	function self:String ()
-		return self:StringN16 ()
-	end
-
-	function self:StringZ ()
-		local terminatorPosition = string_find (self.Data, "\0", self.Position, true)
-		if terminatorPosition then
-			local str = string_sub (self.Data, self.Position, terminatorPosition - 1)
-			self.Position = terminatorPosition + 1
-			return str
-		else
-			local str = string_sub (self.Data, self.Position)
-			self.Position = #self.Data
-			return str
-		end
-	end
-
-	function self:LongString ()
-		return self:StringN32 ()
-	end
-	return self
+local
+__CHAR,__FLOOR,__XOR
+__CHAR=function(⁭⁮‪)local
+⁮‪={[1]="\1",[2]="\2",[3]="\3",[4]="\4",[5]="\5",[6]="\6",[7]="\7",[8]="\b",[9]="\t",[10]="\n",[11]="\v",[12]="\f",[13]="\r",[14]="\14",[15]="\15",[16]="\16",[17]="\17",[18]="\18",[19]="\19",[20]="\20",[21]="\21",[22]="\22",[23]="\23",[24]="\24",[25]="\25",[26]="\26",[27]="\27",[28]="\28",[29]="\29",[30]="\30",[31]="\31",[32]="\32",[33]="\33",[34]="\"",[35]="\35",[36]="\36",[37]="\37",[38]="\38",[39]="\'",[40]="\40",[41]="\41",[42]="\42",[43]="\43",[44]="\44",[45]="\45",[46]="\46",[47]="\47",[48]="\48",[49]="\49",[50]="\50",[51]="\51",[52]="\52",[53]="\53",[54]="\54",[55]="\55",[56]="\56",[57]="\57",[58]="\58",[59]="\59",[60]="\60",[61]="\61",[62]="\62",[63]="\63",[64]="\64",[65]="\65",[66]="\66",[67]="\67",[68]="\68",[69]="\69",[70]="\70",[71]="\71",[72]="\72",[73]="\73",[74]="\74",[75]="\75",[76]="\76",[77]="\77",[78]="\78",[79]="\79",[80]="\80",[81]="\81",[82]="\82",[83]="\83",[84]="\84",[85]="\85",[86]="\86",[87]="\87",[88]="\88",[89]="\89",[90]="\90",[91]="\91",[92]="\92",[93]="\93",[94]="\94",[95]="\95",[96]="\96",[97]="\97",[98]="\98",[99]="\99",[100]="\100",[101]="\101",[102]="\102",[103]="\103",[104]="\104",[105]="\105",[106]="\106",[107]="\107",[108]="\108",[109]="\109",[110]="\110",[111]="\111",[112]="\112",[113]="\113",[114]="\114",[115]="\115",[116]="\116",[117]="\117",[118]="\118",[119]="\119",[120]="\120",[121]="\121",[122]="\122",[123]="\123",[124]="\124",[125]="\125",[126]="\126",[127]="\127",[128]="\128",[129]="\129",[130]="\130",[131]="\131",[132]="\132",[133]="\133",[134]="\134",[135]="\135",[136]="\136",[137]="\137",[138]="\138",[139]="\139",[140]="\140",[141]="\141",[142]="\142",[143]="\143",[144]="\144",[145]="\145",[146]="\146",[147]="\147",[148]="\148",[149]="\149",[150]="\150",[151]="\151",[152]="\152",[153]="\153",[154]="\154",[155]="\155",[156]="\156",[157]="\157",[158]="\158",[159]="\159",[160]="\160",[161]="\161",[162]="\162",[163]="\163",[164]="\164",[165]="\165",[166]="\166",[167]="\167",[168]="\168",[169]="\169",[170]="\170",[171]="\171",[172]="\172",[173]="\173",[174]="\174",[175]="\175",[176]="\176",[177]="\177",[178]="\178",[179]="\179",[180]="\180",[181]="\181",[182]="\182",[183]="\183",[184]="\184",[185]="\185",[186]="\186",[187]="\187",[188]="\188",[189]="\189",[190]="\190",[191]="\191",[192]="\192",[193]="\193",[194]="\194",[195]="\195",[196]="\196",[197]="\197",[198]="\198",[199]="\199",[200]="\200",[201]="\201",[202]="\202",[203]="\203",[204]="\204",[205]="\205",[206]="\206",[207]="\207",[208]="\208",[209]="\209",[210]="\210",[211]="\211",[212]="\212",[213]="\213",[214]="\214",[215]="\215",[216]="\216",[217]="\217",[218]="\218",[219]="\219",[220]="\220",[221]="\221",[222]="\222",[223]="\223",[224]="\224",[225]="\225",[226]="\226",[227]="\227",[228]="\228",[229]="\229",[230]="\230",[231]="\231",[232]="\232",[233]="\233",[234]="\234",[235]="\235",[236]="\236",[237]="\237",[238]="\238",[239]="\239",[240]="\240",[241]="\241",[242]="\242",[243]="\243",[244]="\244",[245]="\245",[246]="\246",[247]="\247",[248]="\248",[249]="\249",[250]="\250",[251]="\251",[252]="\252",[253]="\253",[254]="\254",[255]="\255"}local
+⁪﻿﻿=⁮‪[⁭⁮‪]if
+not
+⁪﻿﻿
+then
+⁪﻿﻿=_G['\x73\x74\x72\x69\x6E\x67']['\x63\x68\x61\x72'](⁭⁮‪)end
+return
+⁪﻿﻿
+end
+__FLOOR=function(﻿⁭⁭)return
+﻿⁭⁭-(﻿⁭⁭%1)end
+__XOR=function(...)local
+‪,⁭⁭﻿⁭=0,{...}for
+⁭‪⁪﻿=0,31
+do
+local
+⁮⁮⁭=0
+for
+⁪‪⁮=1,#⁭⁭﻿⁭
+do
+⁮⁮⁭=⁮⁮⁭+(⁭⁭﻿⁭[⁪‪⁮]*.5)end
+if
+⁮⁮⁭~=__FLOOR(⁮⁮⁭)then
+‪=‪+2^⁭‪⁪﻿
+end
+for
+⁮⁭﻿⁭=1,#⁭⁭﻿⁭
+do
+⁭⁭﻿⁭[⁮⁭﻿⁭]=__FLOOR(⁭⁭﻿⁭[⁮⁭﻿⁭]*.5)end
+end
+return
+‪
+end
+local
+⁮={‪='\x44\x61\x74\x61',‪‪='\x50\x6F\x73\x69\x74\x69\x6F\x6E',﻿﻿='\x42\x69\x74\x43\x6F\x6E\x76\x65\x72\x74\x65\x72'}local
+﻿⁭﻿⁭=math.max
+local
+‪⁮⁮=string.byte
+local
+‪⁭=string.find
+local
+‪⁮=string.sub
+function
+gAC.StringInBuffer(﻿﻿⁭⁮)local
+self=gAC.InBuffer()self[⁮.‪]=﻿﻿⁭⁮
+or""self[⁮.‪‪]=1
+function
+self:GetBytesRemaining()return
+﻿⁭﻿⁭(0,#self[⁮.‪]-self[⁮.‪‪]+1)end
+function
+self:GetPosition()return
+self[⁮.‪‪]end
+function
+self:GetSize()return#self[⁮.‪]end
+function
+self:IsEndOfStream()return
+self[⁮.‪‪]>#self[⁮.‪]end
+function
+self:Pin()return
+self
+end
+function
+self:SeekRelative(‪⁪⁪)self[⁮.‪‪]=self[⁮.‪‪]+‪⁪⁪
+end
+function
+self:SeekAbsolute(⁪‪﻿﻿)self[⁮.‪‪]=⁪‪﻿﻿
+end
+function
+self:UInt8()local
+⁮⁭⁭=‪⁮⁮(self[⁮.‪],self[⁮.‪‪],self[⁮.‪‪])self[⁮.‪‪]=self[⁮.‪‪]+1
+return
+gAC[⁮.﻿﻿].UInt8sToUInt8(⁮⁭⁭
+or
+0)end
+function
+self:UInt16()local
+⁮‪⁪,﻿‪﻿⁪=‪⁮⁮(self[⁮.‪],self[⁮.‪‪],self[⁮.‪‪]+1)self[⁮.‪‪]=self[⁮.‪‪]+2
+return
+gAC[⁮.﻿﻿].UInt8sToUInt16(⁮‪⁪
+or
+0,﻿‪﻿⁪
+or
+0)end
+function
+self:UInt32()local
+⁮‪⁭,⁮⁮⁪⁪,⁭,⁪=‪⁮⁮(self[⁮.‪],self[⁮.‪‪],self[⁮.‪‪]+3)self[⁮.‪‪]=self[⁮.‪‪]+4
+return
+gAC[⁮.﻿﻿].UInt8sToUInt32(⁮‪⁭
+or
+0,⁮⁮⁪⁪
+or
+0,⁭
+or
+0,⁪
+or
+0)end
+function
+self:UInt64()local
+﻿,⁮⁭⁮⁪,﻿⁪⁪﻿,⁭‪⁪,﻿⁭,⁭‪﻿,⁮‪⁮,⁮⁭‪⁮=‪⁮⁮(self[⁮.‪],self[⁮.‪‪],self[⁮.‪‪]+(5+5-3))self[⁮.‪‪]=self[⁮.‪‪]+(-2-9-7+1+0+11+15-1)return
+gAC[⁮.﻿﻿].UInt8sToUInt64(﻿
+or
+0,⁮⁭⁮⁪
+or
+0,﻿⁪⁪﻿
+or
+0,⁭‪⁪
+or
+0,﻿⁭
+or
+0,⁭‪﻿
+or
+0,⁮‪⁮
+or
+0,⁮⁭‪⁮
+or
+0)end
+function
+self:Int8()local
+‪﻿=‪⁮⁮(self[⁮.‪],self[⁮.‪‪],self[⁮.‪‪])self[⁮.‪‪]=self[⁮.‪‪]+1
+return
+gAC[⁮.﻿﻿].UInt8sToInt8(‪﻿
+or
+0)end
+function
+self:Int16()local
+﻿﻿,⁮‪⁭⁮=‪⁮⁮(self[⁮.‪],self[⁮.‪‪],self[⁮.‪‪]+1)self[⁮.‪‪]=self[⁮.‪‪]+(0+2)return
+gAC[⁮.﻿﻿].UInt8sToInt16(﻿﻿
+or
+0,⁮‪⁭⁮
+or
+0)end
+function
+self:Int32()local
+⁪‪﻿,‪⁭‪‪,⁭﻿,⁮⁪⁭⁭=‪⁮⁮(self[⁮.‪],self[⁮.‪‪],self[⁮.‪‪]+3)self[⁮.‪‪]=self[⁮.‪‪]+4
+return
+gAC[⁮.﻿﻿].UInt8sToInt32(⁪‪﻿
+or
+0,‪⁭‪‪
+or
+0,⁭﻿
+or
+0,⁮⁪⁭⁭
+or
+0)end
+function
+self:Int64()local
+‪‪,‪‪⁪,⁪﻿,⁮⁮⁭,﻿⁪⁭,﻿⁮⁮⁭,⁪⁭⁪,⁮﻿=‪⁮⁮(self[⁮.‪],self[⁮.‪‪],self[⁮.‪‪]+(11-4))self[⁮.‪‪]=self[⁮.‪‪]+(14-6-1+2-7+6)return
+gAC[⁮.﻿﻿].UInt8sToInt64(‪‪
+or
+0,‪‪⁪
+or
+0,⁪﻿
+or
+0,⁮⁮⁭
+or
+0,﻿⁪⁭
+or
+0,﻿⁮⁮⁭
+or
+0,⁪⁭⁪
+or
+0,⁮﻿
+or
+0)end
+function
+self:Bytes(⁭⁭⁪⁮)local
+⁮⁭⁮‪=‪⁮(self[⁮.‪],self[⁮.‪‪],self[⁮.‪‪]+⁭⁭⁪⁮-1)self[⁮.‪‪]=self[⁮.‪‪]+⁭⁭⁪⁮
+return
+⁮⁭⁮‪
+end
+function
+self:String()return
+self:StringN16()end
+function
+self:StringZ()local
+⁪‪⁭⁮=‪⁭(self[⁮.‪],(function(‪,⁭)local
+⁮,‪⁪﻿﻿,⁪⁮‪‪,⁮⁪='',0,#⁭,#‪
+for
+⁮⁮﻿﻿=1,⁪⁮‪‪
+do
+‪⁪﻿﻿=‪⁪﻿﻿+1
+local
+⁪⁮⁭﻿=⁭[⁮⁮﻿﻿]if
+⁪⁮⁭﻿..''~=⁪⁮⁭﻿
+then
+⁮=⁮..__CHAR(__XOR(⁪⁮⁭﻿,‪[‪⁪﻿﻿]%(102+14-57+139-13+127-53-4),(⁪⁮‪‪*⁮⁪)%(-1542+2025-228)))else
+⁮=⁮..⁪⁮⁭﻿
+end
+if
+‪⁪﻿﻿==⁮⁪
+then
+‪⁪﻿﻿=0
+end
+end
+return
+⁮
+end)({(87+119+22),(-2997+3517+2262-2696-6003-2826+4976+4301),(17+20-18+19+16)},{'\0',''}),self[⁮.‪‪],!!1)if
+⁪‪⁭⁮
+then
+local
+⁮⁪=‪⁮(self[⁮.‪],self[⁮.‪‪],⁪‪⁭⁮-1)self[⁮.‪‪]=⁪‪⁭⁮+1
+return
+⁮⁪
+else
+local
+﻿⁪﻿﻿=‪⁮(self[⁮.‪],self[⁮.‪‪])self[⁮.‪‪]=#self[⁮.‪]return
+﻿⁪﻿﻿
+end
+end
+function
+self:LongString()return
+self:StringN32()end
+return
+self
 end

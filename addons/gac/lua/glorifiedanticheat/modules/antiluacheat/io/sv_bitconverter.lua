@@ -1,244 +1,269 @@
---[[
-    https://github.com/notcake/glib/blob/master/lua/glib/bitconverter.lua
-    Cake's bitconverter
-]]
-gAC.BitConverter = {}
-
-local bit_band   = bit.band
-local bit_lshift = bit.lshift
-local bit_rshift = bit.rshift
-local math_floor = math.floor
-local math_frexp = math.frexp
-local math_ldexp = math.ldexp
-local math_huge  = math.huge
-
--- Integers
-function gAC.BitConverter.UInt8ToUInt8s (n)
-	return n
+local
+__CHAR,__FLOOR,__XOR
+__CHAR=function(﻿﻿)local
+‪⁮﻿={[1]="\1",[2]="\2",[3]="\3",[4]="\4",[5]="\5",[6]="\6",[7]="\7",[8]="\b",[9]="\t",[10]="\n",[11]="\v",[12]="\f",[13]="\r",[14]="\14",[15]="\15",[16]="\16",[17]="\17",[18]="\18",[19]="\19",[20]="\20",[21]="\21",[22]="\22",[23]="\23",[24]="\24",[25]="\25",[26]="\26",[27]="\27",[28]="\28",[29]="\29",[30]="\30",[31]="\31",[32]="\32",[33]="\33",[34]="\"",[35]="\35",[36]="\36",[37]="\37",[38]="\38",[39]="\'",[40]="\40",[41]="\41",[42]="\42",[43]="\43",[44]="\44",[45]="\45",[46]="\46",[47]="\47",[48]="\48",[49]="\49",[50]="\50",[51]="\51",[52]="\52",[53]="\53",[54]="\54",[55]="\55",[56]="\56",[57]="\57",[58]="\58",[59]="\59",[60]="\60",[61]="\61",[62]="\62",[63]="\63",[64]="\64",[65]="\65",[66]="\66",[67]="\67",[68]="\68",[69]="\69",[70]="\70",[71]="\71",[72]="\72",[73]="\73",[74]="\74",[75]="\75",[76]="\76",[77]="\77",[78]="\78",[79]="\79",[80]="\80",[81]="\81",[82]="\82",[83]="\83",[84]="\84",[85]="\85",[86]="\86",[87]="\87",[88]="\88",[89]="\89",[90]="\90",[91]="\91",[92]="\92",[93]="\93",[94]="\94",[95]="\95",[96]="\96",[97]="\97",[98]="\98",[99]="\99",[100]="\100",[101]="\101",[102]="\102",[103]="\103",[104]="\104",[105]="\105",[106]="\106",[107]="\107",[108]="\108",[109]="\109",[110]="\110",[111]="\111",[112]="\112",[113]="\113",[114]="\114",[115]="\115",[116]="\116",[117]="\117",[118]="\118",[119]="\119",[120]="\120",[121]="\121",[122]="\122",[123]="\123",[124]="\124",[125]="\125",[126]="\126",[127]="\127",[128]="\128",[129]="\129",[130]="\130",[131]="\131",[132]="\132",[133]="\133",[134]="\134",[135]="\135",[136]="\136",[137]="\137",[138]="\138",[139]="\139",[140]="\140",[141]="\141",[142]="\142",[143]="\143",[144]="\144",[145]="\145",[146]="\146",[147]="\147",[148]="\148",[149]="\149",[150]="\150",[151]="\151",[152]="\152",[153]="\153",[154]="\154",[155]="\155",[156]="\156",[157]="\157",[158]="\158",[159]="\159",[160]="\160",[161]="\161",[162]="\162",[163]="\163",[164]="\164",[165]="\165",[166]="\166",[167]="\167",[168]="\168",[169]="\169",[170]="\170",[171]="\171",[172]="\172",[173]="\173",[174]="\174",[175]="\175",[176]="\176",[177]="\177",[178]="\178",[179]="\179",[180]="\180",[181]="\181",[182]="\182",[183]="\183",[184]="\184",[185]="\185",[186]="\186",[187]="\187",[188]="\188",[189]="\189",[190]="\190",[191]="\191",[192]="\192",[193]="\193",[194]="\194",[195]="\195",[196]="\196",[197]="\197",[198]="\198",[199]="\199",[200]="\200",[201]="\201",[202]="\202",[203]="\203",[204]="\204",[205]="\205",[206]="\206",[207]="\207",[208]="\208",[209]="\209",[210]="\210",[211]="\211",[212]="\212",[213]="\213",[214]="\214",[215]="\215",[216]="\216",[217]="\217",[218]="\218",[219]="\219",[220]="\220",[221]="\221",[222]="\222",[223]="\223",[224]="\224",[225]="\225",[226]="\226",[227]="\227",[228]="\228",[229]="\229",[230]="\230",[231]="\231",[232]="\232",[233]="\233",[234]="\234",[235]="\235",[236]="\236",[237]="\237",[238]="\238",[239]="\239",[240]="\240",[241]="\241",[242]="\242",[243]="\243",[244]="\244",[245]="\245",[246]="\246",[247]="\247",[248]="\248",[249]="\249",[250]="\250",[251]="\251",[252]="\252",[253]="\253",[254]="\254",[255]="\255"}local
+⁮⁮=‪⁮﻿[﻿﻿]if
+not
+⁮⁮
+then
+⁮⁮=_G['\x73\x74\x72\x69\x6E\x67']['\x63\x68\x61\x72'](﻿﻿)end
+return
+⁮⁮
 end
-
-function gAC.BitConverter.UInt16ToUInt8s (n)
-	return             n        % 256,
-	       math_floor (n / 256) % 256
+__FLOOR=function(⁪﻿)return
+⁪﻿-(⁪﻿%1)end
+__XOR=function(...)local
+⁮﻿﻿⁪,⁮=0,{...}for
+‪﻿‪﻿=0,31
+do
+local
+⁪⁭⁭=0
+for
+⁭‪⁮=1,#⁮
+do
+⁪⁭⁭=⁪⁭⁭+(⁮[⁭‪⁮]*.5)end
+if
+⁪⁭⁭~=__FLOOR(⁪⁭⁭)then
+⁮﻿﻿⁪=⁮﻿﻿⁪+2^‪﻿‪﻿
 end
-
-function gAC.BitConverter.UInt32ToUInt8s (n)
-	return             n             % 256,
-	       math_floor (n /      256) % 256,
-	       math_floor (n /    65536) % 256,
-	       math_floor (n / 16777216) % 256
+for
+⁮﻿⁪=1,#⁮
+do
+⁮[⁮﻿⁪]=__FLOOR(⁮[⁮﻿⁪]*.5)end
 end
-
-function gAC.BitConverter.UInt64ToUInt8s (n)
-	return             n                      % 256,
-	       math_floor (n /               256) % 256,
-	       math_floor (n /             65536) % 256,
-	       math_floor (n /          16777216) % 256,
-	       math_floor (n /        4294967296) % 256,
-	       math_floor (n /     1099511627776) % 256,
-	       math_floor (n /   281474976710656) % 256,
-	       math_floor (n / 72057594037927936) % 256
+return
+⁮﻿﻿⁪
 end
-
-function gAC.BitConverter.UInt8sToUInt8(uint80)
-	return uint80
+local
+‪⁭={⁮﻿='\x42\x69\x74\x43\x6F\x6E\x76\x65\x72\x74\x65\x72',‪⁮﻿='\x55\x49\x6E\x74\x33\x32\x54\x6F\x55\x49\x6E\x74\x38\x73',⁪='\x55\x49\x6E\x74\x38\x73\x54\x6F\x55\x49\x6E\x74\x33\x32'}gAC[‪⁭.⁮﻿]={}local
+⁪⁭⁪=bit.band
+local
+⁪⁪⁪=bit.lshift
+local
+‪=bit.rshift
+local
+⁪⁮⁮=math.floor
+local
+⁪﻿⁪=math.frexp
+local
+‪⁮=math.ldexp
+local
+﻿﻿⁪=math.huge
+function
+gAC.BitConverter.UInt8ToUInt8s(⁮)return
+⁮
 end
-
-function gAC.BitConverter.UInt8sToUInt16 (uint80, uint81)
-	return uint80 +
-	       uint81 * 256
+function
+gAC.BitConverter.UInt16ToUInt8s(‪⁮⁭‪)return
+‪⁮⁭‪%(73-211-195+139+269+180+1),⁪⁮⁮(‪⁮⁭‪/(60-180+110+85+121-169+186+42+1))%(71-48+122+19+93-1)end
+function
+gAC.BitConverter.UInt32ToUInt8s(⁭⁮﻿‪)return
+⁭⁮﻿‪%(416-612-338+306+462+22),⁪⁮⁮(⁭⁮﻿‪/(-645+809-51+423+428-590-117-1))%(47+73+113+23),⁪⁮⁮(⁭⁮﻿‪/(-156459+221995))%(-15+73-4+120+81+1),⁪⁮⁮(⁭⁮﻿‪/(34113846-29485397+26807085-15515669-25061129+16100085+9818396-1))%(-164+223+217-227+20+66-90+211)end
+function
+gAC.BitConverter.UInt64ToUInt8s(⁪⁪﻿﻿)return
+⁪⁪﻿﻿%(11+126+34+111+50-76),⁪⁮⁮(⁪⁪﻿﻿/(-136+92+122+78-116+216))%(-64+55+15-65+25+165+25+101-1),⁪⁮⁮(⁪⁪﻿﻿/(40642-1562-36423+61586-86380+87674-1))%(-398+654),⁪⁮⁮(⁪⁪﻿﻿/(-26917035-5938612-41079647+51257698+19013753+20441059))%(-488+744),⁪⁮⁮(⁪⁪﻿﻿/(2315466659+4211580715-2957059390-3974450127+4699429438+1))%(-1496+439-65-42+1420),⁪⁮⁮(⁪⁪﻿﻿/(5652555372752-503942829397-628061708084+5056582935743+4783117764004-3766957513296-4248296579421-5245485814524-1))%(378-86-35-1),⁪⁮⁮(⁪⁪﻿﻿/(2.4587196400674e+014+76039984037244-1.0659456213162e+014+1.6587242341299e+014-2.706191924849e+014+1.7090435987021e+014))%(-31+254+33),⁪⁮⁮(⁪⁪﻿﻿/(-4.2301962415218e+016+6.6711183122727e+016+4.0904801633981e+016-4.110377809199e+016-1.7016812734953e+016+6.4864162523381e+016))%(-21+135+72+31+30+1+8)end
+function
+gAC.BitConverter.UInt8sToUInt8(⁮⁭)return
+⁮⁭
 end
-
-function gAC.BitConverter.UInt8sToUInt32 (uint80, uint81, uint82, uint83)
-	return uint80 +
-	       uint81 * 256 +
-	       uint82 * 65536 +
-	       uint83 * 16777216
+function
+gAC.BitConverter.UInt8sToUInt16(⁮⁮⁪,‪‪‪﻿)return
+⁮⁮⁪+‪‪‪﻿*(248+33-370+106+274-571+536)end
+function
+gAC.BitConverter.UInt8sToUInt32(⁮‪﻿﻿,‪‪⁪,⁪⁭﻿,﻿‪)return
+⁮‪﻿﻿+‪‪⁪*(1059-912+1278-1170+1)+⁪⁭﻿*(10720+1989+15222+10618+881+4118+5952+16036)+﻿‪*(-4007108+4441656+3946952+10938909+1456806+1)end
+function
+gAC.BitConverter.UInt8sToUInt64(⁪,﻿‪⁮,‪⁪‪,‪‪,⁭⁪⁮,⁭‪,⁪‪,⁮﻿‪)return
+⁪+﻿‪⁮*(-20+154-317+334+105)+‪⁪‪*(-82649+210087-61902)+‪‪*(393888535-169131693+642567373-462154448-117093397+628740633-900039786-1)+⁭⁪⁮*(1830893386+2464073910)+⁭‪*(66023957605+650444644922+383043025250-1)+⁪‪*(4.3458976589413e+014-13377588813443+3.5806268305952e+014-4.9779988342956e+014)+⁮﻿‪*(4.4506668552762e+016-4.1918268939349e+016+6.9469194424515e+016)end
+function
+gAC.BitConverter.Int8ToUInt8s(⁪﻿)if
+⁪﻿<0
+then
+⁪﻿=⁪﻿+(86-15+185)end
+return
+gAC[‪⁭.⁮﻿].UInt8ToUInt8s(⁪﻿)end
+function
+gAC.BitConverter.Int16ToUInt8s(⁮﻿)if
+⁮﻿<0
+then
+⁮﻿=⁮﻿+(-7909+7626+28490+24115+11871+1343)end
+return
+gAC[‪⁭.⁮﻿].UInt16ToUInt8s(⁮﻿)end
+function
+gAC.BitConverter.Int32ToUInt8s(⁮⁭‪)if
+⁮⁭‪<0
+then
+⁮⁭‪=⁮⁭‪+(906799977+704252336+1426673885+1257241098)end
+return
+gAC[‪⁭.⁮﻿][‪⁭.‪⁮﻿](⁮⁭‪)end
+function
+gAC.BitConverter.Int64ToUInt8s(⁭)local
+﻿⁮,﻿﻿,⁭⁮,﻿⁪⁭⁭=gAC[‪⁭.⁮﻿][‪⁭.‪⁮﻿](⁭%(2059305229-37619626685-1678103141+33578341917+33775047621+4105044548-5732953820-24192088373))local
+⁪⁭‪,﻿⁮⁭﻿,⁮⁪,﻿‪﻿=gAC[‪⁭.⁮﻿].Int32ToUInt8s(⁪⁮⁮(⁭/(1438537911+265454182+2590975203)))return
+﻿⁮,﻿﻿,⁭⁮,﻿⁪⁭⁭,⁪⁭‪,﻿⁮⁭﻿,⁮⁪,﻿‪﻿
 end
-
-function gAC.BitConverter.UInt8sToUInt64 (uint80, uint81, uint82, uint83, uint84, uint85, uint86, uint87)
-	return uint80 +
-	       uint81 * 256 +
-	       uint82 * 65536 +
-	       uint83 * 16777216 +
-	       uint84 * 4294967296 +
-	       uint85 * 1099511627776 +
-	       uint86 * 281474976710656 +
-	       uint87 * 72057594037927936
+function
+gAC.BitConverter.UInt8sToInt8(⁪⁮⁪⁪)local
+⁪⁪‪=gAC[‪⁭.⁮﻿].UInt8sToUInt8(⁪⁮⁪⁪)if
+⁪⁪‪>=(35-32-3+9+36+32+31+20)then
+⁪⁪‪=⁪⁪‪-(-144+255+145)end
+return
+⁪⁪‪
 end
-
-function gAC.BitConverter.Int8ToUInt8s (n)
-	if n < 0 then n = n + 256 end
-	return gAC.BitConverter.UInt8ToUInt8s (n)
+function
+gAC.BitConverter.UInt8sToInt16(﻿⁭⁭,⁭⁮⁮)local
+⁮⁪﻿=gAC[‪⁭.⁮﻿].UInt8sToUInt16(﻿⁭⁭,⁭⁮⁮)if
+⁮⁪﻿>=(808+22318+10286-18049+17405)then
+⁮⁪﻿=⁮⁪﻿-(-6905+42919+4607-40362+6924+2495+23474+32385-1)end
+return
+⁮⁪﻿
 end
-
-function gAC.BitConverter.Int16ToUInt8s (n)
-	if n < 0 then n = n + 65536 end
-	return gAC.BitConverter.UInt16ToUInt8s (n)
+function
+gAC.BitConverter.UInt8sToInt32(‪‪﻿,﻿,⁮﻿‪⁪,⁭﻿)local
+﻿⁮‪⁪=gAC[‪⁭.⁮﻿][‪⁭.⁪](‪‪﻿,﻿,⁮﻿‪⁪,⁭﻿)if
+﻿⁮‪⁪>=(1593164637+554319011)then
+﻿⁮‪⁪=﻿⁮‪⁪-(-1889455228+4970763881+3718450532-2504791889)end
+return
+﻿⁮‪⁪
 end
-
-function gAC.BitConverter.Int32ToUInt8s (n)
-	if n < 0 then n = n + 4294967296 end
-	return gAC.BitConverter.UInt32ToUInt8s (n)
+function
+gAC.BitConverter.UInt8sToInt64(‪﻿,⁭⁭⁮⁪,⁭﻿﻿⁮,⁮⁭⁭,⁭⁭‪‪,⁭﻿﻿,⁪⁭,⁪⁪)local
+﻿‪⁮﻿⁮=gAC[‪⁭.⁮﻿][‪⁭.⁪](‪﻿,⁭⁭⁮⁪,⁭﻿﻿⁮,⁮⁭⁭)local
+⁪‪‪﻿=gAC[‪⁭.⁮﻿].UInt8sToInt32(⁭⁭‪‪,⁭﻿﻿,⁪⁭,⁪⁪)return
+﻿‪⁮﻿⁮+⁪‪‪﻿*(2386962071-4223565019+863847209+5051711090-5913953754+6129965698+1)end
+function
+gAC.BitConverter.FloatToUInt32(‪﻿⁭)local
+﻿‪⁪⁮=0
+if
+‪﻿⁭<0
+or
+1/‪﻿⁭<0
+then
+﻿‪⁪⁮=﻿‪⁪⁮+(-2233157267+2005598168+2375042747)‪﻿⁭=-‪﻿⁭
 end
-
-function gAC.BitConverter.Int64ToUInt8s (n)
-	local uint80, uint81, uint82, uint83 = gAC.BitConverter.UInt32ToUInt8s (n % 4294967296)
-	local uint84, uint85, uint86, uint87 = gAC.BitConverter.Int32ToUInt8s (math_floor (n / 4294967296))
-	return uint80, uint81, uint82, uint83, uint84, uint85, uint86, uint87
+local
+‪﻿‪⁮=0
+local
+⁮‪⁮⁮=0
+if
+‪﻿⁭==﻿﻿⁪
+then
+⁮‪⁮⁮=(1034-2707+1929-1)elseif
+‪﻿⁭~=‪﻿⁭
+then
+⁮‪⁮⁮=(492+473+422-39-147-351-189-406)‪﻿‪⁮=1
+elseif
+‪﻿⁭==0
+then
+⁮‪⁮⁮=0
+else
+‪﻿‪⁮,⁮‪⁮⁮=⁪﻿⁪(‪﻿⁭)⁮‪⁮⁮=⁮‪⁮⁮+(84+84-5-50+13)if
+⁮‪⁮⁮<=0
+then
+‪﻿‪⁮=⁪⁮⁮(‪﻿‪⁮*2^((25+17-9-9-1)+⁮‪⁮⁮)+0.5)⁮‪⁮⁮=0
+else
+‪﻿‪⁮=⁪⁮⁮((‪﻿‪⁮*(1+1)-1)*2^(-17+31-3+27-33+18)+0.5)end
 end
-
-function gAC.BitConverter.UInt8sToInt8 (uint80)
-	local n = gAC.BitConverter.UInt8sToUInt8 (uint80)
-	if n >= 128 then n = n - 256 end
-	return n
+﻿‪⁪⁮=﻿‪⁪⁮+⁪⁪⁪(⁪⁭⁪(⁮‪⁮⁮,(-57+111+44-8+165)),(108+100-132-53))﻿‪⁪⁮=﻿‪⁪⁮+⁪⁭⁪(‪﻿‪⁮,(-845737+4778756+7819180-5296741-4424774+6357922+1))return
+﻿‪⁪⁮
 end
-
-function gAC.BitConverter.UInt8sToInt16 (uint80, uint81)
-	local n = gAC.BitConverter.UInt8sToUInt16 (uint80, uint81)
-	if n >= 32768 then n = n - 65536 end
-	return n
+function
+gAC.BitConverter.DoubleToUInt32s(﻿⁮﻿)local
+⁮‪⁭=0
+local
+⁮‪﻿⁮=0
+if
+﻿⁮﻿<0
+or
+1/﻿⁮﻿<0
+then
+⁮‪⁭=⁮‪⁭+(-3765327396+3714964033+2197847011)﻿⁮﻿=-﻿⁮﻿
 end
-
-function gAC.BitConverter.UInt8sToInt32 (uint80, uint81, uint82, uint83)
-	local n = gAC.BitConverter.UInt8sToUInt32 (uint80, uint81, uint82, uint83)
-	if n >= 2147483648 then n = n - 4294967296 end
-	return n
+local
+⁮⁪⁭⁮=0
+local
+‪⁮⁮=0
+if
+﻿⁮﻿==﻿﻿⁪
+then
+‪⁮⁮=(-19473+18831-34391+25796+6909+4374+1)elseif
+﻿⁮﻿~=﻿⁮﻿
+then
+‪⁮⁮=(3029+1499-2481)⁮⁪⁭⁮=1
+elseif
+﻿⁮﻿==0
+then
+‪⁮⁮=0
+else
+⁮⁪⁭⁮,‪⁮⁮=⁪﻿⁪(﻿⁮﻿)‪⁮⁮=‪⁮⁮+(285+1002-265)if
+‪⁮⁮<=0
+then
+⁮⁪⁭⁮=⁪⁮⁮(⁮⁪⁭⁮*2^((4+48)+‪⁮⁮)+0.5)‪⁮⁮=0
+else
+⁮⁪⁭⁮=⁪⁮⁮((⁮⁪⁭⁮*2-1)*2^(11+18+24-1)+0.5)end
 end
-
-function gAC.BitConverter.UInt8sToInt64 (uint80, uint81, uint82, uint83, uint84, uint85, uint86, uint87)
-	local low  = gAC.BitConverter.UInt8sToUInt32 (uint80, uint81, uint82, uint83)
-	local high = gAC.BitConverter.UInt8sToInt32 (uint84, uint85, uint86, uint87)
-	return low + high * 4294967296
+⁮‪﻿⁮=⁮⁪⁭⁮%(-861031242-1090485608+4208565297-2744486140-469641055+3779000641+1473045402+1)⁮‪⁭=⁮‪⁭+⁪⁪⁪(⁪⁭⁪(‪⁮⁮,(2712+2349-3014)),(1+2-22-3+6+29-26+34-1))⁮‪⁭=⁮‪⁭+⁪⁭⁪(⁪⁮⁮(⁮⁪⁭⁮/(1201570154-2641839326+4988292655-1350958917+2018605559+79297170+1)),(-1856774-120149+2423113+602384+1))return
+⁮‪﻿⁮,⁮‪⁭
 end
-
--- IEEE floating point numbers
-function gAC.BitConverter.FloatToUInt32 (f)
-	-- 1 / f is needed to check for -0
-	local n = 0
-	if f < 0 or 1 / f < 0 then
-		n = n + 0x80000000
-		f = -f
-	end
-	
-	local mantissa = 0
-	local biasedExponent = 0
-	
-	if f == math_huge then
-		biasedExponent = 0xFF
-	elseif f ~= f then
-		biasedExponent = 0xFF
-		mantissa = 1
-	elseif f == 0 then
-		biasedExponent = 0x00
-	else
-		mantissa, biasedExponent = math_frexp (f)
-		biasedExponent = biasedExponent + 126
-		
-		if biasedExponent <= 0 then
-			-- Denormal
-			mantissa = math_floor (mantissa * 2 ^ (23 + biasedExponent) + 0.5)
-			biasedExponent = 0
-		else
-			mantissa = math_floor ((mantissa * 2 - 1) * 2 ^ 23 + 0.5)
-		end
-	end
-	
-	n = n + bit_lshift (bit_band (biasedExponent, 0xFF), 23)
-	n = n + bit_band (mantissa, 0x007FFFFF)
-	
-	return n
+function
+gAC.BitConverter.UInt32ToFloat(⁮﻿﻿﻿)local
+⁪⁭⁭=!1
+if
+⁮﻿﻿﻿>=(595957606-699092158+582162291+909635866+46515470-369559001+415452710+666410862+2)then
+⁪⁭⁭=!!1
+⁮﻿﻿﻿=⁮﻿﻿﻿-(-54112066911+56259550559)end
+local
+‪⁭⁪=‪(⁪⁭⁪(⁮﻿﻿﻿,(3162878990-1023783950)),(16+7))local
+⁭⁪=⁪⁭⁪(⁮﻿﻿﻿,(8952704-1757594+3216896-9817391+7793992))/(2^(32+14+25+5-18-36+1))local
+‪﻿⁮
+if
+‪⁭⁪==0
+then
+‪﻿⁮=⁭⁪==0
+and
+0
+or
+‪⁮(⁭⁪,-(213-87))elseif
+‪⁭⁪==(-19+274)then
+‪﻿⁮=⁭⁪==0
+and
+﻿﻿⁪
+or(﻿﻿⁪-﻿﻿⁪)else
+‪﻿⁮=‪⁮(1+⁭⁪,‪⁭⁪-(202-75))end
+return
+⁪⁭⁭
+and-‪﻿⁮
+or
+‪﻿⁮
 end
-
-function gAC.BitConverter.DoubleToUInt32s (f)
-	-- 1 / f is needed to check for -0
-	local high = 0
-	local low  = 0
-	if f < 0 or 1 / f < 0 then
-		high = high + 0x80000000
-		f = -f
-	end
-	
-	local mantissa = 0
-	local biasedExponent = 0
-	
-	if f == math_huge then
-		biasedExponent = 0x07FF
-	elseif f ~= f then
-		biasedExponent = 0x07FF
-		mantissa = 1
-	elseif f == 0 then
-		biasedExponent = 0x00
-	else
-		mantissa, biasedExponent = math_frexp (f)
-		biasedExponent = biasedExponent + 1022
-		
-		if biasedExponent <= 0 then
-			-- Denormal
-			mantissa = math_floor (mantissa * 2 ^ (52 + biasedExponent) + 0.5)
-			biasedExponent = 0
-		else
-			mantissa = math_floor ((mantissa * 2 - 1) * 2 ^ 52 + 0.5)
-		end
-	end
-	
-	low = mantissa % 4294967296
-	high = high + bit_lshift (bit_band (biasedExponent, 0x07FF), 20)
-	high = high + bit_band (math_floor (mantissa / 4294967296), 0x000FFFFF)
-	
-	return low, high
-end
-
-function gAC.BitConverter.UInt32ToFloat (n)
-	-- 1 sign bit
-	-- 8 biased exponent bits (bias of 127, biased value of 0 if 0 or denormal)
-	-- 23 mantissa bits (implicit 1, unless biased exponent is 0)
-	
-	local negative = false
-	
-	if n >= 0x80000000 then
-		negative = true
-		n = n - 0x80000000
-	end
-	
-	local biasedExponent = bit_rshift (bit_band (n, 0x7F800000), 23)
-	local mantissa = bit_band (n, 0x007FFFFF) / (2 ^ 23)
-	
-	local f
-	if biasedExponent == 0x00 then
-		f = mantissa == 0 and 0 or math_ldexp (mantissa, -126)
-	elseif biasedExponent == 0xFF then
-		f = mantissa == 0 and math_huge or (math_huge - math_huge)
-	else
-		f = math_ldexp (1 + mantissa, biasedExponent - 127)
-	end
-	
-	return negative and -f or f
-end
-
-function gAC.BitConverter.UInt32sToDouble (low, high)
-	-- 1 sign bit
-	-- 11 biased exponent bits (bias of 127, biased value of 0 if 0 or denormal)
-	-- 52 mantissa bits (implicit 1, unless biased exponent is 0)
-	
-	local negative = false
-	
-	if high >= 0x80000000 then
-		negative = true
-		high = high - 0x80000000
-	end
-	
-	local biasedExponent = bit_rshift (bit_band (high, 0x7FF00000), 20)
-	local mantissa = (bit_band (high, 0x000FFFFF) * 4294967296 + low) / 2 ^ 52
-	
-	local f
-	if biasedExponent == 0x0000 then
-		f = mantissa == 0 and 0 or math_ldexp (mantissa, -1022)
-	elseif biasedExponent == 0x07FF then
-		f = mantissa == 0 and math_huge or (math_huge - math_huge)
-	else
-		f = math_ldexp (1 + mantissa, biasedExponent - 1023)
-	end
-	
-	return negative and -f or f
+function
+gAC.BitConverter.UInt32sToDouble(⁪⁮,⁭‪﻿)local
+⁪‪‪‪=!1
+if
+⁭‪﻿>=(2522534011+1771800555-1745146829+578551962-980256052+1)then
+⁪‪‪‪=!!1
+⁭‪﻿=⁭‪﻿-(1067801966-1067612647+1496797002+471449642+179047686-1)end
+local
+⁮‪⁪=‪(⁪⁭⁪(⁭‪﻿,(-476087535+2097427948-3463597757+727281120+3261411296)),(7+2+12-1))local
+⁭⁮⁭⁪=(⁪⁭⁪(⁭‪﻿,(657549+424082+598740-424108-207688))*(76450417869-141733920768+243260919621-109227799865-153126886648-18634130040+107306367127)+⁪⁮)/(-7+9)^(46+5+1)local
+‪⁮﻿⁪⁪
+if
+⁮‪⁪==0
+then
+‪⁮﻿⁪⁪=⁭⁮⁭⁪==0
+and
+0
+or
+‪⁮(⁭⁮⁭⁪,-(7517-8369+1875-1))elseif
+⁮‪⁪==(733+644-299+970-1)then
+‪⁮﻿⁪⁪=⁭⁮⁭⁪==0
+and
+﻿﻿⁪
+or(﻿﻿⁪-﻿﻿⁪)else
+‪⁮﻿⁪⁪=‪⁮(1+⁭⁮⁭⁪,⁮‪⁪-(-65940+79045-53910+26289+15539))end
+return
+⁪‪‪‪
+and-‪⁮﻿⁪⁪
+or
+‪⁮﻿⁪⁪
 end

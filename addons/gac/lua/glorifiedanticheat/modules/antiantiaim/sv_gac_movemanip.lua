@@ -1,95 +1,111 @@
-if gAC.config.ENABLE_CITIZENHACK_CHECKS then
-    gAC.Network:AddReceiver(
-        "gAC-CMV",
-        function(data, plr)
-            if plr.gAC_AimbotDetected then return end
-            gAC.AddDetection( plr, "C-Movement Manipulation Detected #2 [Code 129]", gAC.config.CITIZENHACK_PUNISHMENT, gAC.config.CITIZENHACK_PUNSIHMENT_BANTIME )
-            plr.gAC_AimbotDetected = true
-        end
-    )
+local
+a={a='config',b='gAC_AimbotDetected',c='p',d='y',e='r',f='JoinTimeGAC',g='MoveManip_Threshold',h='AddDetection'}if
+gAC[a.a].ENABLE_CITIZENHACK_CHECKS
+then
+gAC.Network:AddReceiver("gAC-CMV",function(r,s)if
+s[a.b]then
+return
 end
-
-if !gAC.config.ANTI_MOVEMANIP then return end
-local _CurTime = CurTime
-local _IsValid = IsValid
-local _hook_Add = hook.Add
-local _math_abs = math.abs
-local _math_sqrt = math.sqrt
-local _math_sin = math.sin
-local _math_cos = math.cos
-local _math_tan = math.tan
-local _math_asin = math.asin
-local _math_acos = math.acos
-local _math_atan = math.atan
-
-local Blacklisted_Weapons = {
-    ["weapon_physgun"] = true,
-    ["gmod_tool"] = true,
-    ["weapon_physcannon"] = true,
-    ["gmod_camera"] = true
-}
-
-local function floor(number)
-    return number - (number % 1)
+gAC[a.h](s,"C-Movement Manipulation Detected #2 [Code 129]",gAC[a.a].CITIZENHACK_PUNISHMENT,gAC[a.a].CITIZENHACK_PUNSIHMENT_BANTIME)s[a.b]=!!1
+end)end
+if!gAC[a.a].ANTI_MOVEMANIP
+then
+return
 end
-
-local function round(number, idp)
-	local mult = 10 ^ ( idp or 0 )
-	return floor( number * mult + .5 ) / mult
+local
+b=CurTime
+local
+c=IsValid
+local
+d=hook.Add
+local
+e=math.abs
+local
+f=math.sqrt
+local
+g=math.sin
+local
+h=math.cos
+local
+i=math.tan
+local
+j=math.asin
+local
+k=math.acos
+local
+l=math.atan
+local
+m={["weapon_physgun"]=!!1,["gmod_tool"]=!!1,["weapon_physcannon"]=!!1,["gmod_camera"]=!!1}local
+function
+n(r)return
+r-(r%1)end
+local
+function
+o(r,s)local
+t=10^(s
+or
+0)return
+n(r*t+.5)/t
 end
-
-local function roundangle(ang, idp)
-	ang.p = round(ang.p, idp)
-    ang.y = round(ang.y, idp)
-    ang.r = round(ang.r, idp)
-    return ang
+local
+function
+p(r,s)r[a.c]=o(r[a.c],s)r[a.d]=o(r[a.d],s)r[a.e]=o(r[a.e],s)return
+r
 end
-
-local CMoveValueWhitelist = {
-    [2500] = true,
-    [5000] = true,
-    [7500] = true
-}
-
-_hook_Add( "StartCommand", "gAC.MoveManip", function( ply, cmd )
-    if( ply:InVehicle() || ply.gAC_AimbotDetected || !ply:Alive() || ply:GetObserverMode() != OBS_MODE_NONE
-    || ply:IsBot() || !_IsValid( ply ) || ply:IsTimingOut() || ply:PacketLoss() > 80 ) then return end
-
-    if( ply.JoinTimeGAC == nil || !( _CurTime() >= ply.JoinTimeGAC + 25 ) || ply.PlayerFullyAuthenticated != true ) then return end
-
-    if _IsValid(ply:GetActiveWeapon()) && Blacklisted_Weapons[ply:GetActiveWeapon():GetClass()] then
-        return 
-    end
-
-    local opp = _math_abs( cmd:GetForwardMove() )
-    local adj = _math_abs( cmd:GetSideMove() )
-
-    if !ply.MoveManip_Threshold then
-        ply.MoveManip_Threshold = 0
-        return
-    end
-
-    -- pythagorean theorem lmao.
-    -- Gotta love SOH CAH TOA
-    local hyp = _math_sqrt((opp^2) + (adj^2))
-    local costheta = _math_acos( adj / hyp )
-    local sintheta = _math_asin( opp / hyp )
-    local taninverse = _math_tan( opp / adj ) ^ -1
-
-    --[[
-        (opp == 10000 and adj < 10000 and CMoveValueWhitelist[adj] ~= true and adj > 0 and round(hyp) > 10000)
-        (adj == 10000 and opp < 10000 and CMoveValueWhitelist[opp] ~= true and opp > 0 and round(hyp) > 10000)
-        (round(hyp) == 10000)
-    ]]
-    if ((opp == 10000 and adj < 10000 and CMoveValueWhitelist[adj] ~= true and adj > 0 and round(hyp) > 10000) or (adj == 10000 and opp < 10000 and CMoveValueWhitelist[opp] ~= true and opp > 0 and round(hyp) > 10000) or (round(hyp) == 10000)) and round(costheta / sintheta) == 1 and round((_math_sin(taninverse)^2) + (_math_cos(taninverse)^2)) == 1 then
-        if ply.MoveManip_Threshold > 5 then
-            ply.gAC_AimbotDetected = true
-            gAC.AddDetection( ply, "C-Movement Manipulation Detected #1 [Code 129]", gAC.config.MOVEMANIP_PUNISHMENT, gAC.config.MOVEMANIP_BANTIME )
-            return
-        else
-            ply.MoveManip_Threshold = ply.MoveManip_Threshold + 1
-        end
-    elseif ply.MoveManip_Threshold > 0 then
-        ply.MoveManip_Threshold = ply.MoveManip_Threshold - 1
-    end
+local
+q={[2500]=!!1,[5000]=!!1,[7500]=!!1}d("StartCommand","gAC.MoveManip",function(r,s)if(r:InVehicle()||r[a.b]||!r:Alive()||r:GetObserverMode()!=OBS_MODE_NONE||r:IsBot()||!c(r)||r:IsTimingOut()||r:PacketLoss()>80)then
+return
+end
+if(r[a.f]==nil||!(b()>=r[a.f]+25)||r.PlayerFullyAuthenticated!=!!1)then
+return
+end
+if
+c(r:GetActiveWeapon())&&m[r:GetActiveWeapon():GetClass()]then
+return
+end
+local
+t=e(s:GetForwardMove())local
+u=e(s:GetSideMove())if!r[a.g]then
+r[a.g]=0
+return
+end
+local
+v=f((t^2)+(u^2))local
+w=k(u/v)local
+x=j(t/v)local
+y=i(t/u)^-1
+if((t==10000
+and
+u<10000
+and
+q[u]~=!!1
+and
+u>0
+and
+o(v)>10000)or(u==10000
+and
+t<10000
+and
+q[t]~=!!1
+and
+t>0
+and
+o(v)>10000)or(o(v)==10000))and
+o(w/x)==1
+and
+o((g(y)^2)+(h(y)^2))==1
+then
+if
+r[a.g]>5
+then
+r[a.b]=!!1
+gAC[a.h](r,"C-Movement Manipulation Detected #1 [Code 129]",gAC[a.a].MOVEMANIP_PUNISHMENT,gAC[a.a].MOVEMANIP_BANTIME)return
+else
+r[a.g]=r[a.g]+1
+end
+elseif
+r[a.g]>0
+then
+r[a.g]=r[a.g]-1
+end
 end)

@@ -1,45 +1,57 @@
-if !gAC.config.ANTI_ANTIAIM then return end
-
-local _CurTime = CurTime
-local _IsValid = IsValid
-local _hook_Add = hook.Add
-local _math_abs = math.abs
-
-local Blacklisted_Weapons = {
-    ["weapon_physgun"] = true,
-    ["gmod_tool"] = true,
-    ["weapon_physcannon"] = true,
-    ["gmod_camera"] = true
-}
-
-_hook_Add( "StartCommand", "gAC.AntiAntiAim", function( ply, cmd )
-
-    if( ply:InVehicle() || ply.gAC_AimbotDetected || !ply:Alive() || ply:GetObserverMode() != OBS_MODE_NONE
-    || ply:IsBot() || !_IsValid( ply ) || ply:IsTimingOut() || ply:PacketLoss() > 80 ) then return end
-
-    if( ply.JoinTimeGAC == nil || !( _CurTime() >= ply.JoinTimeGAC + 25 ) || ply.PlayerFullyAuthenticated != true ) then return end
-
-    if _IsValid(ply:GetActiveWeapon()) && Blacklisted_Weapons[ply:GetActiveWeapon():GetClass()] then
-        return 
-    end
-
-    if !ply.AntiAim_Threshold then
-        ply.AntiAim_Threshold = 0
-    end
-
-    local gAC_View = cmd:GetViewAngles()
-    local p, y, r = gAC_View.p, gAC_View.y, gAC_View.r
-
-
-    if p > 180 or p < -180 or y > 180 or y < -180 or r > 180 or r < -180 then
-        if ply.AntiAim_Threshold > 20 then
-            ply.gAC_AimbotDetected = true
-            gAC.AddDetection( ply, "Anti-Aim Detected [Code 129]", gAC.config.ANTIAIM_PUNISHMENT, gAC.config.ANTIAIM_BANTIME )
-            return
-        else
-            ply.AntiAim_Threshold = ply.AntiAim_Threshold + 1
-        end
-    elseif ply.AntiAim_Threshold > 0 then
-        ply.AntiAim_Threshold = ply.AntiAim_Threshold - 1
-    end
-end )
+local
+a={a='JoinTimeGAC',b='AntiAim_Threshold',c='gAC_AimbotDetected',d='config'}if!gAC[a.d].ANTI_ANTIAIM
+then
+return
+end
+local
+b=CurTime
+local
+c=IsValid
+local
+d=hook.Add
+local
+e=math.abs
+local
+f={["weapon_physgun"]=!!1,["gmod_tool"]=!!1,["weapon_physcannon"]=!!1,["gmod_camera"]=!!1}d("StartCommand","gAC.AntiAntiAim",function(g,h)if(g:InVehicle()||g[a.c]||!g:Alive()||g:GetObserverMode()!=OBS_MODE_NONE||g:IsBot()||!c(g)||g:IsTimingOut()||g:PacketLoss()>80)then
+return
+end
+if(g[a.a]==nil||!(b()>=g[a.a]+25)||g.PlayerFullyAuthenticated!=!!1)then
+return
+end
+if
+c(g:GetActiveWeapon())&&f[g:GetActiveWeapon():GetClass()]then
+return
+end
+if!g[a.b]then
+g[a.b]=0
+end
+local
+i=h:GetViewAngles()local
+j,k,l=i.p,i.y,i.r
+if
+j>180
+or
+j<-180
+or
+k>180
+or
+k<-180
+or
+l>180
+or
+l<-180
+then
+if
+g[a.b]>20
+then
+g[a.c]=!!1
+gAC.AddDetection(g,"Anti-Aim Detected [Code 129]",gAC[a.d].ANTIAIM_PUNISHMENT,gAC[a.d].ANTIAIM_BANTIME)return
+else
+g[a.b]=g[a.b]+1
+end
+elseif
+g[a.b]>0
+then
+g[a.b]=g[a.b]-1
+end
+end)

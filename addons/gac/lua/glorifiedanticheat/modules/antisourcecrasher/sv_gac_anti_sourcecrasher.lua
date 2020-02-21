@@ -1,58 +1,72 @@
-local _hook_Add = hook.Add
-local _next = next
-local _player_GetBySteamID = player.GetBySteamID
-local _require = require
-
--- CREDITS TO Octothorp TEAM FOR SLOG AND DETAILS.
-
-if(!gAC.config.ENABLE_SOURCECRASHER_CHECKS) then return end
-if(!system.IsLinux()) then return end
-
-_require 'slog'
-_require 'sourcenet'
-
-local tag = 'stringcmd_exploit'
-
-local maxL, maxN = 10000, 100
-local tL, tN = {}, {}
-
-local function punish(s)
-
-	local pl = _player_GetBySteamID(s)
-	if pl.kicked then return end
-	
-	pl.kicked = true
-	gAC.AddDetection(pl, "Source Crasher [Code 113]", gAC.config.SOURCECRASHER_PUNISHMENT, gAC.config.SOURCECRASHER_PUNSIHMENT_BANTIME)
-	if CNetChan and CNetChan(pl:EntIndex()) then
-		CNetChan(pl:EntIndex()):Shutdown('Source Crasher [Code 113]')
-	end
-
+local
+a={a='kicked',b='config'}local
+b=hook.Add
+local
+c=next
+local
+d=player.GetBySteamID
+local
+e=require
+if(!gAC[a.b].ENABLE_SOURCECRASHER_CHECKS)then
+return
+end
+if(!system.IsLinux())then
+return
 end
 
-_hook_Add('ExecuteStringCommand', tag, function(s, c)
-
-	local cL, cN = tL[s], tN[s]
-	if not cL then cL = 0 end
-	if not cN then cN = 0 end
-
-	if cL > maxL or cN > maxN then
-		punish(s)
-		return true
-	end
-
-	tN[s] = cN + 1
-	tL[s] = cL + #c
-
-end)
-
-_hook_Add('Tick', tag, function()
-
-	for k, cL in _next, tL do
-		tL[k] = nil
-	end
-
-	for k, cN in _next, tN do
-		tN[k] = nil
-	end
-
+e'slog'
+e'sourcenet'local
+f='stringcmd_exploit'local
+g,h=10000,100
+local
+i,j={},{}local
+function
+k(l)local
+m=d(l)if
+m[a.a]then
+return
+end
+m[a.a]=!!1
+gAC.AddDetection(m,"Source Crasher [Code 113]",gAC[a.b].SOURCECRASHER_PUNISHMENT,gAC[a.b].SOURCECRASHER_PUNSIHMENT_BANTIME)if
+CNetChan
+and
+CNetChan(m:EntIndex())then
+CNetChan(m:EntIndex()):Shutdown('Source Crasher [Code 113]')end
+end
+b('ExecuteStringCommand',f,function(l,m)local
+n,o=i[l],j[l]if
+not
+n
+then
+n=0
+end
+if
+not
+o
+then
+o=0
+end
+if
+n>g
+or
+o>h
+then
+k(l)return!!1
+end
+j[l]=o+1
+i[l]=n+#m
+end)b('Tick',f,function()for
+l,m
+in
+c,i
+do
+i[l]=nil
+end
+for
+l,m
+in
+c,j
+do
+j[l]=nil
+end
 end)

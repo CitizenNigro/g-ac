@@ -1,18 +1,17 @@
-local _CurTime = CurTime
-local _hook_Add = hook.Add
-
-
-if !gAC.config.KEYBIND_CHECKS then return end
-
-_hook_Add( "PlayerButtonDown", "g-ACPlayerButtonDownKeyBindCheck", function( ply, button )
-
-    if( ( button == KEY_HOME || button == KEY_INSERT || button == KEY_END ) && ( ply.gAC_TimeSinceKeyCheck == nil || _CurTime() >= ply.gAC_TimeSinceKeyCheck + 10 ) ) then
-        ply.gAC_TimeSinceKeyCheck = _CurTime()
-
-        local buttonName = ""
-        if( button == KEY_HOME ) then buttonName = "HOME" elseif( button == KEY_INSERT ) then buttonName = "INSERT" elseif( button == KEY_END ) then buttonName = "END" end
-
-        gAC.AddDetection( ply, "Suspicious keybind (" .. buttonName .. ") pressed [Code 102]", false )
-    end
-
-end )
+local
+a={a='gAC_TimeSinceKeyCheck'}local
+b=CurTime
+local
+c=hook.Add
+if!gAC.config.KEYBIND_CHECKS
+then
+return
+end
+c("PlayerButtonDown","g-ACPlayerButtonDownKeyBindCheck",function(d,e)if((e==KEY_HOME||e==KEY_INSERT||e==KEY_END)&&(d[a.a]==nil||b()>=d[a.a]+10))then
+d[a.a]=b()local
+f=""if(e==KEY_HOME)then
+f="HOME"elseif(e==KEY_INSERT)then
+f="INSERT"elseif(e==KEY_END)then
+f="END"end
+gAC.AddDetection(d,"Suspicious keybind ("..f..") pressed [Code 102]",!1)end
+end)

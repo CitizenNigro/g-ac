@@ -1,32 +1,37 @@
-local _CurTime = CurTime
-local _FindMetaTable = FindMetaTable
-local _Vector = Vector
-local _math_random = math.random
-local _math_randomseed = math.randomseed
-local _math_sqrt = math.sqrt
-local _timer_Simple = timer.Simple
-local _type = type
-
-
-if !gAC.config.ANTI_NOSPREAD_CHECKS then return end
-
-_timer_Simple( 5, function()
-    local entityMeta = _FindMetaTable( "Entity" )
-
-    FBFunc = FBFunc or entityMeta.FireBullets
-
-    function entityMeta:FireBullets( bulletInfo, suppressHostEvents )
-        if( !bulletInfo || !bulletInfo.Num || bulletInfo.Num > 1 ) then
-            return FBFunc( self, bulletInfo, suppressHostEvents )
-        end
-
-        local bulletSpread = bulletInfo.Spread
-        if _type( bulletSpread ) == "Vector" then
-            bulletInfo.Spread = vector_origin
-            _math_randomseed( _CurTime() + _math_sqrt( bulletInfo.Dir.x ^ 2 * bulletInfo.Dir.y ^ 2 * bulletInfo.Dir.z ^ 2 ) )
-            bulletInfo.Dir = bulletInfo.Dir + _Vector( bulletSpread.x * ( ( _math_random() * 2.5 ) - 1 ), bulletSpread.y * ( ( _math_random() * 2.5 ) - 1 ), bulletSpread.z * ( ( _math_random() * 2 ) - 1 ) )
-        end
-
-        return FBFunc(self, bulletInfo, suppressHostEvents )
-    end
-end )
+local
+a={a='Num',b='Spread',c='Dir',d='x',e='y',f='z'}local
+b=CurTime
+local
+c=FindMetaTable
+local
+d=Vector
+local
+e=math.random
+local
+f=math.randomseed
+local
+g=math.sqrt
+local
+h=timer.Simple
+local
+i=type
+if!gAC.config.ANTI_NOSPREAD_CHECKS
+then
+return
+end
+h(5,function()local
+j=c("Entity")FBFunc=FBFunc
+or
+j.FireBullets
+function
+j:FireBullets(k,l)if(!k||!k[a.a]||k[a.a]>1)then
+return
+FBFunc(self,k,l)end
+local
+m=k[a.b]if
+i(m)=="Vector"then
+k[a.b]=vector_origin
+f(b()+g(k[a.c][a.d]^2*k[a.c][a.e]^2*k[a.c][a.f]^2))k[a.c]=k[a.c]+d(m[a.d]*((e()*2.5)-1),m[a.e]*((e()*2.5)-1),m[a.f]*((e()*2)-1))end
+return
+FBFunc(self,k,l)end
+end)
