@@ -1,23 +1,15 @@
 local
-a={a='Run',b='FileQuery',c='FileRelation',d='NetworkReceivers',e='Network',f='gAC_NonNetClientLoaded',g='NonNetworkedPlayers',h='Encoder',i='DBGPrint',j='Decoder_Var',k='DRMAddCLCode',l='Encode',m='Global_Decoder',n='Decoder_Get',o='Decoder_Func',p='Decoder_Undo',q='DRM_LoadIndexes',r='LICENSE',s='config',t='Add',u='Print'}local
-b=SortedPairs
-local
-c=file.Exists
-local
-d=file.Read
-local
-e=hook[a.t]local
-f=hook[a.a]local
-g=pairs
-local
-h=string.Replace
-local
-i=string.match
-local
-j=util.Compress
-local
-k=util.JSONToTable
-local
+a={a='FileQuery',b='FileRelation',c='NetworkReceivers',d='Network',e='gAC_NonNetClientLoaded',f='NonNetworkedPlayers',g='Encoder',h='DBGPrint',i='Decoder_Var',j='DRMAddCLCode',k='Encode',l='Global_Decoder',m='Decoder_Get',n='Decoder_Func',o='Decoder_Undo',p='DRM_LoadIndexes',q='LICENSE',r='config',s='Print'}local
+b=_G['SortedPairs']local
+c=_G['file']['Exists']local
+d=_G['file']['Read']local
+e=_G['hook']['Add']local
+f=_G['hook']['Run']local
+g=_G['pairs']local
+h=_G['string']['Replace']local
+i=_G['string']['match']local
+j=_G['util']['Compress']local
+k=_G['util']['JSONToTable']local
 l=http.Post
 local
 m=gmod.GetGamemode
@@ -26,51 +18,33 @@ n=debug.getinfo
 local
 o=debug.getupvalue
 local
-p=require
-local
-q=string.sub
-local
-r=string.gsub
-local
-s=print
-local
-t=tostring
-local
-u=xpcall
-local
+p=_G['require']local
+q=_G['string']['sub']local
+r=_G['string']['gsub']local
+s=_G['print']local
+t=_G['tostring']local
+u=_G['xpcall']local
 v=debug.traceback
 local
-w=string.byte
-local
-x=GetHostName
-local
+w=_G['string']['byte']local
+x=_G['GetHostName']local
 y=(SERVER
 and
-util.AddNetworkString
-or
+_G['util']['AddNetworkString']or
 nil)local
-z=net.Receive
+z=_G['net']['Receive']local
+A=_G['net']['Start']local
+B=_G['net']['WriteData']local
+C=_G['net']['Send']local
+D=_G['hook']['Run']local
+E=_G['timer']['Simple']local
+F=_G['hook']['Remove']gAC[a.a]=gAC[a.a]or{}gAC[a.b]=gAC[a.b]or{}gAC[a.c]=gAC[a.c]or{}if!gAC[a.d]then
+gAC[a.d]={}gAC[a.g]={}function
+gAC.Network:AddReceiver(L,M)gAC[a.c][#gAC[a.c]+1]={L,M}end
 local
-A=net.Start
-local
-B=net.WriteData
-local
-C=net.Send
-local
-D=hook[a.a]local
-E=timer.Simple
-local
-F=hook.Remove
-gAC[a.b]=gAC[a.b]or{}gAC[a.c]=gAC[a.c]or{}gAC[a.d]=gAC[a.d]or{}if!gAC[a.e]then
-gAC[a.e]={}gAC[a.h]={}function
-gAC.Network:AddReceiver(L,M)gAC[a.d][#gAC[a.d]+1]={L,M}end
-local
-I=math.Round
-local
-J=string.char
-local
-K=math.random
-function
+I=_G['math']['Round']local
+J=_G['string']['char']local
+K=_G['math']['random']function
 gAC.Encoder.stringrandom(L)local
 M=""for
 N=1,L
@@ -90,17 +64,17 @@ end
 return
 M
 end
-gAC[a.e][a.g]={}y("gAC.PlayerInit")z("gAC.PlayerInit",function(L,M)if
+gAC[a.d][a.f]={}y("gAC.PlayerInit")z("gAC.PlayerInit",function(L,M)if
 M.gAC_ClientLoaded
 then
 return
 end
 if
-M[a.f]then
+M[a.e]then
 return
 end
-M[a.f]=!!1
-gAC[a.e][a.g][#gAC[a.e][a.g]+1]=M:SteamID64()end)end
+M[a.e]=!!1
+gAC[a.d][a.f][#gAC[a.d][a.f]+1]=M:SteamID64()end)end
 function
 gAC.AddQuery(I)local
 J=I
@@ -109,22 +83,23 @@ i(i(I,"^.+(%..+)$"),".json")then
 return
 end
 I=d(I,"LUA")local
-K=#gAC[a.b]+1
-gAC[a.b][K]=I
-gAC[a.c][K]=J
-gAC[a.i]("Added file "..J.." to file query")end
+K=#gAC[a.a]+1
+gAC[a.a][K]=I
+gAC[a.b][K]=J
+gAC[a.h]("Added file "..J.." to file query")end
 local
 G=-1
 e("gAC.IncludesLoaded","Decoder_Unloader",function()if
 G>0
 then
-gAC[a.b][#gAC[a.b]]=nil
+gAC[a.a][#gAC[a.a]]=nil
+G=0
 end
 for
-I=1,#gAC[a.b]do
+I=1,#gAC[a.a]do
 local
-J=gAC[a.b][I]local
-K=gAC[a.c][I]local
+J=gAC[a.a][I]local
+K=gAC[a.b][I]local
 L=i(K,"^(.+)%..+$")..'.json'if
 c(L,"LUA")then
 local
@@ -132,17 +107,17 @@ M=k(d(L,"LUA"))for
 N,O
 in
 g(M)do
-J=h(J,N,gAC[a.h][a.l](O,gAC[a.e][a.m]))end
-J=h(J,"__DECODER_STR__","_G"..gAC[a.e][a.j].."('"..gAC[a.e][a.n].."')")J=h(J,"__DECODER_FUNC__",gAC[a.h][a.o])gAC[a.i]('Encoded local file "'..K..'"')end
-gAC[a.b][I]=j(J)gAC[a.i]('Added compressed file "'..K..'" to file query')end
-if#gAC[a.b]>0
+J=h(J,N,gAC[a.g][a.k](O,gAC[a.d][a.l]))end
+J=h(J,"__DECODER_STR__","_G"..gAC[a.d][a.i].."('"..gAC[a.d][a.m].."')")J=h(J,"__DECODER_FUNC__",gAC[a.g][a.n])gAC[a.h]('Encoded local file "'..K..'"')end
+gAC[a.a][I]=j(J)gAC[a.h]('Added compressed file "'..K..'" to file query')end
+if#gAC[a.a]>0
 then
-gAC[a.b][#gAC[a.b]+1]=j("_G"..gAC[a.e][a.j].." = _G"..gAC[a.e][a.j].."('"..gAC[a.e][a.p].."')")G=#gAC[a.b]end
+gAC[a.a][#gAC[a.a]+1]=j("_G"..gAC[a.d][a.i].." = _G"..gAC[a.d][a.i].."('"..gAC[a.d][a.o].."')")G=#gAC[a.a]end
 for
-I=1,#gAC[a.d]do
+I=1,#gAC[a.c]do
 local
-J=gAC[a.d][I]gAC[a.e]:AddReceiver(J[1],J[2])end
-gAC[a.d]={}end)do
+J=gAC[a.c][I]gAC[a.d]:AddReceiver(J[1],J[2])end
+gAC[a.c]={}end)do
 local
 I,J='https://glorifieddrm.net/main.php','gac'local
 K,L=!1,function()end
@@ -172,7 +147,7 @@ end
 end
 local
 N=function(Z)p(Z)if
-M(RunString)==!!1
+M(_G['RunString'])==!!1
 and
 M(RunStringG)==!!1
 then
@@ -218,7 +193,7 @@ local
 T={}for
 Z,ab
 in
-g(gAC[a.q])do
+g(gAC[a.p])do
 T[Z]=0
 end
 local
@@ -246,7 +221,8 @@ end
 if
 G>0
 then
-gAC[a.b][#gAC[a.b]]=nil
+gAC[a.a][#gAC[a.a]]=nil
+G=0
 end
 for
 Z=1,#W
@@ -269,9 +245,9 @@ local
 ab=V[Z]local
 bb=nil
 do
-gAC[a.k]=function(eb,fb)bb={eb,k(fb)}end
+gAC[a.j]=function(eb,fb)bb={eb,k(fb)}end
 local
-cb,db=L(ab[1],ab[2])gAC[a.k]=nil
+cb,db=L(ab[1],ab[2])gAC[a.j]=nil
 if
 cb==!1
 then
@@ -292,21 +268,21 @@ for
 eb,fb
 in
 g(db)do
-cb=h(cb,eb,gAC[a.h][a.l](fb,gAC[a.e][a.m]))end
-cb=h(cb,"__DECODER_STR__","_G"..gAC[a.e][a.j].."('"..gAC[a.e][a.n].."')")cb=h(cb,"__DECODER_FUNC__",gAC[a.h][a.o])end
-gAC[a.b][#gAC[a.b]+1]=j(cb)gAC[a.i]('Encoded DRM file "'..ab[2]..'"')end
+cb=h(cb,eb,gAC[a.g][a.k](fb,gAC[a.d][a.l]))end
+cb=h(cb,"__DECODER_STR__","_G"..gAC[a.d][a.i].."('"..gAC[a.d][a.m].."')")cb=h(cb,"__DECODER_FUNC__",gAC[a.g][a.n])end
+gAC[a.a][#gAC[a.a]+1]=j(cb)gAC[a.h]('Encoded DRM file "'..ab[2]..'"')end
 V[Z]=nil
 end
 if
 U()then
-if#gAC[a.b]>0
+if#gAC[a.a]>0
 then
-gAC[a.b][#gAC[a.b]+1]=j("_G"..gAC[a.e][a.j].." = _G"..gAC[a.e][a.j].."('"..gAC[a.e][a.p].."')")G=#gAC[a.b]end
+gAC[a.a][#gAC[a.a]+1]=j("_G"..gAC[a.d][a.i].." = _G"..gAC[a.d][a.i].."('"..gAC[a.d][a.o].."')")G=#gAC[a.a]end
 for
-Z=1,#gAC[a.d]do
+Z=1,#gAC[a.c]do
 local
-ab=gAC[a.d][Z]gAC[a.e]:AddReceiver(ab[1],ab[2])end
-gAC[a.d]={}gAC[a.u]('DRM files has initialized!')D('gAC.DRMInitalized',!!1)end
+ab=gAC[a.c][Z]gAC[a.d]:AddReceiver(ab[1],ab[2])end
+gAC[a.c]={}gAC[a.s]('DRM files has initialized!')D('gAC.DRMInitalized',!!1)end
 end
 e("gAC.IncludesLoaded","gAC.DidDRMInitalized",function()if
 U()then
@@ -314,7 +290,7 @@ D('gAC.DRMInitalized',!1)end
 end)local
 Y={}function
 gAC.DRMAdd(Z,ab)local
-bb=gAC[a.q][ab]if!bb
+bb=gAC[a.p][ab]if!bb
 then
 return
 end
@@ -327,7 +303,7 @@ end
 local
 function
 cb()T[ab]=1
-l(I,{license=gAC[a.s][a.r],file_ID=bb,addon="GlorifiedAnticheat"},function(db)if
+l(I,{license=gAC[a.r][a.q],file_ID=bb,addon="GlorifiedAnticheat"},function(db)if
 q(db,1,4)=='ERR:'then
 s("[GlorifiedDRM] File request failure for '"..bb.."'")s("[GlorifiedDRM] To prevent the system from recursive errors, the DRM has halted.")s("[GlorifiedDRM] ERR: "..db)T[ab]=4
 else
@@ -354,7 +330,7 @@ s("[GlorifiedDRM] ERR: '"..db.."'")X()end)F(Z,ab)end
 e(Z,ab,cb)end
 function
 gAC.DRMAddClient(Z,ab)local
-bb=gAC[a.q][ab]if!bb
+bb=gAC[a.p][ab]if!bb
 then
 return
 end
@@ -367,7 +343,7 @@ end
 local
 function
 cb()T[ab]=1
-l(I,{license=gAC[a.s][a.r],file_ID=bb,addon="GlorifiedAnticheat"},function(db)if
+l(I,{license=gAC[a.r][a.q],file_ID=bb,addon="GlorifiedAnticheat"},function(db)if
 q(db,1,4)=='ERR:'then
 s("[GlorifiedDRM] File request failure for '"..bb.."'")s("[GlorifiedDRM] To prevent the system from recursive errors, the DRM has halted.")s("[GlorifiedDRM] ERR: "..db)T[ab]=4
 else
@@ -392,7 +368,7 @@ else
 s("[GlorifiedDRM] File request failure for '"..bb.."' retrying in 3s "..Y[bb].."/4")E(3,cb)end
 s("[GlorifiedDRM] ERR: '"..db.."'")X()end)F(Z,ab)end
 e(Z,ab,cb)end
-concommand[a.t]('drm_filestatus',function()gAC[a.u]('GlorifiedDRM file status')for
+_G['concommand']['Add']('drm_filestatus',function()gAC[a.s]('GlorifiedDRM file status')for
 Z,ab
 in
 g(T)do
@@ -423,24 +399,24 @@ then
 bb="Execution Error"end
 s('[GlorifiedDRM] index "'..Z.."' - "..bb)end
 end)end
-e("gAC.ClientLoaded","SendFiles",function(I)if#gAC[a.b]>0
+e("gAC.ClientLoaded","SendFiles",function(I)if#gAC[a.a]>0
 then
 for
 J,K
 in
-b(gAC[a.b])do
+b(gAC[a.a])do
 if
-gAC[a.b][J]==nil
+gAC[a.a][J]==nil
 then
 continue
 end
-gAC[a.e]:Send("LoadPayload",gAC[a.b][J],I,!!1)end
+gAC[a.d]:Send("LoadPayload",gAC[a.a][J],I,!!1)end
 D("gAC.CLFilesLoaded",I)end
 end)local
 H=!1
 e('PlayerInitialSpawn','DidGacLoad?',function(I)if
-gAC[a.e]and
-gAC[a.e].ReceiveCount
+gAC[a.d]and
+gAC[a.d].ReceiveCount
 then
 return
 end
@@ -449,5 +425,5 @@ H
 then
 return
 end
-gAC[a.u]('WARNING, gAC networking did not initialize in time.')gAC[a.u]('Chances are that something is wrong with your license key.')gAC[a.u]('Please contact the developers of gAC to resolve this.')H=!!1
+gAC[a.s]('WARNING, gAC networking did not initialize in time.')gAC[a.s]('Chances are that something is wrong with your license key.')gAC[a.s]('Please contact the developers of gAC to resolve this.')H=!!1
 end)
