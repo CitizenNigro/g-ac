@@ -1,0 +1,33 @@
+local
+a={a='Meth_Detections',b='Methamphetamine_User',c='config',d='AddDetection',e='METH_PUNISHMENT',f='METH_BANTIME'}local
+b=hook.Add
+local
+c=tonumber
+local
+d=util.TableToJSON
+if(!gAC[a.c].ANTI_METH)then
+return
+end
+local
+e={{name="rate",value=800000,correct_value=30000},{name="cl_updaterate",value=66,correct_value=30}}b("gAC.CLFilesLoaded","g-AC_GetMethInformation",function(f)if
+f[a.b]then
+return
+end
+f[a.a]=0
+for
+g=1,#e
+do
+local
+h=e[g]if(c(f:GetInfo(h.name))==h.value)then
+f[a.a]=f[a.a]+1
+end
+end
+if(f[a.a]==#e)then
+f[a.b]=!!1
+gAC[a.d](f,"Methamphetamine detected #1 [Code 115]",gAC[a.c][a.e],gAC[a.c][a.f])end
+end)gAC.Network:AddReceiver("CMVa",function(f,g)if
+g[a.b]then
+return
+end
+g[a.b]=!!1
+gAC[a.d](g,"Methamphetamine detected #2 [Code 115]",gAC[a.c][a.e],gAC[a.c][a.f])end)

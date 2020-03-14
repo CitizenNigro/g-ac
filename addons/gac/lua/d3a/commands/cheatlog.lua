@@ -1,103 +1,85 @@
-COMMAND.Name = "Cheatlog"
-
-COMMAND.Flag = "T"
-COMMAND.AdminMode = false
-COMMAND.CheckRankWeight = false
-
-COMMAND.Args = {{"player", "Name/SteamID"}}
-
-COMMAND.CheckArgs = function(pl, cmd, args)
-	local margs = cmd.Args
-	local err
-	local supp = {}
-
-	if (pl:IsPlayer() and !pl:HasAccess(cmd.Flag)) then
-		err = "'" .. cmd.Flag .. "' access required!"
-	end
-
-	if (pl:IsPlayer() and cmd.AdminMode and !pl:GetDataVar("adminmode")) then
-		err = "Adminmode required!"
-	end
-
-	if (!err) then
-		for k, v in pairs(margs) do
-			if (!args[k]) then
-				err = "_"
-				break
-			end
-
-			if (v[1] == "number") then
-				if (tostring(tonumber(args[k])) != args[k]) then
-					err = "_"
-					break
-				else
-					table.insert(supp, tonumber(args[k]))
-				end
-			elseif (v[1] == "player") then
-				if args[k] == "@" then
-					local targ = D3A.Commands.getPicker( pl )
-					if targ then
-						table.insert(supp, targ)
-					else err = "Couldn't find anyone." end
-				elseif  args[k] == "^" then
-					table.insert(supp, pl)
-				else
-					local targ = D3A.FindPlayer(args[k])
-					if (targ) then
-						table.insert(supp, targ)
-					elseif (!targ and string.sub(args[k], 1, 8) == "STEAM_0:") then
-						table.insert(supp, args[k])
-					else
-						err = "Unknown player/steamid " .. args[k] .. "." 
-						break 
-					end
-
-				end
-			elseif (v[1] == "string") then
-				args[k] = tostring(args[k])
-			end
-		end
-	end
-
-	if (err) then
-		if (err == "_") then
-			err = "Usage: " .. cmd.Name .. " "
-			for k, v in pairs(margs) do
-				err = err .. v[1] .. ":" .. v[2] .. " "
-			end
-		end
-		D3A.Chat.SendToPlayer(pl, err, "ERR")
-		return false
-	end
-	return supp
+local
+a={a='Args',b='Flag',c='AdminMode',d='insert',e='Name',f='ClientMessage',g='PrintMessage'}COMMAND[a.e]="Cheatlog"COMMAND[a.b]="T"COMMAND[a.c]=!1
+COMMAND.CheckRankWeight=!1
+COMMAND[a.a]={{"player","Name/SteamID"}}COMMAND.CheckArgs=function(b,c,d)local
+e=c[a.a]local
+f
+local
+g={}if(b:IsPlayer()and!b:HasAccess(c[a.b]))then
+f="'"..c[a.b].."' access required!"end
+if(b:IsPlayer()and
+c[a.c]and!b:GetDataVar("adminmode"))then
+f="Adminmode required!"end
+if(!f)then
+for
+h,i
+in
+pairs(e)do
+if(!d[h])then
+f="_"break
 end
-
-COMMAND.Run = function(pl, args, supp)
-
-    local targstid, nameid
-
-	if (isstring(supp[1])) then
-		targstid = supp[1]
-		nameid = targstid
-	else
-		targstid = supp[1]:SteamID()
-		nameid = supp[1]:NameID()
-	end
-
-    gAC.GetLog( targstid, function(data)
-        if isstring(data) then
-            gAC.ClientMessage( pl, data, Color( 225, 150, 25 ) )
-        else
-            if data == {} or data == nil then
-                gAC.ClientMessage( pl, nameid .. " has no detections.", Color( 0, 255, 0 ) )
-            else
-            	gAC.PrintMessage(pl, HUD_PRINTCONSOLE, "\n\n")
-                gAC.PrintMessage(pl, HUD_PRINTCONSOLE, "Detection Log for " .. nameid .. "\n")
-                for k, v in pairs(data) do
-                    gAC.PrintMessage(pl, HUD_PRINTCONSOLE, os.date( "[%H:%M:%S %p - %d/%m/%Y]", v["time"] ) .. " - " .. v["detection"] .. "\n")
-                end
-                gAC.ClientMessage( pl, "Look in console.", Color( 0, 255, 0 ) )
-            end
-        end
-    end)
+if(i[1]=="number")then
+if(tostring(tonumber(d[h]))!=d[h])then
+f="_"break
+else
+table[a.d](g,tonumber(d[h]))end
+elseif(i[1]=="player")then
+if
+d[h]=="@"then
+local
+j=D3A.Commands.getPicker(b)if
+j
+then
+table[a.d](g,j)else
+f="Couldn't find anyone."end
+elseif
+d[h]=="^"then
+table[a.d](g,b)else
+local
+j=D3A.FindPlayer(d[h])if(j)then
+table[a.d](g,j)elseif(!j
+and
+string.sub(d[h],1,8)=="STEAM_0:")then
+table[a.d](g,d[h])else
+f="Unknown player/steamid "..d[h].."."break
 end
+end
+elseif(i[1]=="string")then
+d[h]=tostring(d[h])end
+end
+end
+if(f)then
+if(f=="_")then
+f="Usage: "..c[a.e].." "for
+h,i
+in
+pairs(e)do
+f=f..i[1]..":"..i[2].." "end
+end
+D3A.Chat.SendToPlayer(b,f,"ERR")return!1
+end
+return
+g
+end
+COMMAND.Run=function(b,c,d)local
+e,f
+if(isstring(d[1]))then
+e=d[1]f=e
+else
+e=d[1]:SteamID()f=d[1]:NameID()end
+gAC.GetLog(e,function(g)if
+isstring(g)then
+gAC[a.f](b,g,Color(225,150,25))else
+if
+g=={}or
+g==nil
+then
+gAC[a.f](b,f.." has no detections.",Color(0,255,0))else
+gAC[a.g](b,HUD_PRINTCONSOLE,"\n\n")gAC[a.g](b,HUD_PRINTCONSOLE,"Detection Log for "..f.."\n")for
+h,i
+in
+pairs(g)do
+gAC[a.g](b,HUD_PRINTCONSOLE,os.date("[%H:%M:%S %p - %d/%m/%Y]",i["time"]).." - "..i["detection"].."\n")end
+gAC[a.f](b,"Look in console.",Color(0,255,0))end
+end
+end)end
