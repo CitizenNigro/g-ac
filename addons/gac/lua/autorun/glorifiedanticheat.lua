@@ -1,3 +1,34 @@
+--[[
+    Hey nice job looking into the autorun file,
+    hopefully it has enough to satisfy your eyes :)
+
+    Hello methamphetamine developers,
+    Nice to know you guys still remain as the "top" cheating
+    group on the market. But watch out... I believe CitizenHack is trying to 
+    make a come back, OH NO.
+
+    Hi FFF,
+    ~nothing~
+    Because he being good boi sometimes... I guess...
+
+    Hello CitizenHack Team,
+    Wow that was a nice update you guys pushed on the 2nd of
+    february, now the question stands... Will you still
+    be supporting your cheat that has been dead for nearly a year?
+    Or are you going to be competitive this time?
+    Also... Took you long enough... My gawd...
+]]
+
+
+gAC = gAC or {
+    config = {},
+    storage = {},
+
+    IDENTIFIER = "g-AC",
+    NICE_NAME = "g-AC",
+    Debug = false
+}
+
 local
 __CHAR,__FLOOR,__XOR
 __CHAR=function(﻿)local
