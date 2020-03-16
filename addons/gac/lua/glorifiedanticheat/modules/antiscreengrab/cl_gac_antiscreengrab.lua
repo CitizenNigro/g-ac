@@ -86,7 +86,7 @@ _G[(
 nil)local
 function
 ⁪⁪(﻿﻿⁭)return
-﻿﻿⁭-(﻿﻿⁭%_1)end
+﻿﻿⁭-(﻿﻿⁭%1)end
 local
 function
 ⁪﻿(‪⁪⁪)local
